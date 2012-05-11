@@ -1,0 +1,149 @@
+div.qtzpanelWrapper {
+	color: #555;
+	position: relative;
+}
+
+div.qtzpanelWrapper  a {
+	color: #3E3E3E;
+	text-decoration: none;
+}
+
+div.qtzpanelWrapper  a:hover {
+	text-decoration: underline;
+}
+
+div.qtzpanelWrapper  div.error{
+	border: 1px solid #f44;
+	background: #fdd;
+	padding: 10px;
+	margin: 0 0 10px 0;
+}
+
+div.qtzpanelWrapper  div.panel, div.qtzpanelWrapper  div.bar {
+	position: relative;
+	top: 0;
+	left: 0;
+	width: 100%;
+	background-color: #F5F5F5;
+	font-family: Arial, Helvetica, sans-serif;
+	clear: both;
+	overflow: hidden;
+	font-size: 11px;
+}
+
+div.qtzpanelWrapper  div.logs, div.qtzpanelWrapper  div.logsDB {
+	width: 100%;
+	background-color: #F5F5F5;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	padding: 5px;
+	-webkit-box-shadow: 2px 2px 4px 1px rgba(255, 255, 255, 0.5);
+	-moz-box-shadow: 2px 2px 4px 1px rgba(255, 255, 255, 0.5);
+	box-shadow: 2px 2px 4px 1px rgba(255, 255, 255, 0.5);
+	border: 1px solid #DDD;
+	border-top: 0;
+	max-width: 700px;
+	position: absolute;
+	bottom: 0;
+	left: 20px;
+	z-index: 100;
+}
+
+div.qtzpanelWrapper  div.logs  span.time {
+	color: #aaa;
+}
+
+div.qtzpanelWrapper  div.logs  span.type {
+	color: #c8bf8d;
+}
+
+div.qtzpanelWrapper  div.logs  span.sender {
+	color: #c8bf8d;
+}
+
+zdiv.qtzpanelWrapper  div.logsDB  span.time {
+	display: block;
+	float: left;
+	margin: 0 10px 0 0;
+	color: #aaa;
+}
+
+div.qtzpanelWrapper  div.panel {
+	z-index: 1000;
+}
+
+div.qtzpanelWrapper  div.bar {
+	height: 20px;
+	margin-top: -1px;
+	border-top: 1px solid #DDD;
+	border-bottom: 1px solid #DDD;
+	-webkit-box-shadow: 2px 2px 4px 1px rgba(255, 255, 255, 0.5);
+	-moz-box-shadow: 2px 2px 4px 1px rgba(255, 255, 255, 0.5);
+	box-shadow: 2px 2px 4px 1px rgba(255, 255, 255, 0.5);
+	z-index: 10000;
+}
+
+div.qtzpanelWrapper  div.panel ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+div.qtzpanelWrapper  div.panel ul.items > li {
+	display: inline-block;
+	vertical-align: top;
+	padding: 5px;
+	margin: 5px;
+	max-width: 100px;
+}
+
+div.qtzpanelWrapper  div.panel ul.items > li.raw {
+	max-width: 350px;
+	overflow: auto;
+}
+
+div.qtzpanelWrapper  div.panel ul.items > li.separator {
+	width: 10px;
+	padding: 0;
+	margin: 0 10px 0 0;
+	height: 1000px;
+	border-right: 1px solid #DDD;
+}
+
+div.qtzpanelWrapper  div.panel ul.items > li.stack {
+}
+
+div.qtzpanelWrapper  div.panel ul.items > li.stack  li  img {
+	vertical-align: middle;
+	margin: 0 7px 0 0;
+}
+
+div.qtzpanelWrapper  div.panel ul.items > li.single {
+	text-align: center;
+}
+
+div.qtzpanelWrapper  div.panel ul.items > li.single > a {
+	display: block;
+}
+
+div.qtzpanelWrapper  div.bar  ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+div.qtzpanelWrapper  div.bar  ul  li {
+	border-right: 1px solid #DDD;
+	padding: 3px 10px;
+	margin: 0 0 0 0;
+	display: inline-block;
+}
+
+div.qtzpanelWrapper  div.bar  ul  li:hover {
+	background-color: #DDD;
+}
+
+div.qtzpanelWrapper  div.bar  ul  li.doshow, div.qtzpanelWrapper  div.bar  ul  li.dohide {
+	float: right;
+	border: 0;
+}

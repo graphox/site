@@ -1,51 +1,67 @@
 <?php
-
-class PagesController extends CController
+class PagesController extends Controller
 {
-	function actionIndex()
+	/**
+	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
+	 * using two-column layout. See 'protected/views/layouts/column2.php'.
+	 */
+	public $layout='//layouts/admin';
+
+	/**
+	 * Manages all models.
+	 */
+	public function actionIndex()
 	{
-#		$builder = Yii::app()->db->createCommand();
-#		$builder->select('*');
-#		$builder->from('users');
-#		$result = $builder->query();
-#		print_r($result->readAll());
-		$rows = ForumTopics::model()->findAll();
+		if(Yii::app()->user->isGuest || ($access = AccessControl::GetAccess('Pages::Overview')) === false)
+			throw new CHttpException(403, 'Access denied');
 		
-		$first = true;
-		foreach($rows as $topic)
-		{
-			print_r($topic);
-			
-			if($first)
-			{
-				$topic->title = uniqid();
-				$topic->save();
-			}
-			$first = false;
-			
-		}
-		Yii::app()->end();
-	}	
-	
-	function actionPage()
-	{
-		print_r(Yii::app()->request);
+		//TODO: search
+		$criteria = new CDbCriteria();
+		$criteria->select = '*';
+		$criteria->condition = '1';
+		
+		$count=Pages::model()->count($criteria);
+		$pages=new CPagination($count);
+
+		// results per page
+		$pages->pageSize = isset($_GET['per-page']) ? (int)$_GET['per-page'] : 10;
+		$pages->applyLimit($criteria);
+		$models = Pages::model()->findAll($criteria);
+		
+		// fetch
+		foreach($models as $page) {};
+		
+		$this->render('_main_view',array(
+			'models' => $models,
+			'pages' => $pages,
+			'form_model' => new Pages,
+			'can' => $access
+		));
 	}
-	
-	function actionAddPage()
+
+	/**
+	 * Returns the data model based on the primary key given in the GET variable.
+	 * If the data model is not found, an HTTP exception will be raised.
+	 * @param integer the ID of the model to be loaded
+	 */
+	public function loadModel($id)
 	{
-		$model = new PageForm('add');
-		if(isset($_POST['PageForm']))
+		$model=Pages::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+
+	/**
+	 * Performs the AJAX validation.
+	 * @param CModel the model to be validated
+	 */
+	protected function performAjaxValidation($model)
+	{
+		if(isset($_POST['ajax']) && $_POST['ajax']==='pages-form')
 		{
-			$model->attributes = $_POST['PageForm'];
-			
-			if($model->validate())
-			{
-				$id = $model->save();
-				$this->redirect(array('page', 'id' => $id), true);
-			}
+			echo CActiveForm::validate($model);
+			Yii::app()->end();
 		}
-		
-		$this->render('//pageadd', array('model' => $model));
 	}
 }

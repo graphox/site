@@ -7,7 +7,10 @@
  * @property integer $id
  * @property string $module
  * @property string $uri
+ * @property integer $parent_id
  * @property integer $editor_id
+ * @property string $title
+ * @property string $description
  * @property string $content
  * @property string $change_time
  * @property integer $acl_object_id
@@ -15,8 +18,9 @@
  * The followings are the available model relations:
  * @property Clans[] $clans
  * @property PageComments[] $pageComments
- * @property AclObject $aclObject
+ * @property Profile $parent
  * @property User $editor
+ * @property AclObject $aclObject
  * @property Profile[] $profiles
  */
 class Pages extends CActiveRecord
@@ -47,12 +51,18 @@ class Pages extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('module, uri, editor_id, content, change_time, acl_object_id', 'required'),
-			array('editor_id, acl_object_id', 'numerical', 'integerOnly'=>true),
-			array('module, uri', 'length', 'max'=>50),
+			array('module, uri, editor_id, title, description, content, acl_object_id', 'required'),
+			array('parent_id, editor_id, acl_object_id', 'numerical', 'integerOnly'=>true),
+			array('module, uri, title', 'length', 'max'=>50),
+			array('description', 'length', 'max'=>500),
+			
+			array('change_time', 'default',
+              'value'=>new CDbExpression('NOW()'),
+              'setOnEmpty'=>true,'on'=>'insert,update'),
+			
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, module, uri, editor_id, content, change_time, acl_object_id', 'safe', 'on'=>'search'),
+			array('id, module, uri, parent_id, editor_id, title, description, content, change_time, acl_object_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -66,9 +76,10 @@ class Pages extends CActiveRecord
 		return array(
 			'clans' => array(self::HAS_MANY, 'Clans', 'page_id'),
 			'pageComments' => array(self::HAS_MANY, 'PageComments', 'page_id'),
-			'aclObject' => array(self::BELONGS_TO, 'AclObject', 'acl_object_id'),
+			'parent' => array(self::BELONGS_TO, 'Pages', 'parent_id'),
 			'editor' => array(self::BELONGS_TO, 'User', 'editor_id'),
-			'profiles' => array(self::HAS_MANY, 'Profile', 'page_id'),
+			'aclObject' => array(self::BELONGS_TO, 'AclObject', 'acl_object_id'),
+			#'profiles' => array(self::HAS_MANY, 'Profile', 'page_id'),
 		);
 	}
 
@@ -81,7 +92,10 @@ class Pages extends CActiveRecord
 			'id' => 'ID',
 			'module' => 'Module',
 			'uri' => 'Uri',
+			'parent_id' => 'Parent',
 			'editor_id' => 'Editor',
+			'title' => 'Title',
+			'description' => 'Description',
 			'content' => 'Content',
 			'change_time' => 'Change Time',
 			'acl_object_id' => 'Acl Object',
@@ -102,7 +116,10 @@ class Pages extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('module',$this->module,true);
 		$criteria->compare('uri',$this->uri,true);
+		$criteria->compare('parent_id',$this->parent_id);
 		$criteria->compare('editor_id',$this->editor_id);
+		$criteria->compare('title',$this->title,true);
+		$criteria->compare('description',$this->description,true);
 		$criteria->compare('content',$this->content,true);
 		$criteria->compare('change_time',$this->change_time,true);
 		$criteria->compare('acl_object_id',$this->acl_object_id);

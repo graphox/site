@@ -1,6 +1,6 @@
 <?php
 
-class AuthController extends Controller
+class AuthController extends AsController
 {
 	public function actionIndex()
 	{
@@ -12,11 +12,32 @@ class AuthController extends Controller
 	
 	}
 	
+	public function actionRegister()
+	{
+		echo 'implementation not complete';
+	}
+	
+	public function actionLogout()
+	{
+		Yii::app()->user->logout();
+		$this->redirect(Yii::app()->homeUrl);
+	}
+	
 	public function actionAuth()
 	{
 		$service = Yii::app()->request->getQuery('service');
-		
-		if (isset($service))
+		$error = Yii::app()->request->getQuery('error');
+		if(isset($error))
+		{
+			switch($error)
+			{
+				default:
+				case 'unknown':
+					echo Yii::t('AS.auth', 'An unkown error has occured while authentication you.');
+					break;
+			}
+		}
+		elseif(isset($service))
 		{
 			$authIdentity = Yii::app()->eauth->getIdentity($service);
 			$authIdentity->redirectUrl = Yii::app()->user->returnUrl;
@@ -37,7 +58,7 @@ class AuthController extends Controller
 						$user->hashing_method = 'plain';
 						$user->web_password = md5(rand());
 						$user->salt = md5(rand());
-						$user->status = 0;
+						$user->status = UserStatus::OAUTH_ACCOUNT;
 						if(!$user->save())
 						{
 							$errors = $user->getErrors();
@@ -80,10 +101,13 @@ class AuthController extends Controller
 						$user = $externalUser->user;
 					}
 					
-					//Yii::app()->user->login($identity);
+					$identity = new OAuthUserIdentity($user);
+					Yii::app()->user->login($identity, 0);
+					Yii::app()->user->setFlash('success', Yii::t('AS.auth', 'Your oauth login was successfully.'));
 
 					// special redirect with closing popup window
 					$authIdentity->redirect(array('auth/success'));
+					
 				}
 				else
 				{
@@ -93,7 +117,7 @@ class AuthController extends Controller
 			}
 
 			// Something went wrong, redirect to login page
-			$this->redirect(array('as/auth/login'));
+			$this->redirect(array('auth/auth', 'error' => 'oauth'));
 		}
 		
 		$model=new LoginForm;
@@ -111,10 +135,13 @@ class AuthController extends Controller
 			$model->attributes=$_POST['LoginForm'];
 			// validate user input and redirect to the previous page if valid
 			if($model->validate() && $model->login())
+			{
+				Yii::app()->user->setFlash('success', Yii::t('AS.auth', 'Your login was successfully.'));
 				$this->redirect(Yii::app()->user->returnUrl);
+			}
 		}
 		// display the login form
-		$this->render('as.views.site.login',array('model'=>$model));
+		$this->render('as.views.auth.login',array('model'=>$model));
 	}
 	
 }

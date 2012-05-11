@@ -1,0 +1,43 @@
+
+<ul>
+	<li>
+		<strong>id:</strong>
+		<span><?=CHtml::encode($model->id)?></span>
+	</li>
+	<li>
+		<strong>module:</strong>
+		<span><?=CHtml::encode($model->module)?></span>
+	</li>
+	<li>
+		<strong>uri:</strong>
+		<span><?=CHtml::encode($model->uri)?></span>
+	</li>
+	<li>
+		<strong>parent_id:</strong>
+		<span><?=CHtml::encode($model->parent_id)?></span>
+	</li>
+	<li>
+		<strong>editor_id:</strong>
+		<span><?=CHtml::encode($model->editor_id)?></span>
+	</li>
+	<li>
+		<strong>title:</strong>
+		<span><?=CHtml::encode($model->title)?></span>
+	</li>
+	<li>
+		<strong>description:</strong>
+		<span><?=CHtml::encode($model->description)?></span>
+	</li>
+	<li>
+		<strong>content:</strong>
+		<span><?=CHtml::encode($model->content)?></span>
+	</li>
+	<li>
+		<strong>change_time:</strong>
+		<span><?=CHtml::encode($model->change_time)?></span>
+	</li>
+	<li>
+		<strong>acl_object_id:</strong>
+		<span><?=CHtml::encode($model->acl_object_id)?></span>
+	</li>
+</ul>

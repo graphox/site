@@ -135,4 +135,40 @@ class User extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+	/*
+	public function behaviors()
+	{
+		return array(
+			"statusName" => array(
+				"class" => "as.components.StateMachine",
+				"states" => array(
+					array(
+						"class" => "UserPendingState",
+						"name" => "pending",
+					),
+					array(
+						"class" => "UserActiveState",
+						"name" => "active",
+					),
+					/ * //TODO: fix double include -> class already defined
+					array(
+						"class" => "UserInActiveState",
+						"name" => "inactive",
+					),
+					
+					array(
+						"class" => "UserBannedState",
+						"name" => "banned",
+					),* /
+					
+					array(
+						"class" => "UserOauthState",
+						"name" => "oauth_user",
+					),
+				),
+				"defaultStateName" => "pending",
+				"stateName" => null#UserStatus::getName($this->status),
+			)
+		);
+	}*/
 }

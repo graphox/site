@@ -2,7 +2,8 @@
 
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'users-form',
-	'enableAjaxValidation'=>false,
+	'enableAjaxValidation' => true,
+	'enableClientValidation' => true,
 )); ?>
 
 	<p class="note">Fields with <span class="required">*</span> are required.</p>

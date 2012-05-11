@@ -11,6 +11,7 @@ class AsModule extends CWebModule
 		$this->setImport(array(
 			'as.models.*',
 			'as.modesl.forms.*',
+			'as.models.states.*',
 			'as.components.*',
 		));
 	}

@@ -10,7 +10,7 @@ class LoginForm extends CFormModel
 	public $email;
 	public $password;
 
-	private $_identity;
+	private $_identity = null;
 
 	/**
 	 * Declares the validation rules.
@@ -33,7 +33,7 @@ class LoginForm extends CFormModel
 	 */
 	public function authenticate($attribute,$params)
 	{
-		if(!$this->hasErrors())
+		if(!$this->hasErrors())dd
 		{
 			$this->_identity=new UserIdentity($this->email,$this->password);
 			if(!$this->_identity->authenticate())
@@ -49,9 +49,10 @@ class LoginForm extends CFormModel
 	{
 		if($this->_identity===null)
 		{
-			$this->_identity=new UserIdentity($this->email,$this->password);
+			$this->_identity = new UserIdentity($this->email,$this->password);
 			$this->_identity->authenticate();
 		}
+		
 		if($this->_identity->errorCode===UserIdentity::ERROR_NONE)
 		{
 			Yii::app()->user->login($this->_identity, 0);

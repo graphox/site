@@ -7,7 +7,7 @@
  */
 class UserIdentity extends CUserIdentity
 {
-	private $_id;
+	protected $_id;
 	public $db_user = true;
 	
 	public function authenticate()
@@ -39,7 +39,8 @@ class UserIdentity extends CUserIdentity
 		{
 			$this->setState('email', $user->email);
 			$this->setState('username', $user->username);
-			
+			$this->setState('is_external', false);
+						
 			$this->_id = $user->id;
 		}
 				

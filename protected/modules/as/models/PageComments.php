@@ -44,12 +44,25 @@ class PageComments extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, page_id, title, content, posted_date', 'required'),
+			array('page_id, title, content', 'required'),
 			array('user_id, page_id', 'numerical', 'integerOnly'=>true),
 			array('title', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, user_id, page_id, title, content, posted_date', 'safe', 'on'=>'search'),
+			array('posted_date', 'default', 'value'=>new CDbExpression('NOW()'), 'setOnEmpty'=>false, 'on'=>'insert'),
+			array('posted_date', 'default', 'value'=>new CDbExpression('NOW()'), 'setOnEmpty'=>false, 'on'=>'update'),
+			array('user_id', 'default', 'value'=>Yii::app()->user->id, 'setOnEmpty'=>false, 'on'=>'insert'),
+		);
+	}
+	
+	public function scopes()
+	{
+		return array(
+			'recently' => array(
+				'order'=>'posted_date DESC',
+                'limit'=>5,
+			)
 		);
 	}
 
