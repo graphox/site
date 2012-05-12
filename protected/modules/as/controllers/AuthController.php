@@ -51,8 +51,14 @@ class AuthController extends Controller
 					
 					if($externalUser === null)
 					{
+						$name = $authIdentity->getAttribute('name');
+						while(User::model()->findByAttributes(array('username' => $name)))
+						{
+							$name = $name.rand();
+						}
+						
 						$user = new User;
-						$user->username = $authIdentity->getAttribute('name');
+						$user->username = $name;
 						$user->ingame_password = md5(rand());
 						$user->email = $authIdentity->getAttribute('email');
 						$user->hashing_method = 'plain';
@@ -95,6 +101,9 @@ class AuthController extends Controller
 							$errors = $external->getErrors();
 							throw new exception(print_r($errors, true));
 						}
+						
+						#add to world group
+						AccessControl::AddGroupToUser($user);
 					}
 					else
 					{

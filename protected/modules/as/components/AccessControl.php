@@ -319,4 +319,27 @@ class AccessControl
 		
 		return $privilege;
 	}
+	
+	public function AddGroupToUser($user, $group = null)
+	{
+		if($group === null)
+		{
+			$group = self::getGroup('world');
+		}
+		elseif(is_string($group))
+		{
+			$group = self::getGroup($name);
+			
+			if(!$group)
+				$group = self::addGroup($name);
+		}
+		elseif(!is_object($group))
+			throw new exception('invalid group');
+		
+		$group_user = new AclGroupUser;
+		$group_user->group_id = $group->id;
+		$group_user->user_id = $user->id;
+		if(!$group_user->save())
+			throw new Exception('Could not save privilege! '.print_r($privilege->getErrors(), true));
+	}
 }
