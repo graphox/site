@@ -25,6 +25,11 @@ class AuthController extends Controller
 	
 	public function actionAuth()
 	{
+		/*#TODO: fix this
+		if(isset($_GET['returnurl']))
+		{
+			Yii::app()->user->returnUrl = rawurldecode($_GET['returnurl']);
+		}*/
 		$service = Yii::app()->request->getQuery('service');
 		$error = Yii::app()->request->getQuery('error');
 		if(isset($error))
@@ -54,7 +59,7 @@ class AuthController extends Controller
 						$name = $authIdentity->getAttribute('name');
 						while(User::model()->findByAttributes(array('username' => $name)))
 						{
-							$name = $name.rand();
+							$name = $name.(rand() % 10);
 						}
 						
 						$user = new User;
@@ -115,7 +120,7 @@ class AuthController extends Controller
 					Yii::app()->user->setFlash('success', Yii::t('AS.auth', 'Your oauth login was successfully.'));
 
 					// special redirect with closing popup window
-					$authIdentity->redirect(array('auth/success'));
+					$authIdentity->redirect(Yii::app()->user->returnUrl);
 					
 				}
 				else
