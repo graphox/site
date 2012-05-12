@@ -29,6 +29,14 @@
 		<span><?=CHtml::encode($model->description)?></span>
 	</li>
 	<li>
+		<strong>allow_comments:</strong>
+		<span><?=CHtml::encode($model->allow_comments)?></span>
+	</li>
+	<li>
+		<strong>layout:</strong>
+		<span><?=CHtml::encode($model->layout)?></span>
+	</li>
+	<li>
 		<strong>content:</strong>
 		<span><?=CHtml::encode($model->content)?></span>
 	</li>

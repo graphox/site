@@ -1,10 +1,7 @@
 <?php
-class PagesController extends Controller
+class PagesController extends AdminController
 {
-	/**
-	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-	 * using two-column layout. See 'protected/views/layouts/column2.php'.
-	 */
+
 	public $layout='//layouts/admin';
 
 	/**
@@ -18,7 +15,7 @@ class PagesController extends Controller
 		);
 		
 		if(Yii::app()->user->isGuest || ($access = AccessControl::GetAccess('Pages::Overview')) === false)
-			throw new CHttpException(403, 'Access denied');
+			$this->denyAccess();
 		
 		//TODO: search
 		$criteria = new CDbCriteria();
@@ -75,7 +72,7 @@ class PagesController extends Controller
 			throw new exception('Could not delete');
 		
 		Yii::app()->user->setFlash('success', 'Successfully removed #'.(int)$_GET['id']);
-		//$this->redirect(array('index'));
+		$this->redirect(array('index'));
 	}
 	
 	public function actionAdd()
@@ -109,8 +106,20 @@ class PagesController extends Controller
 			array('Edit', ''),
 			array((int)$_GET['id'], array('', 'id' => (int)$_GET['id']), array('class' => 'active'))
 		);
+		
+		$model = $this->loadModel($_GET['id']);
+
+		// comment the following line if AJAX validation is unneeded
+		$this->performAjaxValidation($model);
+
+		if(isset($_POST['Pages']))
+		{
+			$model->attributes=$_POST['Pages'];
+			if($model->save())
+				$this->redirect(array('inspect','id'=>$model->id));
+		}
 	
-		$this->render('_module' , array( 'action' => array(), '_partial_' => '_add_form', 'form_model' => $this->loadModel($_GET['id'])));
+		$this->render('_module' , array( 'action' => array(), '_partial_' => '_add_form', 'form_model' => $model));
 	}
 
 	/**

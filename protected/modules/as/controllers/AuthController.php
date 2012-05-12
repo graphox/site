@@ -1,6 +1,6 @@
 <?php
 
-class AuthController extends AsController
+class AuthController extends Controller
 {
 	public function actionIndex()
 	{

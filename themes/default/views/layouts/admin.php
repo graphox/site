@@ -74,6 +74,13 @@
 			<input type="text" value="Quick Search" onfocus="if(!this._haschanged){this.value=''};this._haschanged=true;">
 		</form>
 		<hr/>
+		<?php if(isset($this->menu) && is_array($this->menu)): ?>
+			<?php $this->widget('as.components.UI.UIMenuWidget', array(
+				'menu' => $this->menu,
+				'view' => 'as.views.UI.admin.menu'
+			)); ?>
+		<?php endif; ?>
+<?php /*
 		<h3>Content</h3>
 		<ul class="toggle">
 			<li class="icn_new_article"><a href="#">New Article</a></li>
@@ -100,7 +107,7 @@
 			<li class="icn_security"><a href="#">Security</a></li>
 			<li class="icn_jump_back"><a href="#">Logout</a></li>
 		</ul>
-		
+*/ ?>		
 		<footer>
 			<hr />
 			<p><strong>Copyright &copy; 2011 Alphaserv</strong></p>

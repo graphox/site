@@ -67,7 +67,7 @@ Yii::app()->clientScript->registerScript('search', '
 <article class="module width_full">
 	<header>
 		<h3 class="tabs_involved">Pages Manager</h3>
-		<?php $this->widget('as.components.UI.pager.UIPager', array('currentpage' => $pages->getCurrentPage(), 'pages' => $pages)); ?>		
+		<?php $this->widget('as.components.UI.pager.UIPager', array('currentpage' => $pages->getCurrentPage(), 'pages' => $pages, 'PaginatorElementView' => 'as.views.UI.admin.paginatorelement')); ?>		
 	</header>
 	
 	<div class="module_content" style="margin:0">
@@ -81,6 +81,8 @@ Yii::app()->clientScript->registerScript('search', '
 					<th class="header"><?=CHtml::link('editor id', array('', 'order-by' => 'editor_id'))?></th>
 					<th class="header"><?=CHtml::link('title', array('', 'order-by' => 'title'))?></th>
 					<th class="header"><?=CHtml::link('description', array('', 'order-by' => 'description'))?></th>
+					<th class="header"><?=CHtml::link('allow comments', array('', 'order-by' => 'allow_comments'))?></th>
+					<th class="header"><?=CHtml::link('layout', array('', 'order-by' => 'layout'))?></th>
 					<th class="header"><?=CHtml::link('content', array('', 'order-by' => 'content'))?></th>
 					<th class="header"><?=CHtml::link('change time', array('', 'order-by' => 'change_time'))?></th>
 					<th class="header"><?=CHtml::link('acl object id', array('', 'order-by' => 'acl_object_id'))?></th>
@@ -97,6 +99,8 @@ Yii::app()->clientScript->registerScript('search', '
 							<td><?=$row->editor_id?></td>
 							<td><?=$row->title?></td>
 							<td><?=$row->description?></td>
+							<td><?=$row->allow_comments?></td>
+							<td><?=$row->layout?></td>
 							<td><?=$row->content?></td>
 							<td><?=$row->change_time?></td>
 							<td><?=$row->acl_object_id?></td>

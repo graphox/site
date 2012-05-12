@@ -5,6 +5,7 @@ class AsController extends CController
 	public $menu;
 	public $breadcrumbs;
 
+	public 	$layout = '//layouts/main';
 
 	public function __construct($id,$module=null)
 	{
@@ -35,5 +36,21 @@ class AsController extends CController
 				->pushOnBar(QtzPanel::BAR_EXECUTION_TIME) // add time info
 				->pushOnBar('custom info'); // add custom info
 		*/
+	}
+	
+	public function denyAccess($msg = null)
+	{
+		Yii::import('as.models.forms.*');
+		$model = new LoginForm;
+
+		$this->layout = '//layouts/main';
+		
+		$this->render('as.views.auth.login',array('model'=>$model));
+		Yii::app()->end();
+	}
+	
+	public function addMenu($name, $elements)
+	{
+		$this->menu[] = array($name, $elements);
 	}
 }

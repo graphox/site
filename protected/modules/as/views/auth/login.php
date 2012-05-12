@@ -30,6 +30,8 @@ $this->breadcrumbs=array(
 				'validateOnSubmit'=>true,
 			),
 			'htmlOptions' => array('class' => 'admin-form'),
+			'action' => array('//as/auth', 'returnurl' => isset($_GET['returnurl']) ? $_GET['returnurl'] : rawurlencode(Yii::app()->request->url)),
+			
 		)); ?>
 
 			<fieldset>
@@ -62,14 +64,14 @@ $this->breadcrumbs=array(
 
 		<p>
 		<?php 
-			$this->widget('as.components.widgets.AsEAuthWidget', array('action' => 'auth/auth'));
+			$this->widget('as.components.widgets.AsEAuthWidget', array('action' => '//as/auth'));
 		?>
 		</p>
 		
 		<h2 class="line-divider">Register</h2>
 		
 		<p>
-			<?=CHtml::link('Click here to go to the registration page.', array('register')) ?>
+			<?=CHtml::link('Click here to go to the registration page.', array('//as/auth/register')) ?>
 		</p>
 	</div>	
 </div>

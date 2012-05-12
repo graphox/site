@@ -1,10 +1,10 @@
 <?php if(isset($buttons) && count($buttons) > 0): ?>
-	<ul class="pager"><!--normal template style paginator -->
+	<ul class="tabs"><!--admin template style paginator -->
 	<?php foreach($buttons as $button): ?>
 		<?php if(isset($button[2]) && $button[2] === true): ?>
 			<li class="active">
 		<?php else: ?>
-			<li class="<?=CHtml::encode($button[0]).'-page'?>" data-pagination="true" >
+			<li data-pagination="true" >
 		<?php endif; ?>
 	<?php
 		switch($button[0])
@@ -22,5 +22,5 @@
 		} ?>
 		</li>
 	<?php endforeach; ?>
-	</ul><!--END normal template style paginator -->
+	</ul><!--END admin template style paginator -->
 <?php endif; ?>

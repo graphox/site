@@ -1,6 +1,6 @@
 <?php
 
-class CommentController extends CController
+class CommentController extends Controller
 {
 	public function actionAdd()
 	{

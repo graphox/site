@@ -80,7 +80,7 @@ Yii::app()->clientScript->registerScript(\'search\', \'
 <article class="module width_full">
 	<header>
 		<h3 class="tabs_involved"><?=$label?> Manager</h3>
-		<?='<?php $this->widget(\'as.components.UI.pager.UIPager\', array(\'currentpage\' => $pages->getCurrentPage(), \'pages\' => $pages)); ?>'?>		
+		<?='<?php $this->widget(\'as.components.UI.pager.UIPager\', array(\'currentpage\' => $pages->getCurrentPage(), \'pages\' => $pages, \'PaginatorElementView\' => \'as.views.UI.admin.paginatorelement\')); ?>'?>		
 	</header>
 	
 	<div class="module_content" style="margin:0">

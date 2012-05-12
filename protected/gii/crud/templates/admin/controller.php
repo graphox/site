@@ -19,10 +19,7 @@ AccessControl::giveAccess($obj);
 class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseControllerClass; ?>
 
 {
-	/**
-	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-	 * using two-column layout. See 'protected/views/layouts/column2.php'.
-	 */
+
 	public $layout='//layouts/admin';
 
 	/**
@@ -36,7 +33,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 		);
 		
 		if(Yii::app()->user->isGuest || ($access = AccessControl::GetAccess('<?=$this->modelClass?>::Overview')) === false)
-			throw new CHttpException(403, 'Access denied');
+			$this->denyAccess();
 		
 		//TODO: search
 		$criteria = new CDbCriteria();
@@ -93,14 +90,14 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 			throw new exception('Could not delete');
 		
 		Yii::app()->user->setFlash('success', 'Successfully removed #'.(int)$_GET['id']);
-		//$this->redirect(array('index'));
+		$this->redirect(array('index'));
 	}
 	
 	public function actionAdd()
 	{
 
 		$this->breadcrumbs = array(
-			array('<?=$label?>', array('index')),
+			array('<?= $label ?>', array('index')),
 			array('Add', '', array('class' => 'active'))
 		);
 
@@ -127,8 +124,20 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 			array('Edit', ''),
 			array((int)$_GET['id'], array('', 'id' => (int)$_GET['id']), array('class' => 'active'))
 		);
+		
+		$model = $this->loadModel($_GET['id']);
+
+		// comment the following line if AJAX validation is unneeded
+		$this->performAjaxValidation($model);
+
+		if(isset($_POST['<?php echo $this->modelClass; ?>']))
+		{
+			$model->attributes=$_POST['<?php echo $this->modelClass; ?>'];
+			if($model->save())
+				$this->redirect(array('inspect','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+		}
 	
-		$this->render('_module' , array( 'action' => array(), '_partial_' => '_add_form', 'form_model' => $this->loadModel($_GET['id'])));
+		$this->render('_module' , array( 'action' => array(), '_partial_' => '_add_form', 'form_model' => $model));
 	}
 
 	/**

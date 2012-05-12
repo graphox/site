@@ -44,9 +44,13 @@ class AccessControl
 		return AclObject::model()->findByAttributes(array('name' => $name));
 	}
 
-	public static function AddObject($name, $parent = null)
+	public static function AddObject($name, $parent = null, $default_access = null)
 	{
 		$acl = new AclObject;
+		
+		if($default_access === null)
+			$default_access = Access::create(true, true, false, false);
+
 		
 		if($parent === null || is_string($parent))
 		{
@@ -68,6 +72,8 @@ class AccessControl
 		$acl->name = $name;
 		if(!$acl->save())
 			throw new Exception('Could not save privilege! '.print_r($acl>getErrors(), true));
+		
+		self::giveAccess($acl, null, $default_access);
 		
 		return $acl;
 	}
@@ -92,6 +98,7 @@ class AccessControl
 
 				
 		$groups = $user->aclGroups;
+		$groups[] = self::getGroup('world');
 		$privileges = $object->aclPrivileges;
 		
 		#If we can't find permissions for this object, try the parent

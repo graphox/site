@@ -43,6 +43,18 @@
 
 
 <fieldset>
+		<label><?=$form->labelEx($form_model,'allow_comments'); ?></label>
+		<?=$form->textField($form_model,'allow_comments')?>
+		<?=$form->error($form_model,'allow_comments')?></fieldset>
+
+
+<fieldset>
+		<label><?=$form->labelEx($form_model,'layout'); ?></label>
+		<?=$form->textField($form_model,'layout')?>
+		<?=$form->error($form_model,'layout')?></fieldset>
+
+
+<fieldset>
 		<label><?=$form->labelEx($form_model,'content'); ?></label>
 		<?=$form->textArea($form_model,'content')?>
 		<?=$form->error($form_model,'content')?></fieldset>
@@ -56,16 +68,7 @@
 
 
 
-<label for="Pages">Belonging Pages</label>
-<?php
-					$this->widget('application.components.Relation', array(
-							'model' => $form_model,
-							'relation' => 'parent',
-							'fields' => 'module',
-							'allowEmpty' => false,
-							'style' => 'dropdownlist',
-							)
-						); ?><label for="User">Belonging User</label>
+<label for="User">Belonging User</label>
 <?php
 					$this->widget('application.components.Relation', array(
 							'model' => $form_model,
@@ -80,6 +83,15 @@
 							'model' => $form_model,
 							'relation' => 'aclObject',
 							'fields' => 'name',
+							'allowEmpty' => false,
+							'style' => 'dropdownlist',
+							)
+						); ?><label for="Pages">Belonging Pages</label>
+<?php
+					$this->widget('application.components.Relation', array(
+							'model' => $form_model,
+							'relation' => 'parent',
+							'fields' => 'module',
 							'allowEmpty' => false,
 							'style' => 'dropdownlist',
 							)
