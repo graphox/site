@@ -24,48 +24,48 @@ if(!isset($can))
 
 if(!$can->read) return;
 
-Yii::app()->clientScript->registerScript(\'search\', \'
-	$(".search-button").click(function(){
-		$(".search-form").toggle();
-		return false;
-	});
-	
-	var controller_url = "\'.$this->createUrl(\''.str_replace('Controller', '', $this->controllerClass).'\').\'";
-	
-	$(".search-form form").submit(function(){
-		$.fn.yiiGridView.update("'.$this->class2id($this->modelClass).'-grid", {
-			data: $(this).serialize()
-		});
-
-		return false;
-	});
-	
-	$(".relation-iframe").click(function(){
-		
-		var id = "relation-"+relation_name;
-		var self = $(this);
-
-		//clean up:
-			$("#"+id).display("none");
-			$("a[href=#"+id+"]").parent().display("none");
-		//end
-		
-		$("header .tabs").append("<li class=\"active relation\"><a href=\"#"+id+"\">relation</a></li>");
-		$(".tab-container").append("<div class=\"tab_content\" style=\"display:block;\" id=\""+id+"\"></div>");
-		$("#"+id).load(self.attr("href")+"/ajax/1");
-		
-		return false;
-	})
-\');
 ?>
 
 <article class="module width_full">
 
-<?php $container = $this->beginWidget(\'as.components.UI.UITabContainer\', array(\'title\' => \'\')); ?>
+<?php $container = $this->beginWidget(\'as.components.UI.UITabContainer\', array(\'title\' => \'\')); ?>'?>
 
-<?php $container->start_tab(\'search\'); ?>
-	TODO: search fields
-<?php $container->end_tab() ?>
+<?='<?php $container->start_tab(\'info\'); ?>'?>
+<h2><?=$label?> Management</h2>
+<p>
+	Select the tabs in the top right corner to ether search or add a row.
+</p>
+<p>
+	Click the icons on the right side of the rows to edit, view or delete them.
+</p>
+<?='<?php $container->end_tab() ?>'?>
+
+<?='<?php $container->start_tab(\'search\'); ?>'?>
+
+<?='<?=CHtml::form()?>'?>
+
+<p>
+	Enter text in the fields to search, blank fields are ignored.
+</p>
+<p>
+	You can use =, <, > and <> in these fields.
+</p>
+
+<?php foreach($this->tableSchema->columns as $column): ?>
+<fieldset>
+	<label><?=CHtml::encode($column->name)?></label>
+	<?='<?=CHtml::textField(\'search['.$column->name.']\', (isset($_POST[\'search\']) && isset($_POST[\'search\'][\''.$column->name.'\'])) ? $_POST[\'search\'][\''.$column->name.'\'] : \'\')?>'?>
+</fieldset>
+<?php endforeach; ?>
+<footer>
+	<div class="submit_link">
+		<?=CHtml::submitButton()?>
+
+		<?='<?=CHtml::link(\'reset\', array(\'index\', \'reset\' => \'reset\'), array(\'class\' => \'lookalike-submit alt_btn\'));?>'?>
+	</div>
+</footer>
+</form>
+<?='<?php $container->end_tab() ?>
 
 <?php $container->start_tab(\'Add '.$label.'\'); ?>
 <?php $this->renderPartial(\'_add_form\', get_defined_vars()); ?>

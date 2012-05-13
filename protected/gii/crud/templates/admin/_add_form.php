@@ -31,7 +31,7 @@ $fields = array();
 
 <?php if(!$column->isForeignKey): ?>
 <fieldset>
-		<label><?='<?=$form->labelEx($form_model,\''.$column->name.'\'); ?>'?></label>
+		<?='<?=$form->labelEx($form_model,\''.$column->name.'\'); ?>'?>
 		<?php
 			if($column->size && $column->size <= 50)
 				echo '<?=$form->textField($form_model,\''.$column->name.'\')?>';

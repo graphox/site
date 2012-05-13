@@ -82,82 +82,73 @@ class AccessControl
 	{
 		if(!is_object($object))
 			throw new exception('Could not find object');
-			
-		if($user === false)
+		
+		if(!Yii::app()->user->isGuest)
 		{
-			$user = Yii::app()->user->id;
-		}
 			
-		if(!is_object($user))
-		{
-			$user = User::Model()->with('aclGroupUsers')->findByAttributes(array('id' => $user));
+			if($user === false)
+			{
+				$user = Yii::app()->user->id;
+			}
 			
-			if($user === null)
-				throw new exception('Access not found, Could not find user from id');
-		}
+			if(!is_object($user))
+			{
+				$user = User::Model()->with('aclGroupUsers')->findByAttributes(array('id' => $user));
+			
+				if($user === null)
+					throw new exception('Access not found, Could not find user from id');
+			}
 
 				
-		$groups = $user->aclGroups;
-		$groups[] = self::getGroup('world');
-		$privileges = $object->aclPrivileges;
-		
-		#If we can't find permissions for this object, try the parent
-		while($privileges === null && $object !== null)
-		{
-			$object = $object->parent;
-			$privileges = $object->aclPrivileges;
+			$groups = $user->aclGroups;
 		}
 		
-		if($object === null)
-			throw new exception('Could not find object priviliges');
-
+		$world = self::getGroup('world');
 		
-		#TODO: let the database sort
-		usort($privileges, function($a, $b)
-		{
-			if($a->order == $b->order)
-				return 0;
-			elseif($a->order < $b->order)
-				return 1;
-			else
-				return -1;
-		});
+		if(!$world)
+			throw new exception('DB corruption, group world not found!');
 		
-		$found = false;
+		#$groups[] = $world;
+		
+		#try all groups for every object
 		do
 		{
-			#try all privileges on all groups
+			$privileges = $object->aclPrivileges;
+
+			if(!$privileges)
+				continue;
+
+
+			$priviliges = $object->aclPrivileges;
+			
+			#TODO: let the database sort
+			usort($privileges, function($a, $b)
+			{
+				if($a->order_by == $b->order_by)
+					return 0;
+				elseif($a->order_by < $b->order_by)
+					return 1;
+				else
+					return -1;
+			});
+
+
+
+			
 			foreach($privileges as $privilege)
 			{
 				foreach($groups as $group)
 				{
-					if($group->id != $privilege->group_id)
-						continue;
-					else
-					{
-						$found = true;
-						$access = Access::FromResult($privilege);
-						break 3;
-					}
+					if($privilege->group_id == $group->id)
+						return Access::FromResult($privilege);
 				}
 			}
-			
-			
-			#try parents
-			foreach($groups as $i => $group)
-			{
-				$groups[$i] = $group->parent;
-					
-				if($groups[$i] === null)
-					unset ($groups[$i]);
-			}
 		}
-		while($found === false && count($groups) !== 0);
-		
-		if(!$found)
-			throw new exception('Could not find rule');
-		
-		return $access;
+		while($object = $object->parent);
+
+		die;
+
+		throw new exception('Could not find rule');
 	}
 	
 	static function GetAccess($name, $is_page = false)
@@ -307,10 +298,10 @@ class AccessControl
 		$privilege->object_id = $object->id;
 		$privilege->group_id = $group->id;
 		
-		$privilege->read = $access->read;
-		$privilege->write = $access->write;
-		$privilege->update = $access->update;
-		$privilege->delete = $access->delete;
+		$privilege->read = (int)$access->read;
+		$privilege->write = (int)$access->write;
+		$privilege->update = (int)$access->update;
+		$privilege->delete = (int)$access->delete;
 		
 		$privilege->order_by = $order;
 		

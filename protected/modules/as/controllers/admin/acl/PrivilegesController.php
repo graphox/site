@@ -1,5 +1,5 @@
 <?php
-class PagesController extends AdminController
+class PrivilegesController extends AdminController
 {
 
 	public $layout='//layouts/admin';
@@ -10,11 +10,11 @@ class PagesController extends AdminController
 	public function actionIndex()
 	{
 		$this->breadcrumbs = array(
-			array('Pages', array('index')),
+			array('Acl Privileges', array('index')),
 			array('Overview', '', array('class' => 'active'))
 		);
 		
-		if((($access = AccessControl::GetAccess('Pages::Overview')) === false) || $access->read != 1)
+		if((($access = AccessControl::GetAccess('AclPrivilege::Overview')) === false) || $access->read != 1)
 			$this->denyAccess();
 		
 		//TODO: search
@@ -25,28 +25,20 @@ class PagesController extends AdminController
 		{
 				if(isset($_POST['search']['id']))
 					$criteria->compare('id', $_POST['search']['id']);
-				if(isset($_POST['search']['module']))
-					$criteria->compare('module', $_POST['search']['module']);
-				if(isset($_POST['search']['uri']))
-					$criteria->compare('uri', $_POST['search']['uri']);
-				if(isset($_POST['search']['parent_id']))
-					$criteria->compare('parent_id', $_POST['search']['parent_id']);
-				if(isset($_POST['search']['editor_id']))
-					$criteria->compare('editor_id', $_POST['search']['editor_id']);
-				if(isset($_POST['search']['title']))
-					$criteria->compare('title', $_POST['search']['title']);
-				if(isset($_POST['search']['description']))
-					$criteria->compare('description', $_POST['search']['description']);
-				if(isset($_POST['search']['allow_comments']))
-					$criteria->compare('allow_comments', $_POST['search']['allow_comments']);
-				if(isset($_POST['search']['layout']))
-					$criteria->compare('layout', $_POST['search']['layout']);
-				if(isset($_POST['search']['content']))
-					$criteria->compare('content', $_POST['search']['content']);
-				if(isset($_POST['search']['change_time']))
-					$criteria->compare('change_time', $_POST['search']['change_time']);
-				if(isset($_POST['search']['acl_object_id']))
-					$criteria->compare('acl_object_id', $_POST['search']['acl_object_id']);
+				if(isset($_POST['search']['object_id']))
+					$criteria->compare('object_id', $_POST['search']['object_id']);
+				if(isset($_POST['search']['group_id']))
+					$criteria->compare('group_id', $_POST['search']['group_id']);
+				if(isset($_POST['search']['read']))
+					$criteria->compare('read', $_POST['search']['read']);
+				if(isset($_POST['search']['write']))
+					$criteria->compare('write', $_POST['search']['write']);
+				if(isset($_POST['search']['update']))
+					$criteria->compare('update', $_POST['search']['update']);
+				if(isset($_POST['search']['delete']))
+					$criteria->compare('delete', $_POST['search']['delete']);
+				if(isset($_POST['search']['order_by']))
+					$criteria->compare('order_by', $_POST['search']['order_by']);
 		}
 		else
 			$criteria->condition = '1';
@@ -62,29 +54,29 @@ class PagesController extends AdminController
 			$this->redirect(array('edit', 'id' => $_POST['edit']));
 
 		
-		$count=Pages::model()->count($criteria);
+		$count=AclPrivilege::model()->count($criteria);
 		$pages=new CPagination($count);
 
 		// results per page
 		$pages->pageSize = isset($_GET['per-page']) ? (int)$_GET['per-page'] : 10;
 		$pages->applyLimit($criteria);
-		$models = Pages::model()->findAll($criteria);
+		$models = AclPrivilege::model()->findAll($criteria);
 		
 		$this->render('_main_view',array(
 			'models' => $models,
 			'pages' => $pages,
-			'form_model' => new Pages,
+			'form_model' => new AclPrivilege,
 			'can' => $access
 		));
 	}
 	
 	public function actionInspect()
 	{
-		if((($access = AccessControl::GetAccess('Pages::Overview')) === false) || $access->read != 1)
+		if((($access = AccessControl::GetAccess('AclPrivilege::Overview')) === false) || $access->read != 1)
 			$this->denyAccess();
 
 		$this->breadcrumbs = array(
-			array('Pages', array('index')),
+			array('Acl Privileges', array('index')),
 			array('Inspect', '', array('class' => 'active'))
 		);
 	
@@ -95,11 +87,11 @@ class PagesController extends AdminController
 
 	public function actionDelete()
 	{
-		if((($access = AccessControl::GetAccess('Pages::Overview')) === false) || $access->delete != 1)
+		if((($access = AccessControl::GetAccess('AclPrivilege::Overview')) === false) || $access->delete != 1)
 			$this->denyAccess();
 
 		$this->breadcrumbs = array(
-			array('Pages', array('index')),
+			array('Acl Privileges', array('index')),
 			array('Delete', '', array('class' => 'active'))
 		);
 		
@@ -112,22 +104,22 @@ class PagesController extends AdminController
 	
 	public function actionAdd()
 	{
-		if((($access = AccessControl::GetAccess('Pages::Overview')) === false) || $access->write != 1)
+		if((($access = AccessControl::GetAccess('AclPrivilege::Overview')) === false) || $access->write != 1)
 			$this->denyAccess();
 
 		$this->breadcrumbs = array(
-			array('Pages', array('index')),
+			array('Acl Privileges', array('index')),
 			array('Add', '', array('class' => 'active'))
 		);
 
-		$model=new Pages;
+		$model=new AclPrivilege;
 
 		// comment the following line if AJAX validation is unneeded
 		$this->performAjaxValidation($model);
 
-		if(isset($_POST['Pages']))
+		if(isset($_POST['AclPrivilege']))
 		{
-			$model->attributes=$_POST['Pages'];
+			$model->attributes=$_POST['AclPrivilege'];
 			if($model->save())
 				$this->redirect(array('inspect','id'=>$model->id));
 		}
@@ -138,11 +130,11 @@ class PagesController extends AdminController
 
 	public function actionEdit()
 	{
-		if((($access = AccessControl::GetAccess('Pages::Overview')) === false) || $access->update != 1)
+		if((($access = AccessControl::GetAccess('AclPrivilege::Overview')) === false) || $access->update != 1)
 			$this->denyAccess();
 
 		$this->breadcrumbs = array(
-			array('Pages', array('index')),
+			array('Acl Privileges', array('index')),
 			array('Edit', ''),
 			array((int)$_GET['id'], array('', 'id' => (int)$_GET['id']), array('class' => 'active'))
 		);
@@ -152,9 +144,9 @@ class PagesController extends AdminController
 		// comment the following line if AJAX validation is unneeded
 		$this->performAjaxValidation($model);
 
-		if(isset($_POST['Pages']))
+		if(isset($_POST['AclPrivilege']))
 		{
-			$model->attributes=$_POST['Pages'];
+			$model->attributes=$_POST['AclPrivilege'];
 			if($model->save())
 				$this->redirect(array('inspect','id'=>$model->id));
 		}
@@ -169,7 +161,7 @@ class PagesController extends AdminController
 	 */
 	public function loadModel($id)
 	{
-		$model=Pages::model()->findByPk($id);
+		$model=AclPrivilege::model()->findByPk($id);
 		
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
@@ -183,7 +175,7 @@ class PagesController extends AdminController
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='pages-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='acl-privilege-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

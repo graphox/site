@@ -1,0 +1,35 @@
+
+<ul>
+	<li>
+		<strong>id:</strong>
+		<span><?=CHtml::encode($model->id)?></span>
+	</li>
+	<li>
+		<strong>object_id:</strong>
+		<span><?=CHtml::encode($model->object_id)?></span>
+	</li>
+	<li>
+		<strong>group_id:</strong>
+		<span><?=CHtml::encode($model->group_id)?></span>
+	</li>
+	<li>
+		<strong>read:</strong>
+		<span><?=CHtml::encode($model->read)?></span>
+	</li>
+	<li>
+		<strong>write:</strong>
+		<span><?=CHtml::encode($model->write)?></span>
+	</li>
+	<li>
+		<strong>update:</strong>
+		<span><?=CHtml::encode($model->update)?></span>
+	</li>
+	<li>
+		<strong>delete:</strong>
+		<span><?=CHtml::encode($model->delete)?></span>
+	</li>
+	<li>
+		<strong>order_by:</strong>
+		<span><?=CHtml::encode($model->order_by)?></span>
+	</li>
+</ul>

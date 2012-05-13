@@ -12,47 +12,70 @@ if(!isset($can))
 
 if(!$can->read) return;
 
-Yii::app()->clientScript->registerScript('search', '
-	$(".search-button").click(function(){
-		$(".search-form").toggle();
-		return false;
-	});
-	
-	var controller_url = "'.$this->createUrl('Pages').'";
-	
-	$(".search-form form").submit(function(){
-		$.fn.yiiGridView.update("pages-grid", {
-			data: $(this).serialize()
-		});
-
-		return false;
-	});
-	
-	$(".relation-iframe").click(function(){
-		
-		var id = "relation-"+relation_name;
-		var self = $(this);
-
-		//clean up:
-			$("#"+id).display("none");
-			$("a[href=#"+id+"]").parent().display("none");
-		//end
-		
-		$("header .tabs").append("<li class=\"active relation\"><a href=\"#"+id+"\">relation</a></li>");
-		$(".tab-container").append("<div class=\"tab_content\" style=\"display:block;\" id=\""+id+"\"></div>");
-		$("#"+id).load(self.attr("href")+"/ajax/1");
-		
-		return false;
-	})
-');
 ?>
 
 <article class="module width_full">
 
 <?php $container = $this->beginWidget('as.components.UI.UITabContainer', array('title' => '')); ?>
-
+<?php $container->start_tab('info'); ?><h2>Pages Management</h2>
+<p>
+	Select the tabs in the top right corner to ether search or add a row.
+</p>
+<p>
+	Click the icons on the right side of the rows to edit, view or delete them.
+</p>
+<?php $container->end_tab() ?>
 <?php $container->start_tab('search'); ?>
-	TODO: search fields
+<?=CHtml::form()?>
+<p>
+	Enter text in the fields to search, blank fields are ignored.
+</p>
+<p>
+	You can use =, <, > and <> in these fields.
+</p>
+
+<fieldset>
+	<label>id</label>
+	<?=CHtml::textField('search[id]', (isset($_POST['search']) && isset($_POST['search']['id'])) ? $_POST['search']['id'] : '')?></fieldset>
+<fieldset>
+	<label>module</label>
+	<?=CHtml::textField('search[module]', (isset($_POST['search']) && isset($_POST['search']['module'])) ? $_POST['search']['module'] : '')?></fieldset>
+<fieldset>
+	<label>uri</label>
+	<?=CHtml::textField('search[uri]', (isset($_POST['search']) && isset($_POST['search']['uri'])) ? $_POST['search']['uri'] : '')?></fieldset>
+<fieldset>
+	<label>parent_id</label>
+	<?=CHtml::textField('search[parent_id]', (isset($_POST['search']) && isset($_POST['search']['parent_id'])) ? $_POST['search']['parent_id'] : '')?></fieldset>
+<fieldset>
+	<label>editor_id</label>
+	<?=CHtml::textField('search[editor_id]', (isset($_POST['search']) && isset($_POST['search']['editor_id'])) ? $_POST['search']['editor_id'] : '')?></fieldset>
+<fieldset>
+	<label>title</label>
+	<?=CHtml::textField('search[title]', (isset($_POST['search']) && isset($_POST['search']['title'])) ? $_POST['search']['title'] : '')?></fieldset>
+<fieldset>
+	<label>description</label>
+	<?=CHtml::textField('search[description]', (isset($_POST['search']) && isset($_POST['search']['description'])) ? $_POST['search']['description'] : '')?></fieldset>
+<fieldset>
+	<label>allow_comments</label>
+	<?=CHtml::textField('search[allow_comments]', (isset($_POST['search']) && isset($_POST['search']['allow_comments'])) ? $_POST['search']['allow_comments'] : '')?></fieldset>
+<fieldset>
+	<label>layout</label>
+	<?=CHtml::textField('search[layout]', (isset($_POST['search']) && isset($_POST['search']['layout'])) ? $_POST['search']['layout'] : '')?></fieldset>
+<fieldset>
+	<label>content</label>
+	<?=CHtml::textField('search[content]', (isset($_POST['search']) && isset($_POST['search']['content'])) ? $_POST['search']['content'] : '')?></fieldset>
+<fieldset>
+	<label>change_time</label>
+	<?=CHtml::textField('search[change_time]', (isset($_POST['search']) && isset($_POST['search']['change_time'])) ? $_POST['search']['change_time'] : '')?></fieldset>
+<fieldset>
+	<label>acl_object_id</label>
+	<?=CHtml::textField('search[acl_object_id]', (isset($_POST['search']) && isset($_POST['search']['acl_object_id'])) ? $_POST['search']['acl_object_id'] : '')?></fieldset>
+<footer>
+	<div class="submit_link">
+		<input type="submit" name="yt0" value="submit" />
+		<?=CHtml::link('reset', array('index', 'reset' => 'reset'), array('class' => 'lookalike-submit alt_btn'));?>	</div>
+</footer>
+</form>
 <?php $container->end_tab() ?>
 
 <?php $container->start_tab('Add Pages'); ?>

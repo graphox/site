@@ -32,13 +32,23 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 			array('Overview', '', array('class' => 'active'))
 		);
 		
-		if(Yii::app()->user->isGuest || ($access = AccessControl::GetAccess('<?=$this->modelClass?>::Overview')) === false)
+		if((($access = AccessControl::GetAccess('<?=$this->modelClass?>::Overview')) === false) || $access->read != 1)
 			$this->denyAccess();
 		
 		//TODO: search
 		$criteria = new CDbCriteria();
 		$criteria->select = '*';
-		$criteria->condition = '1';
+
+		if(isset($_POST['search']) && is_array($_POST['search']))
+		{
+<?php foreach($this->tableSchema->columns as $column): ?>
+				if(isset($_POST['search']['<?=$column->name?>']))
+					$criteria->compare('<?=$column->name?>', $_POST['search']['<?=$column->name?>']);
+<?php endforeach; ?>
+		}
+		else
+			$criteria->condition = '1';
+
 
 		if(isset($_POST['inspect']))
 			$this->redirect(array('inspect', 'id' => $_POST['inspect']));
@@ -68,6 +78,9 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	
 	public function actionInspect()
 	{
+		if((($access = AccessControl::GetAccess('<?=$this->modelClass?>::Overview')) === false) || $access->read != 1)
+			$this->denyAccess();
+
 		$this->breadcrumbs = array(
 			array('<?=$label?>', array('index')),
 			array('Inspect', '', array('class' => 'active'))
@@ -80,6 +93,8 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
 	public function actionDelete()
 	{
+		if((($access = AccessControl::GetAccess('<?=$this->modelClass?>::Overview')) === false) || $access->delete != 1)
+			$this->denyAccess();
 
 		$this->breadcrumbs = array(
 			array('<?=$label?>', array('index')),
@@ -95,6 +110,8 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	
 	public function actionAdd()
 	{
+		if((($access = AccessControl::GetAccess('<?=$this->modelClass?>::Overview')) === false) || $access->write != 1)
+			$this->denyAccess();
 
 		$this->breadcrumbs = array(
 			array('<?= $label ?>', array('index')),
@@ -119,6 +136,9 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
 	public function actionEdit()
 	{
+		if((($access = AccessControl::GetAccess('<?=$this->modelClass?>::Overview')) === false) || $access->update != 1)
+			$this->denyAccess();
+
 		$this->breadcrumbs = array(
 			array('<?=$label?>', array('index')),
 			array('Edit', ''),

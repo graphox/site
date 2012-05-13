@@ -9,34 +9,33 @@
 	<?php include dirname(__FILE__).'/partials/head.php'; ?>
 	
 	<script type="text/javascript">
-	$(document).ready(function() 
-    	{ 
+	$(document).ready(function(){ 
       	  $(".tablesorter").tablesorter(); 
-   	 } 
-	);
+   	});
+   	
 	$(document).ready(function() {
 
-	//When page loads...
-	$(".tab_content").hide(); //Hide all content
-	$("ul.tabs li:first").addClass("active").show(); //Activate first tab
-	$(".tab_content:first").show(); //Show first tab content
+		//When page loads...
+		$(".tab_content").hide(); //Hide all content
+		$("ul.tabs li:first").addClass("active").show(); //Activate first tab
+		$(".tab_content:first").show(); //Show first tab content
 
-	//On Click Event
-	$("ul.tabs li").click(function() {
+		//On Click Event
+		$("ul.tabs li").click(function() {
 
-		if ($(this).attr('data-pagination') == "true")
-			return true
+			if ($(this).attr('data-pagination') == "true")
+				return true
 		
-		$("ul.tabs li").removeClass("active"); //Remove any "active" class
-		$(this).addClass("active"); //Add "active" class to selected tab
-		$(".tab_content").hide(); //Hide all tab content
+			$("ul.tabs li").removeClass("active"); //Remove any "active" class
+			$(this).addClass("active"); //Add "active" class to selected tab
+			$(".tab_content").hide(); //Hide all tab content
 
-		var activeTab = $(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
-		$(activeTab).fadeIn(); //Fade in the active ID content
-		return false;
+			var activeTab = $(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
+			$(activeTab).fadeIn(); //Fade in the active ID content
+			return false;
+		});
+
 	});
-
-});
     </script>
     <script type="text/javascript">
     $(function(){
@@ -58,8 +57,8 @@
 	
 	<section id="secondary_bar">
 		<div class="user">
-			<p>John Doe (<a href="#">3 Messages</a>)</p>
-			<a class="logout_user" href="#" title="Logout">Logout</a>
+			<p><?=CHtml::encode(Yii::app()->user->name)?> (<?=CHtml::link('3 Messages', array('//as/messages/inbox'))?>)</p>
+			<?=CHtml::link('Logout', array('//as/auth/logout'), array('title' => 'Logout', 'class' => 'logout_user'))?>
 		</div>
 		<?php if(isset($this->breadcrumbs) && is_array($this->breadcrumbs)): ?>
 			<?php $this->widget('as.components.UI.UIBreadcrumbContainer', array(
@@ -116,6 +115,12 @@
 	</aside><!-- end of sidebar -->
 	
 	<section id="main" class="column">
+		<?php foreach(Yii::app()->user->getFlashes() as $key => $message)
+			if ($key=='counters')
+				continue;
+			else
+				echo '<h4 class="alert_'.$key.'">'.$message.'</h4>';
+		?>
 		<?php echo $content; ?>
 	</section>
 
