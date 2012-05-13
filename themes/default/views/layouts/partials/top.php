@@ -22,7 +22,7 @@ Yii::app()->getPanel('adminPanel')->show(array(
     'useCookie' => false, // this panel use cookiew
     'initiallyOpen' => false // this panel is closed by default
 ));
-*/ ?>
+//*/ ?>
 	
 	
 		<!-- HEADER -->
@@ -48,11 +48,8 @@ Yii::app()->getPanel('adminPanel')->show(array(
 			
 			<!-- Menu -->
 			<div id="menu">
-				<?php /*if(isset($this->menu) && is_array($this->menu)): ?>
-					<?php $this->widget('as.components.UI.UIMenuWidget', array(
-						'menu' => $this->menu,
-						'view' => 'as.views.UI.menu'
-					)); ?>
-				<?php endif;*/ ?>
+				<?php /**/ ?>
+					<?php $this->widget('as.components.UI.UIDbMenuWidget', array()); ?>
+				<?php //*/ ?>
 			</div>
 			<!-- ENDS Menu -->

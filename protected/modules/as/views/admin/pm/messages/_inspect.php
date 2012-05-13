@@ -1,0 +1,39 @@
+
+<ul>
+	<li>
+		<strong>id:</strong>
+		<span><?=CHtml::encode($model->id)?></span>
+	</li>
+	<li>
+		<strong>sender_id:</strong>
+		<span><?=CHtml::encode($model->sender_id)?></span>
+	</li>
+	<li>
+		<strong>receiver_id:</strong>
+		<span><?=CHtml::encode($model->receiver_id)?></span>
+	</li>
+	<li>
+		<strong>read:</strong>
+		<span><?=CHtml::encode($model->read)?></span>
+	</li>
+	<li>
+		<strong>receiver_deleted:</strong>
+		<span><?=CHtml::encode($model->receiver_deleted)?></span>
+	</li>
+	<li>
+		<strong>receiver_dir_id:</strong>
+		<span><?=CHtml::encode($model->receiver_dir_id)?></span>
+	</li>
+	<li>
+		<strong>title:</strong>
+		<span><?=CHtml::encode($model->title)?></span>
+	</li>
+	<li>
+		<strong>content:</strong>
+		<span><?=CHtml::encode($model->content)?></span>
+	</li>
+	<li>
+		<strong>sended_date:</strong>
+		<span><?=CHtml::encode($model->sended_date)?></span>
+	</li>
+</ul>

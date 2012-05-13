@@ -1,0 +1,31 @@
+
+<ul>
+	<li>
+		<strong>id:</strong>
+		<span><?=CHtml::encode($model->id)?></span>
+	</li>
+	<li>
+		<strong>name:</strong>
+		<span><?=CHtml::encode($model->name)?></span>
+	</li>
+	<li>
+		<strong>description:</strong>
+		<span><?=CHtml::encode($model->description)?></span>
+	</li>
+	<li>
+		<strong>acl_group_id:</strong>
+		<span><?=CHtml::encode($model->acl_group_id)?></span>
+	</li>
+	<li>
+		<strong>status:</strong>
+		<span><?=CHtml::encode($model->status)?></span>
+	</li>
+	<li>
+		<strong>page_id:</strong>
+		<span><?=CHtml::encode($model->page_id)?></span>
+	</li>
+	<li>
+		<strong>forum_id:</strong>
+		<span><?=CHtml::encode($model->forum_id)?></span>
+	</li>
+</ul>

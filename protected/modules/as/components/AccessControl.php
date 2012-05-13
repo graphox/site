@@ -73,7 +73,8 @@ class AccessControl
 		if(!$acl->save())
 			throw new Exception('Could not save privilege! '.print_r($acl>getErrors(), true));
 		
-		self::giveAccess($acl, null, $default_access);
+		if($default_access !== -1)
+			self::giveAccess($acl, null, $default_access);
 		
 		return $acl;
 	}
@@ -108,7 +109,7 @@ class AccessControl
 		if(!$world)
 			throw new exception('DB corruption, group world not found!');
 		
-		#$groups[] = $world;
+		$groups[] = $world;
 		
 		#try all groups for every object
 		do
@@ -127,9 +128,9 @@ class AccessControl
 				if($a->order_by == $b->order_by)
 					return 0;
 				elseif($a->order_by < $b->order_by)
-					return 1;
-				else
 					return -1;
+				else
+					return 1;
 			});
 
 
@@ -145,8 +146,6 @@ class AccessControl
 			}
 		}
 		while($object = $object->parent);
-
-		die;
 
 		throw new exception('Could not find rule');
 	}

@@ -1,0 +1,23 @@
+
+<ul>
+	<li>
+		<strong>id:</strong>
+		<span><?=CHtml::encode($model->id)?></span>
+	</li>
+	<li>
+		<strong>user_id:</strong>
+		<span><?=CHtml::encode($model->user_id)?></span>
+	</li>
+	<li>
+		<strong>homepage:</strong>
+		<span><?=CHtml::encode($model->homepage)?></span>
+	</li>
+	<li>
+		<strong>avatar_img_id:</strong>
+		<span><?=CHtml::encode($model->avatar_img_id)?></span>
+	</li>
+	<li>
+		<strong>page_id:</strong>
+		<span><?=CHtml::encode($model->page_id)?></span>
+	</li>
+</ul>

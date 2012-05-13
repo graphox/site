@@ -1,0 +1,23 @@
+
+<ul>
+	<li>
+		<strong>id:</strong>
+		<span><?=CHtml::encode($model->id)?></span>
+	</li>
+	<li>
+		<strong>name:</strong>
+		<span><?=CHtml::encode($model->name)?></span>
+	</li>
+	<li>
+		<strong>description:</strong>
+		<span><?=CHtml::encode($model->description)?></span>
+	</li>
+	<li>
+		<strong>added_date:</strong>
+		<span><?=CHtml::encode($model->added_date)?></span>
+	</li>
+	<li>
+		<strong>owned_by:</strong>
+		<span><?=CHtml::encode($model->owned_by)?></span>
+	</li>
+</ul>

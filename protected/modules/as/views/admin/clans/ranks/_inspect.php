@@ -1,0 +1,19 @@
+
+<ul>
+	<li>
+		<strong>id:</strong>
+		<span><?=CHtml::encode($model->id)?></span>
+	</li>
+	<li>
+		<strong>name:</strong>
+		<span><?=CHtml::encode($model->name)?></span>
+	</li>
+	<li>
+		<strong>acl_group_id:</strong>
+		<span><?=CHtml::encode($model->acl_group_id)?></span>
+	</li>
+	<li>
+		<strong>clan_id:</strong>
+		<span><?=CHtml::encode($model->clan_id)?></span>
+	</li>
+</ul>

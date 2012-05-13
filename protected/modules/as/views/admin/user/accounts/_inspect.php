@@ -1,0 +1,35 @@
+
+<ul>
+	<li>
+		<strong>id:</strong>
+		<span><?=CHtml::encode($model->id)?></span>
+	</li>
+	<li>
+		<strong>username:</strong>
+		<span><?=CHtml::encode($model->username)?></span>
+	</li>
+	<li>
+		<strong>ingame_password:</strong>
+		<span><?=CHtml::encode($model->ingame_password)?></span>
+	</li>
+	<li>
+		<strong>email:</strong>
+		<span><?=CHtml::encode($model->email)?></span>
+	</li>
+	<li>
+		<strong>hashing_method:</strong>
+		<span><?=CHtml::encode($model->hashing_method)?></span>
+	</li>
+	<li>
+		<strong>web_password:</strong>
+		<span><?=CHtml::encode($model->web_password)?></span>
+	</li>
+	<li>
+		<strong>salt:</strong>
+		<span><?=CHtml::encode($model->salt)?></span>
+	</li>
+	<li>
+		<strong>status:</strong>
+		<span><?=CHtml::encode($model->status)?></span>
+	</li>
+</ul>
