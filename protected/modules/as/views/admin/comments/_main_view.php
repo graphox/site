@@ -91,12 +91,12 @@ if(!$can->read) return;
 			<tbody>
 				<?php foreach($models as $row): ?>					<tr data-selectedrow="0">
 						<td><input class="select-row" type="checkbox"></td>
-							<td><?=$row->id?></td>
-							<td><?=$row->user_id?></td>
-							<td><?=$row->page_id?></td>
-							<td><?=$row->title?></td>
-							<td><?=$row->content?></td>
-							<td><?=$row->posted_date?></td>
+							<td><?=CHtml::encode($row->id)?></td>
+							<td><?=CHtml::encode($row->user_id)?></td>
+							<td><?=CHtml::encode($row->page_id)?></td>
+							<td><?=CHtml::encode($row->title)?></td>
+							<td><?=CHtml::encode($row->content)?></td>
+							<td><?=CHtml::encode($row->posted_date)?></td>
 						<?php #controls ?>
 																					<td class="controls">
 									<form method="post">

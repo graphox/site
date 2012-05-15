@@ -23,20 +23,20 @@
 
 
 
-<label for="Clans">Belonging Clans</label>
-<?php
-					$this->widget('application.components.Relation', array(
-							'model' => $form_model,
-							'relation' => 'clan',
-							'fields' => 'name',
-							'allowEmpty' => false,
-							'style' => 'dropdownlist',
-							)
-						); ?><label for="AclGroup">Belonging AclGroup</label>
+<label for="AclGroup">Belonging AclGroup</label>
 <?php
 					$this->widget('application.components.Relation', array(
 							'model' => $form_model,
 							'relation' => 'aclGroup',
+							'fields' => 'name',
+							'allowEmpty' => false,
+							'style' => 'dropdownlist',
+							)
+						); ?><label for="Clans">Belonging Clans</label>
+<?php
+					$this->widget('application.components.Relation', array(
+							'model' => $form_model,
+							'relation' => 'clan',
 							'fields' => 'name',
 							'allowEmpty' => false,
 							'style' => 'dropdownlist',

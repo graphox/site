@@ -83,10 +83,10 @@ if(!$can->read) return;
 			<tbody>
 				<?php foreach($models as $row): ?>					<tr data-selectedrow="0">
 						<td><input class="select-row" type="checkbox"></td>
-							<td><?=$row->id?></td>
-							<td><?=$row->name?></td>
-							<td><?=$row->acl_group_id?></td>
-							<td><?=$row->clan_id?></td>
+							<td><?=CHtml::encode($row->id)?></td>
+							<td><?=CHtml::encode($row->name)?></td>
+							<td><?=CHtml::encode($row->acl_group_id)?></td>
+							<td><?=CHtml::encode($row->clan_id)?></td>
 						<?php #controls ?>
 																					<td class="controls">
 									<form method="post">

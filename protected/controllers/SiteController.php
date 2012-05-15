@@ -25,10 +25,12 @@ class SiteController extends Controller
 				#really 404
 				if(!$page)
 					$this->render('error', $error);
+				
 				else
 				{
 					try
 					{
+						
 						$can = AccessControl::GetUserAccess($page->aclObject);
 						
 						if(!$can->read)
@@ -39,9 +41,8 @@ class SiteController extends Controller
 						$parent = $page;
 						
 						while($parent = $parent->parent)
-						{
 							$this->breadcrumbs[] = array($parent->title, array($parent->uri));
-						}
+						
 						
 						array_reverse($this->breadcrumbs);
 						
@@ -49,6 +50,7 @@ class SiteController extends Controller
 							$this->layout = $page->layout;
 						
 						$this->render('as.views.page.page', array('can' => $can, 'page' => $page));
+						
 						
 					}
 					catch(Exception $e)

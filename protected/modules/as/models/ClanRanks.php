@@ -5,14 +5,14 @@
  *
  * The followings are the available columns in table 'clan_ranks':
  * @property integer $id
- * @property integer $name
+ * @property string $name
  * @property integer $acl_group_id
  * @property integer $clan_id
  *
  * The followings are the available model relations:
  * @property ClanMembers[] $clanMembers
- * @property Clans $clan
  * @property AclGroup $aclGroup
+ * @property Clans $clan
  */
 class ClanRanks extends CActiveRecord
 {
@@ -43,7 +43,8 @@ class ClanRanks extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name, acl_group_id, clan_id', 'required'),
-			array('name, acl_group_id, clan_id', 'numerical', 'integerOnly'=>true),
+			array('acl_group_id, clan_id', 'numerical', 'integerOnly'=>true),
+			array('name', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, name, acl_group_id, clan_id', 'safe', 'on'=>'search'),
@@ -59,8 +60,8 @@ class ClanRanks extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'clanMembers' => array(self::HAS_MANY, 'ClanMembers', 'rank_id'),
-			'clan' => array(self::BELONGS_TO, 'Clans', 'clan_id'),
 			'aclGroup' => array(self::BELONGS_TO, 'AclGroup', 'acl_group_id'),
+			'clan' => array(self::BELONGS_TO, 'Clans', 'clan_id'),
 		);
 	}
 
@@ -89,7 +90,7 @@ class ClanRanks extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('name',$this->name);
+		$criteria->compare('name',$this->name,true);
 		$criteria->compare('acl_group_id',$this->acl_group_id);
 		$criteria->compare('clan_id',$this->clan_id);
 

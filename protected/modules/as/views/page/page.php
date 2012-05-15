@@ -1,7 +1,32 @@
+<?php
+#!isset($p) &&
+	$p = new CHtmlPurifier();
+$p->options = array(
+	'AutoFormat.AutoParagraph' => true,
+	'AutoFormat.RemoveEmpty.RemoveNbsp' => true,
+	'AutoFormat.RemoveEmpty' => true,
+	'AutoFormat.Linkify' => true,
+	'Core.EscapeInvalidTags' => true,
+	'Core.NormalizeNewlines' => true,
+	'HTML.Nofollow' => true,
+	'HTML.TargetBlank' => true,
+	'URI.Base' => Yii::app()->request->baseUrl,
+	'URI.MakeAbsolute' => true,
+	'URI.AllowedSchemes' => array(
+		'http' => true,
+		'https' => true,
+		'mailto' => true,
+		'ftp' => true,
+		'nntp' => true,
+		'news' => true,
+	)	
+);
+
+ ?>
 <div id="content">
 	<!-- title -->
 	<div id="page-title">
-		<span class="title"><?=CHtml::encode($page->title);?></span>
+		<h1 class="title"><?=CHtml::encode($page->title);?></h1>
 		<span class="subtitle"><?=CHtml::encode($page->description);?></span>
 	</div>
 	<!-- ENDS title -->
@@ -29,7 +54,7 @@
 				<?php endif; ?>
 			
 				<div id="web-page-<?=(int)$page->id?>">
-					<?=$page->content?>
+					<?=$p->purify($page->content)?>
 				</div>
 			</div>
 			<!-- ENDS shadow -->
@@ -100,7 +125,7 @@
 								<h4><?=CHtml::encode($comment->title)?></h4>
 								<div class="comment-author vcard">
 									<img alt='' src="<?=Yii::app()->theme->baseUrl?>/img/dummies/avatar.jpg" class='avatar avatar-60 photo' height='60' width='60' />
-									<cite class="fn"><?=CHtml::encode($comment->user->username)?></cite><span class="says"> says:</span>
+									<cite class="fn"><?=CHtml::encode($comment->user ? $comment->user->username : 'unkown')?></cite><span class="says"> says:</span>
 								</div>
 	
 								<div class="comment-meta commentmetadata">
@@ -141,12 +166,12 @@
 								<?php endif;?>
 					
 								<div class="comment-real-body" id="real-body-comment-<?=(int)$comment->id?>">
-									<?=$comment->content?>
+									<?=$p->purify($comment->content)?>
 								</div>
 
 								<?php if($can->update): ?>
 									<div class="mod-button">
-										<?=CHtml::link('edit', array('//as/admin/comment/edit', 'id' => $comment->id), array('onclick' => 'editor(this, "#real-body-comment-'.(int)$comment->id.'", "'.$this->createUrl('//as/admin/comment/edit', array('id' => $comment->id, 'ajax' => 1)).'", "#comment-mod-toolbar-'.(int)$comment->id.'");return false'))?>
+										<?=CHtml::link('edit', array('//as/admin/comments/edit', 'id' => $comment->id), array('onclick' => 'editor(this, "#real-body-comment-'.(int)$comment->id.'", "'.$this->createUrl('//as/admin/comments/edit', array('id' => $comment->id, 'ajax' => 1)).'", "#comment-mod-toolbar-'.(int)$comment->id.'");return false'))?>
 									</div>
 								<?php endif; ?>
 					
@@ -176,7 +201,7 @@
 								'id'=>'commentform',
 								'enableAjaxValidation'=>true,
 								'enableClientValidation' => true,
-								'action' => array('comment/add', 'page-id' => $page->id),
+								'action' => array('//as/comment/add', 'page-id' => $page->id),
 								'clientOptions' => array( 'validationUrl' => array('//as/comment/add', array('page-id' => $page->id)))
 							)); ?>
 
@@ -235,12 +260,18 @@
 					<li><?=Chtml::link('logout', array('//as/auth/logout', 'return-url' => rawurlencode($this->createurl($this->getId().'/'.$this->getAction()->getId(), $_GET))))?></li>
 				</ul>
 			<?php endif; ?>
-			<h6>more</h6>
-			<ul>
-				<li class="cat-item">
-				 	<a>stuff</a>
-				</li>
-			</ul>
+			<?php if(isset($sidebar)): ?>
+				<?php foreach($sidebar as $element): ?>
+					<h6><?=CHtml::encode($element['title'])?></h6>
+					<ul>
+						<?php foreach($element['sub'] as $item): ?>
+						<li class="cat-item">
+						 	<?=CHtml::link($item['text'], $item['url'], isset($item['htmloptions']) ? $item['htmloptions'] : array())?>
+						</li>
+						<?php endforeach; ?>
+					</ul>
+				<?php endforeach; ?>
+			<?php endif; ?>
 		</li>
 	</ul>
 	<!-- END Sidebar -->

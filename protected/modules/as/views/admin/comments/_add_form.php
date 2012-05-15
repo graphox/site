@@ -38,7 +38,7 @@
 					$this->widget('application.components.Relation', array(
 							'model' => $form_model,
 							'relation' => 'page',
-							'fields' => 'module',
+							'fields' => 'title',
 							'allowEmpty' => false,
 							'style' => 'dropdownlist',
 							)

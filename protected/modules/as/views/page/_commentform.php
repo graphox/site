@@ -13,6 +13,7 @@
 		<?php $form=$this->beginWidget('CActiveForm', array(
 			'id'=>'page-comments-_commentform-form',
 			'enableAjaxValidation'=>false,
+			'action' => array('//as/comment/add', 'page-id' => $page->id),
 			'htmlOptions' => array('class' => 'admin-form')
 		)); ?>
 		<fieldset>
@@ -67,7 +68,7 @@
 					$("ul#reactionbox").prepend("<li><a href=\""+element.url+"\"><h3 class=\"small\" style=\"display:inline\">"+element.title+"</h3><strong style=\"display:inline\">"+element.username+":</strong> <div style=\"display:inline\">"+element.html+"</div></li>");
 				}
 			
-				var url = "<?=$this->createurl('comment/fetch', array('page-id' => 1)); ?>";
+				var url = "<?=$this->createurl('//as/comment/fetch', array('page-id' => $page->id)); ?>";
 				var fetched = [];
 				
 				var paused = false;

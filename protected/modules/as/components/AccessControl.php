@@ -174,7 +174,7 @@ class AccessControl
 	
 	static public function addGroup($name, $parent_id = null)
 	{
-		if($parent === null)
+		if($parent_id === null)
 		{
 			$world = self::getGroup('world');
 		

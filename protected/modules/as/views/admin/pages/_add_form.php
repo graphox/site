@@ -84,7 +84,7 @@
 							'model' => $form_model,
 							'relation' => 'parent',
 							'fields' => 'module',
-							'allowEmpty' => false,
+							'allowEmpty' => ' ',
 							'style' => 'dropdownlist',
 							)
 						); ?>

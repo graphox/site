@@ -99,7 +99,7 @@ if(!$can->read) return;
 					<tr data-selectedrow="0">
 						<td><input class="select-row" type="checkbox"></td>
 <?php foreach($this->tableSchema->columns as $column): ?>
-							<td><?='<?=$row->'.$column->name.'?>'?></td>
+							<td><?='<?=CHtml::encode($row->'.$column->name.')?>'?></td>
 <?php endforeach; ?>
 						<?='<?php #controls ?>'?>
 

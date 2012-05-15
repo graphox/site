@@ -5,8 +5,8 @@
  *
  * The followings are the available columns in table 'clans':
  * @property integer $id
- * @property integer $name
- * @property integer $description
+ * @property string $name
+ * @property string $description
  * @property integer $acl_group_id
  * @property integer $status
  * @property integer $page_id
@@ -15,13 +15,16 @@
  * The followings are the available model relations:
  * @property ClanMembers[] $clanMembers
  * @property ClanRanks[] $clanRanks
- * @property Forum $forum
+ * @property ClanTag[] $clanTags
  * @property AclGroup $aclGroup
  * @property Pages $page
- * @property Clantag[] $clantags
+ * @property Forum $forum
  */
 class Clans extends CActiveRecord
 {
+	const NOT_ACTIVATED = 1;
+	const ACTIVE = 2;
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -49,7 +52,8 @@ class Clans extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name, description, acl_group_id, status', 'required'),
-			array('name, description, acl_group_id, status, page_id, forum_id', 'numerical', 'integerOnly'=>true),
+			array('acl_group_id, status, page_id, forum_id', 'numerical', 'integerOnly'=>true),
+			array('name', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, name, description, acl_group_id, status, page_id, forum_id', 'safe', 'on'=>'search'),
@@ -66,10 +70,10 @@ class Clans extends CActiveRecord
 		return array(
 			'clanMembers' => array(self::HAS_MANY, 'ClanMembers', 'clan_id'),
 			'clanRanks' => array(self::HAS_MANY, 'ClanRanks', 'clan_id'),
-			'forum' => array(self::BELONGS_TO, 'Forum', 'forum_id'),
+			'clanTags' => array(self::HAS_MANY, 'ClanTag', 'clan_id'),
 			'aclGroup' => array(self::BELONGS_TO, 'AclGroup', 'acl_group_id'),
 			'page' => array(self::BELONGS_TO, 'Pages', 'page_id'),
-			'clantags' => array(self::HAS_MANY, 'Clantag', 'clan_id'),
+			'forum' => array(self::BELONGS_TO, 'Forum', 'forum_id'),
 		);
 	}
 
@@ -101,8 +105,8 @@ class Clans extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('name',$this->name);
-		$criteria->compare('description',$this->description);
+		$criteria->compare('name',$this->name,true);
+		$criteria->compare('description',$this->description,true);
 		$criteria->compare('acl_group_id',$this->acl_group_id);
 		$criteria->compare('status',$this->status);
 		$criteria->compare('page_id',$this->page_id);

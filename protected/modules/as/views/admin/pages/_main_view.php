@@ -115,18 +115,18 @@ if(!$can->read) return;
 			<tbody>
 				<?php foreach($models as $row): ?>					<tr data-selectedrow="0">
 						<td><input class="select-row" type="checkbox"></td>
-							<td><?=$row->id?></td>
-							<td><?=$row->module?></td>
-							<td><?=$row->uri?></td>
-							<td><?=$row->parent_id?></td>
-							<td><?=$row->editor_id?></td>
-							<td><?=$row->title?></td>
-							<td><?=$row->description?></td>
-							<td><?=$row->allow_comments?></td>
-							<td><?=$row->layout?></td>
-							<td><?=$row->content?></td>
-							<td><?=$row->change_time?></td>
-							<td><?=$row->acl_object_id?></td>
+							<td><?=CHtml::encode($row->id)?></td>
+							<td><?=CHtml::encode($row->module)?></td>
+							<td><?=CHtml::encode($row->uri)?></td>
+							<td><?=CHtml::encode($row->parent_id)?></td>
+							<td><?=CHtml::encode($row->editor_id)?></td>
+							<td><?=CHtml::encode($row->title)?></td>
+							<td><?=CHtml::encode($row->description)?></td>
+							<td><?=CHtml::encode($row->allow_comments)?></td>
+							<td><?=CHtml::encode($row->layout)?></td>
+							<td><?=CHtml::encode($row->content)?></td>
+							<td><?=CHtml::encode($row->change_time)?></td>
+							<td><?=CHtml::encode($row->acl_object_id)?></td>
 						<?php #controls ?>
 																					<td class="controls">
 									<form method="post">

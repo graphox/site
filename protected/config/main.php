@@ -149,21 +149,16 @@ return array(
 		'urlManager'=>array(
 			'urlFormat'=>'path',
 			'rules'=>array(
+				'<controller:\w+>/id/<id:\d+>'=>'<controller>/index/',
+				'<controller:\w+>/<id:\d+>'=>'<controller>/index/',
+				'<controller:\w+>/name/<name:\w+>'=>'<controller>/index/',
+
+				'<module:as>/<controller:page>/<name:[^\/]+>/<id:\d+>'=>'<module>/<controller>',
+				'<module:as>/<controller:page>/<name:.+>'=>'<module>/<controller>',
+
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
-				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
-				#'repo/(.*)' => 'repo/default/',
-
-				'page/<path:(.*)>' => 'as/page',
-				'page' => 'as/page',
-				
-				//custom paths for databse-stored pages
-				#array(
-				#	'class' => 'application.components.DbPage',
-				#	'connectionID' => 'db',
-				#),
-				
-				#'<url:.*>' => 'pages/page/<url>'
+				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',				
 			),
 		),
 		//*/
@@ -202,7 +197,7 @@ return array(
 					'showInFireBug'=>true,
 				),
 				
-				'ext.qtzpanel.QtzPanelRoute',
+				#'ext.qtzpanel.QtzPanelRoute',
 				
 				// uncomment the following to show log messages on web pages
 				/*

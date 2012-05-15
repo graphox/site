@@ -20,7 +20,7 @@
 
 
 <fieldset>
-		<?=$form->labelEx($form_model,'description'); ?>		<?=$form->textField($form_model,'description')?>
+		<?=$form->labelEx($form_model,'description'); ?>		<?=$form->textArea($form_model,'description')?>
 		<?=$form->error($form_model,'description')?></fieldset>
 
 
@@ -35,16 +35,7 @@
 
 
 
-<label for="Forum">Belonging Forum</label>
-<?php
-					$this->widget('application.components.Relation', array(
-							'model' => $form_model,
-							'relation' => 'forum',
-							'fields' => 'name',
-							'allowEmpty' => false,
-							'style' => 'dropdownlist',
-							)
-						); ?><label for="AclGroup">Belonging AclGroup</label>
+<label for="AclGroup">Belonging AclGroup</label>
 <?php
 					$this->widget('application.components.Relation', array(
 							'model' => $form_model,
@@ -59,6 +50,15 @@
 							'model' => $form_model,
 							'relation' => 'page',
 							'fields' => 'module',
+							'allowEmpty' => false,
+							'style' => 'dropdownlist',
+							)
+						); ?><label for="Forum">Belonging Forum</label>
+<?php
+					$this->widget('application.components.Relation', array(
+							'model' => $form_model,
+							'relation' => 'forum',
+							'fields' => 'name',
 							'allowEmpty' => false,
 							'style' => 'dropdownlist',
 							)

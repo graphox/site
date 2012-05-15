@@ -95,13 +95,13 @@ if(!$can->read) return;
 			<tbody>
 				<?php foreach($models as $row): ?>					<tr data-selectedrow="0">
 						<td><input class="select-row" type="checkbox"></td>
-							<td><?=$row->id?></td>
-							<td><?=$row->name?></td>
-							<td><?=$row->description?></td>
-							<td><?=$row->acl_group_id?></td>
-							<td><?=$row->status?></td>
-							<td><?=$row->page_id?></td>
-							<td><?=$row->forum_id?></td>
+							<td><?=CHtml::encode($row->id)?></td>
+							<td><?=CHtml::encode($row->name)?></td>
+							<td><?=CHtml::encode($row->description)?></td>
+							<td><?=CHtml::encode($row->acl_group_id)?></td>
+							<td><?=CHtml::encode($row->status)?></td>
+							<td><?=CHtml::encode($row->page_id)?></td>
+							<td><?=CHtml::encode($row->forum_id)?></td>
 						<?php #controls ?>
 																					<td class="controls">
 									<form method="post">
