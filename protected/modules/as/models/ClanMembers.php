@@ -10,9 +10,9 @@
  * @property integer $rank_id
  *
  * The followings are the available model relations:
- * @property ClanRanks $rank
  * @property User $user
  * @property Clans $clan
+ * @property ClanRanks $rank
  */
 class ClanMembers extends CActiveRecord
 {
@@ -58,9 +58,9 @@ class ClanMembers extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'rank' => array(self::BELONGS_TO, 'ClanRanks', 'rank_id'),
 			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
 			'clan' => array(self::BELONGS_TO, 'Clans', 'clan_id'),
+			'rank' => array(self::BELONGS_TO, 'ClanRanks', 'rank_id'),
 		);
 	}
 

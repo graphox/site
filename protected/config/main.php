@@ -156,6 +156,8 @@ return array(
 				'<module:as>/<controller:page>/<name:[^\/]+>/<id:\d+>'=>'<module>/<controller>',
 				'<module:as>/<controller:page>/<name:.+>'=>'<module>/<controller>',
 
+				'as/profile/<name:(\w|[.])+>' => 'as/profile',
+
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',				
@@ -221,5 +223,26 @@ return array(
 	'params'=>array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
+		'purifier.settings' => array(
+			'AutoFormat.AutoParagraph' => true,
+			'AutoFormat.RemoveEmpty.RemoveNbsp' => true,
+			'AutoFormat.RemoveEmpty' => true,
+			'AutoFormat.Linkify' => true,
+			'Core.EscapeInvalidTags' => true,
+			'Core.NormalizeNewlines' => true,
+			'HTML.Nofollow' => true,
+			'HTML.TargetBlank' => true,
+			#'URI.Base' => ,
+			#
+			'URI.MakeAbsolute' => true,
+			'URI.AllowedSchemes' => array(
+				'http' => true,
+				'https' => true,
+				'mailto' => true,
+				'ftp' => true,
+				'nntp' => true,
+				'news' => true,
+			)	
+		)
 	),
 );

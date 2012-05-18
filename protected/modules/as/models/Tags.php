@@ -1,26 +1,21 @@
 <?php
 
 /**
- * This is the model class for table "profile".
+ * This is the model class for table "tags".
  *
- * The followings are the available columns in table 'profile':
+ * The followings are the available columns in table 'tags':
  * @property integer $id
- * @property integer $user_id
- * @property string $homepage
- * @property integer $avatar_img_id
- * @property integer $page_id
+ * @property string $tag
  *
  * The followings are the available model relations:
- * @property User $user
- * @property Images $avatarImg
- * @property Pages $page
+ * @property TagsPages[] $tagsPages
  */
-class Profile extends CActiveRecord
+class Tags extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return Profile the static model class
+	 * @return Tags the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -32,7 +27,7 @@ class Profile extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'profile';
+		return 'tags';
 	}
 
 	/**
@@ -43,12 +38,11 @@ class Profile extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, homepage', 'required'),
-			array('user_id, avatar_img_id, page_id', 'numerical', 'integerOnly'=>true),
-			array('homepage', 'length', 'max'=>500),
+			array('tag', 'required'),
+			array('tag', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, user_id, homepage, avatar_img_id, page_id', 'safe', 'on'=>'search'),
+			array('id, tag', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -60,9 +54,7 @@ class Profile extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
-			'avatarImg' => array(self::BELONGS_TO, 'Images', 'avatar_img_id'),
-			'page' => array(self::BELONGS_TO, 'Pages', 'page_id'),
+			'tagsPages' => array(self::HAS_MANY, 'TagsPages', 'tag_id'),
 		);
 	}
 
@@ -73,10 +65,7 @@ class Profile extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'user_id' => 'User',
-			'homepage' => 'Homepage',
-			'avatar_img_id' => 'Avatar Img',
-			'page_id' => 'Page',
+			'tag' => 'Tag',
 		);
 	}
 
@@ -92,10 +81,7 @@ class Profile extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('user_id',$this->user_id);
-		$criteria->compare('homepage',$this->homepage,true);
-		$criteria->compare('avatar_img_id',$this->avatar_img_id);
-		$criteria->compare('page_id',$this->page_id);
+		$criteria->compare('tag',$this->tag,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

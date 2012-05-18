@@ -13,8 +13,8 @@
  * @property string $date_changed
  *
  * The followings are the available model relations:
- * @property ForumTopic $topic
  * @property User $user
+ * @property ForumTopic $topic
  */
 class ForumMessage extends CActiveRecord
 {
@@ -61,8 +61,8 @@ class ForumMessage extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'topic' => array(self::BELONGS_TO, 'ForumTopic', 'topic_id'),
 			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
+			'topic' => array(self::BELONGS_TO, 'ForumTopic', 'topic_id'),
 		);
 	}
 

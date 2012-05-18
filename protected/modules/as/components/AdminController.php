@@ -12,6 +12,9 @@ class AdminController extends AsController
 		array('General',
 			array(
 				array('Pages', array('//as/admin/pages'), 'categories'),
+				array('Tags', array('//as/admin/pages'), 'tags'),
+				array('Tags - Pages', array('//as/admin/pages'), 'categories'),
+				
 				array('Images', array('//as/admin/images'), 'photo'),
 				array('Comments', array('//as/admin/comments'), 'tags'),
 				array('Votes', array('//as/admin/votes'), 'jump_back'),

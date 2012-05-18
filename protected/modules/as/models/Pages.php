@@ -78,6 +78,7 @@ class Pages extends CActiveRecord
 			'aclObject' => array(self::BELONGS_TO, 'AclObject', 'acl_object_id'),
 			'parent' => array(self::BELONGS_TO, 'Pages', 'parent_id'),
 			'pages' => array(self::HAS_MANY, 'Pages', 'parent_id'),
+			'tags' => array(self::HAS_MANY, 'TagsPages', 'page_id'),
 			#'profiles' => array(self::HAS_MANY, 'Profile', 'page_id'),
 		);
 	}

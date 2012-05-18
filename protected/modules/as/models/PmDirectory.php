@@ -10,9 +10,9 @@
  * @property string $name
  *
  * The followings are the available model relations:
- * @property User $user
  * @property PmDirectory $parent
  * @property PmDirectory[] $pmDirectories
+ * @property User $user
  * @property PmMessage[] $pmMessages
  */
 class PmDirectory extends CActiveRecord
@@ -60,9 +60,9 @@ class PmDirectory extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
 			'parent' => array(self::BELONGS_TO, 'PmDirectory', 'parent_id'),
 			'pmDirectories' => array(self::HAS_MANY, 'PmDirectory', 'parent_id'),
+			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
 			'pmMessages' => array(self::HAS_MANY, 'PmMessage', 'receiver_dir_id'),
 		);
 	}

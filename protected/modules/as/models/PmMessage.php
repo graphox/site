@@ -15,9 +15,9 @@
  * @property string $sended_date
  *
  * The followings are the available model relations:
- * @property PmDirectory $receiverDir
  * @property User $sender
  * @property User $receiver
+ * @property PmDirectory $receiverDir
  */
 class PmMessage extends CActiveRecord
 {
@@ -64,9 +64,9 @@ class PmMessage extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'receiverDir' => array(self::BELONGS_TO, 'PmDirectory', 'receiver_dir_id'),
 			'sender' => array(self::BELONGS_TO, 'User', 'sender_id'),
 			'receiver' => array(self::BELONGS_TO, 'User', 'receiver_id'),
+			'receiverDir' => array(self::BELONGS_TO, 'PmDirectory', 'receiver_dir_id'),
 		);
 	}
 

@@ -13,9 +13,9 @@
  *
  * The followings are the available model relations:
  * @property Clans[] $clans
- * @property AclObject $aclObject
  * @property Forum $parent
  * @property Forum[] $forums
+ * @property AclObject $aclObject
  * @property ForumTopic[] $forumTopics
  */
 class Forum extends CActiveRecord
@@ -64,9 +64,9 @@ class Forum extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'clans' => array(self::HAS_MANY, 'Clans', 'forum_id'),
-			'aclObject' => array(self::BELONGS_TO, 'AclObject', 'acl_object_id'),
 			'parent' => array(self::BELONGS_TO, 'Forum', 'parent_id'),
 			'forums' => array(self::HAS_MANY, 'Forum', 'parent_id'),
+			'aclObject' => array(self::BELONGS_TO, 'AclObject', 'acl_object_id'),
 			'forumTopics' => array(self::HAS_MANY, 'ForumTopic', 'forum_id'),
 		);
 	}

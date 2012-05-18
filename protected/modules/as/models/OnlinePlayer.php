@@ -13,8 +13,8 @@
  * @property string $end_time
  *
  * The followings are the available model relations:
- * @property Servers $server
  * @property User $user
+ * @property Servers $server
  */
 class OnlinePlayer extends CActiveRecord
 {
@@ -61,8 +61,8 @@ class OnlinePlayer extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'server' => array(self::BELONGS_TO, 'Servers', 'server_id'),
 			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
+			'server' => array(self::BELONGS_TO, 'Servers', 'server_id'),
 		);
 	}
 

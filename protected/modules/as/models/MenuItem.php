@@ -11,9 +11,9 @@
  * @property integer $acl_object_id
  *
  * The followings are the available model relations:
- * @property AclObject $aclObject
  * @property MenuItem $parent
  * @property MenuItem[] $menuItems
+ * @property AclObject $aclObject
  */
 class MenuItem extends CActiveRecord
 {
@@ -61,9 +61,9 @@ class MenuItem extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'aclObject' => array(self::BELONGS_TO, 'AclObject', 'acl_object_id'),
 			'parent' => array(self::BELONGS_TO, 'MenuItem', 'parent_id'),
 			'menuItems' => array(self::HAS_MANY, 'MenuItem', 'parent_id'),
+			'aclObject' => array(self::BELONGS_TO, 'AclObject', 'acl_object_id'),
 		);
 	}
 

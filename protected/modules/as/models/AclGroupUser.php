@@ -4,12 +4,13 @@
  * This is the model class for table "acl_group_user".
  *
  * The followings are the available columns in table 'acl_group_user':
+ * @property integer $id
  * @property integer $group_id
  * @property integer $user_id
  *
  * The followings are the available model relations:
- * @property User $user
  * @property AclGroup $group
+ * @property User $user
  */
 class AclGroupUser extends CActiveRecord
 {
@@ -40,10 +41,10 @@ class AclGroupUser extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('group_id, user_id', 'required'),
-			array('id, group_id, user_id', 'numerical', 'integerOnly'=>true),
+			array('group_id, user_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('group_id, user_id', 'safe', 'on'=>'search'),
+			array('id, group_id, user_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,8 +56,8 @@ class AclGroupUser extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
 			'group' => array(self::BELONGS_TO, 'AclGroup', 'group_id'),
+			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
 		);
 	}
 
@@ -83,6 +84,7 @@ class AclGroupUser extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
+		$criteria->compare('id',$this->id);
 		$criteria->compare('group_id',$this->group_id);
 		$criteria->compare('user_id',$this->user_id);
 

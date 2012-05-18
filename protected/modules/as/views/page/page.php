@@ -1,28 +1,10 @@
 <?php
-#!isset($p) &&
-	$p = new CHtmlPurifier();
-$p->options = array(
-	'AutoFormat.AutoParagraph' => true,
-	'AutoFormat.RemoveEmpty.RemoveNbsp' => true,
-	'AutoFormat.RemoveEmpty' => true,
-	'AutoFormat.Linkify' => true,
-	'Core.EscapeInvalidTags' => true,
-	'Core.NormalizeNewlines' => true,
-	'HTML.Nofollow' => true,
-	'HTML.TargetBlank' => true,
-	'URI.Base' => Yii::app()->request->baseUrl,
-	'URI.MakeAbsolute' => true,
-	'URI.AllowedSchemes' => array(
-		'http' => true,
-		'https' => true,
-		'mailto' => true,
-		'ftp' => true,
-		'nntp' => true,
-		'news' => true,
-	)	
-);
+!isset($p) && $p = new CHtmlPurifier();
+$p->options = Yii::app()->params['purifier.settings'];
 
  ?>
+ 
+<?php if(!isset($no_header) || $no_header == false): ?>
 <div id="content">
 	<!-- title -->
 	<div id="page-title">
@@ -32,6 +14,7 @@ $p->options = array(
 	<!-- ENDS title -->
 
 	<div id="posts" class="single">	
+<?php endif; ?>	
 		<!-- post -->
 		<div class="post">
 			<!--<h1><a href="..."><?=CHtml::encode($page->title);?></a></h1>-->
@@ -125,7 +108,7 @@ $p->options = array(
 								<h4><?=CHtml::encode($comment->title)?></h4>
 								<div class="comment-author vcard">
 									<img alt='' src="<?=Yii::app()->theme->baseUrl?>/img/dummies/avatar.jpg" class='avatar avatar-60 photo' height='60' width='60' />
-									<cite class="fn"><?=CHtml::encode($comment->user ? $comment->user->username : 'unkown')?></cite><span class="says"> says:</span>
+									<cite class="fn"><?=$comment->user ? CHtml::link($comment->user->username, array('//as/profile/', 'name' => $comment->user->username)) : 'unkown'?></cite><span class="says"> says:</span>
 								</div>
 	
 								<div class="comment-meta commentmetadata">

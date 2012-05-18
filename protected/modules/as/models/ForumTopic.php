@@ -13,8 +13,8 @@
  *
  * The followings are the available model relations:
  * @property ForumMessage[] $forumMessages
- * @property AclObject $aclObject
  * @property Forum $forum
+ * @property AclObject $aclObject
  */
 class ForumTopic extends CActiveRecord
 {
@@ -63,8 +63,8 @@ class ForumTopic extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'forumMessages' => array(self::HAS_MANY, 'ForumMessage', 'topic_id'),
-			'aclObject' => array(self::BELONGS_TO, 'AclObject', 'acl_object_id'),
 			'forum' => array(self::BELONGS_TO, 'Forum', 'forum_id'),
+			'aclObject' => array(self::BELONGS_TO, 'AclObject', 'acl_object_id'),
 		);
 	}
 
