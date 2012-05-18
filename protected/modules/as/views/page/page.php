@@ -55,7 +55,7 @@ $p->options = Yii::app()->params['purifier.settings'];
 							<li><strong>Tags</strong> 
 								<div class="meta-tags">
 									<?php foreach($page->tags as $tag): ?>
-										<?=CHtml::link($tag->name, array('//as/tag/find', 'name' => $tag->name, 'id' => $tag->od))?>
+										<?=CHtml::link($tag->tag, array('//as/tag/find', 'name' => $tag->tag, 'id' => $tag->id))?>
 									<?php endforeach; ?>
 								</div>
 							</li>
