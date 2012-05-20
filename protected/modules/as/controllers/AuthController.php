@@ -25,13 +25,15 @@ class AuthController extends Controller
 	
 	public function actionAuth()
 	{
-		/*#TODO: fix this
-		if(isset($_GET['returnurl']))
-		{
-			Yii::app()->user->returnUrl = rawurldecode($_GET['returnurl']);
-		}*/
 		$service = Yii::app()->request->getQuery('service');
 		$error = Yii::app()->request->getQuery('error');
+
+		if(isset($_GET['returnurl']))
+			Yii::app()->user->setReturnUrl($_GET['returnurl']);
+		elseif(Yii::app()->user->returnUrl == Yii::app()->request->scriptUrl)
+			Yii::app()->user->setReturnUrl(array('//as/user/dashboard'));
+
+
 		if(isset($error))
 		{
 			switch($error)
@@ -48,9 +50,6 @@ class AuthController extends Controller
 			$authIdentity->redirectUrl = Yii::app()->user->returnUrl;
 			$authIdentity->cancelUrl = $this->createAbsoluteUrl('as/auth/cancel');
 			
-			if(isset($_GET['returnurl']))
-				Yii::app()->user->setReturnUrl($_GET['returnurl']);
-
 			if ($authIdentity->authenticate())
 			{
 				if($authIdentity->isAuthenticated)
@@ -134,6 +133,7 @@ class AuthController extends Controller
 			}
 
 			// Something went wrong, redirect to login page
+			Yii::app()->user->setFlash('error', Yii::t('AS.auth', 'Your oauth login failed.'));
 			$this->redirect(array('auth/auth', 'error' => 'oauth'));
 		}
 		
@@ -157,6 +157,7 @@ class AuthController extends Controller
 				$this->redirect(Yii::app()->user->returnUrl);
 			}
 		}
+		
 		// display the login form
 		$this->render('as.views.auth.login',array('model'=>$model));
 	}

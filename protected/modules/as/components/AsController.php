@@ -5,7 +5,10 @@ class AsController extends CController
 	public $menu;
 	public $breadcrumbs;
 
-	public 	$layout = '//layouts/main';
+	public 	$layout = '//layouts/withsidebar';
+	
+	public $title;
+	public $description;
 
 	public function __construct($id,$module=null)
 	{

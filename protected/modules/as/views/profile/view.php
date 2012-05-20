@@ -1,15 +1,9 @@
 <?php
 !isset($p) && $p = new CHtmlPurifier();
 $p->options = Yii::app()->params['purifier.settings'];
-?>
-<div id="content">
-	<!-- title -->
-	<div id="page-title">
-		<h1 class="title"><?=CHtml::encode($user->username)?>&#39;s profile</h1>
-	</div>
-	<!-- ENDS title -->
 
-	<div id="posts" class="single">	
+$this->title = $user->username.'\'s profile';
+?>
 
 		<p>
 			<ul>
@@ -49,6 +43,6 @@ $p->options = Yii::app()->params['purifier.settings'];
 			Invalid page.
 		</p>
 	</div>
-</div>
+
 	<?php endif; ?>
 <?php endif; ?>

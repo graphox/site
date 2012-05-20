@@ -1,13 +1,9 @@
-<div id="content" >
-	<!-- title -->
-	<div id="page-title">
-		<span class="title">Add Comment</span>
-		<span class="subtitle">RE: <?=CHtml::encode($page->title)?>.</span>
-	</div>
-	<!-- ENDS title -->
-							
-	<!-- column (left)-->
-	<div class="one-column" id="other-column">
+<?php
+	$this->title = 'Add Comment';
+	$this->description = $page->title;
+	$this->layout = '//layouts/column2'; #force matching layout
+?>
+<?php $this->beginClip('first'); ?>
 		<!-- form -->
 		<h2>Contact Form</h2>
 		<?php $form=$this->beginWidget('CActiveForm', array(
@@ -37,15 +33,13 @@
 			<div class="row buttons">
 				<?php echo CHtml::submitButton('Submit', array('id' => 'submit')); ?>
 			</div>
-
-			<p id="success" class="success">Your comment was added, <a>here</a>.</p>
 		</fieldset>
 
 		<?php $this->endWidget(); ?>
 		<!-- ENDS form -->
-	</div>
-	<!-- ENDS column -->
-						
+<?php $this->endClip(); ?>
+		
+<?php $this->beginClip('second'); ?>						
 	<!-- column (right)-->
 	<div class="one-column">
 	
@@ -139,4 +133,4 @@
 		<!-- ENDS content -->
 	</div>
 	<!-- ENDS column -->	
-</div>
+<?php $this->endClip(); ?>

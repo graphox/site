@@ -6,6 +6,7 @@
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 	
 	<link rel="stylesheet" href="<?=Yii::app()->theme->baseUrl?>/css/layout.css" type="text/css" media="screen" />
+	<script type="text/javascript" src="<?=Yii::app()->theme->baseUrl?>/js/tabs.js"></script>
 	<?php include dirname(__FILE__).'/partials/head.php'; ?>
 	
 	<script type="text/javascript">

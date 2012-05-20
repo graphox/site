@@ -53,6 +53,8 @@ class UserController extends Controller
 		}
 		
 		$settings = array();
+
+		$this->layout = '//layouts/main';
 		
 		// Get user settings.
 		$criteria = new CDbCriteria(array(

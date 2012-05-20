@@ -7,6 +7,9 @@ class CommentController extends Controller
 		if(Yii::app()->user->isGuest)
 			$this->denyAccess();
 		
+		if(!isset($_SESSION['back_add_comment']))
+			$_SESSION['back_add_comment'] = Yii::app()->request->getUrlReferrer();
+		
 		if(!isset($_GET['page-id']))
 			throw new CHttpException(400, 'page id not provided');
 
@@ -45,10 +48,9 @@ class CommentController extends Controller
 				{
 					Yii::app()->user->setFlash('success', 'Successfully added your comment');
 
-					if(true)
-						$this->redirect(array($page->uri,  '#' => 'comment-'.(int)$model->id));
-					else
-						$this->redirect(array('//as/page', 'name' => $page->title , 'id' => $page->id,  '#' => 'comment-'.(int)$model->id));
+					$this->redirect($_SESSION['back_add_comment'].'#comment-'.(int)$model->id, false);
+					unset ($_SESSION['back_add_comment']);
+					Yii::app()->end();
 				}
 
 				else
@@ -66,6 +68,8 @@ class CommentController extends Controller
 	{
 		if(Yii::app()->user->isGuest)
 			$this->denyAccess();
+		
+		$_SESSION['back_add_comment'] = Yii::app()->request->getUrlReferrer();
 		
 		if(!isset($_GET['id']))
 			throw new CHttpException(400, 'comment id not provided');
@@ -109,7 +113,7 @@ class CommentController extends Controller
 		if(CommentVotes::model()->findByattributes(array('user_id' => Yii::app()->user->id, 'comment_id' => $comment->id)))
 		{
 			Yii::app()->user->setFlash('error', 'You cannot vote twice');
-			$this->redirect(array($comment->page->uri));
+			$this->redirect(Yii::app()->request->getUrlReferrer());
 		}
 		
 		$vote = new CommentVotes;
@@ -121,7 +125,7 @@ class CommentController extends Controller
 			throw new CHttpexception(500, 'Could not save comment vote, '.print_r($vote->getError(), true));
 
 		Yii::app()->user->setFlash('success', 'Successfully saved comment vote');
-		$this->redirect(array($comment->page->uri));
+		$this->redirect(Yii::app()->request->getUrlReferrer());
 	}
 	
 	public function actionFetch()

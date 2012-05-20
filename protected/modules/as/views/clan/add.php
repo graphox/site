@@ -1,11 +1,9 @@
+<?php
+	$this->title = 'join or start a clan';
+	$this->layout = '//layouts/column2'; #force matching layout
+ ?>
 
-<div id="content">
-
-	<div id="page-title">
-		<h1 class="title">join or start a clan</h1>
-	</div>
-
-	<div class="one-half" >
+<?php $this->beginClip('first'); ?>
 		<h2 class="line-divider">Create a new clan</h2>
 
 		<p>
@@ -51,8 +49,8 @@
 			</fieldset>
 		<?php $this->endWidget(); ?>
 		</p>
-	</div>
-	<div class="one-half last">
+<?php $this->endClip(); ?>
+<?php $this->beginClip('second'); ?>
 		<h2 class="line-divider">Join a clan</h2>
 		<p>
 			<ul>
@@ -65,5 +63,5 @@
 			<?php endforeach; ?>
 			</ul>
 		</p>		
-	</div>
-</div>
+<?php $this->endClip(); ?>
+

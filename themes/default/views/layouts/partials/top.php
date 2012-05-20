@@ -29,15 +29,17 @@ Yii::app()->getPanel('adminPanel')->show(array(
 		<div id="header">
 			<!-- wrapper-header -->
 			<div class="wrapper">
-				<a href="index.html"><img id="logo" src="<?=Yii::app()->theme->baseUrl?>/img/logo.png" alt="<?=CHtml::encode(Yii::app()->name); ?>" /></a>
+				<?=CHtml::tag('a', array('title' => 'home', 'href' => $this->createUrl('/')))?>
+					<img id="logo" src="<?=Yii::app()->theme->baseUrl?>/img/logo.png" alt="<?=CHtml::encode(Yii::app()->name); ?>" />
+				</a>
 					<!-- search -->
 					<div class="top-search">
-						<form  method="get" id="searchform" action="#">
+						<?=CHtml::form(array('//as/search/'), 'GET', array('id' => 'searchform'))?>
 							<div>
 								<input type="text" value="Search..." name="s" id="s" onfocus="defaultInput(this)" onblur="clearInput(this)" />
 								<input type="submit" id="searchsubmit" value=" " />
 							</div>
-						</form>
+						<?=CHtml::closeTag('form')?>
 					</div>
 					<!-- ENDS search -->
 				</div>
@@ -49,7 +51,7 @@ Yii::app()->getPanel('adminPanel')->show(array(
 			<!-- Menu -->
 			<div id="menu">
 				<?php /**/ ?>
-					<?php $this->widget('as.components.UI.UIDbMenuWidget', array()); ?>
+					<?php $this->widget('as.components.UI.UIDbMenuWidget'); ?>
 				<?php //*/ ?>
 			</div>
 			<!-- ENDS Menu -->

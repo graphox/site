@@ -1,11 +1,8 @@
-<?php !isset($p) && $p = new CHtmlPurifier(); ?>
-<div id="content">
-	<!-- title -->
-	<div id="page-title">
-		<h1 class="title"><?=CHtml::encode($clan->name);?> clan</h1>
-	</div>
-
-	<div id="page-content">
+<?php
+	!isset($p) && $p = new CHtmlPurifier();
+	$this->title = $clan->name;
+?>
+<div class="post">
 
 		<div>
 			<h2>About this clan:</h2>
@@ -14,18 +11,13 @@
 			</p>
 		</div>
 		
-		<div style="width:966px;height:30px;background: url(<?=Yii::app()->theme->baseUrl?>/img/tabs-divider.png) repeat-x bottom left">
-			<h2 style="float:left">details</h2>
-			<ul class="tabs" style="float:left;background:none;">
-				<li><a href="#"><span>Pages</span></a></li>
-				<li><a href="#"><span>Forum</span></a></li>
-				<li><a href="#"><span>Members</span></a></li>
-				<li><a href="#"><span>Tags</span></a></li>
-			</ul>
-		</div>
-		
-		<div class="clear"></div>
-		
+		<h2>details</h2>
+		<ul class="tabs">
+			<li><a href="#"><span>Pages</span></a></li>
+			<li><a href="#"><span>Forum</span></a></li>
+			<li><a href="#"><span>Members</span></a></li>
+			<li><a href="#"><span>Tags</span></a></li>
+		</ul>
 		<div class="panes">
 			<div>
 				<?php if($clan->page && ($clan->page->module == 'clan' || $clan->page->module == 'clans')): ?>
@@ -35,13 +27,7 @@
 							<!-- post -->
 							<div class="post">
 								<h2><?=CHtml::encode($clan->page->title);?></h2>
-								<?php if($can->update): ?>
-									<div class="mod-button" style="float:right;margin-top:-91.5px;margin-right:-141px;background:none;">
-										<?=CHtml::link('edit', array('//as/admin/pages/edit', 'id' => (int)$clan->page->id))?>
-									</div>
-									<div style="clear:both"></div>
-								<?php endif; ?>
-							
+
 								<!-- shadow -->
 								<div class="thumb-shadow">
 									<?php if(isset($clan->page->thumb) && $clan->page->thumb !== false): ?>
