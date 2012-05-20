@@ -1,28 +1,19 @@
 <?php
 
 /**
- * This is the model class for table "friends".
+ * This is the model class for table "dashboard_portlet".
  *
- * The followings are the available columns in table 'friends':
- * @property integer $id
- * @property integer $owner_id
- * @property integer $friend_id
- * @property integer $status
- *
- * The followings are the available model relations:
- * @property User $owner
- * @property User $friend
+ * The followings are the available columns in table 'dashboard_portlet':
+ * @property string $id
+ * @property string $dashboard
+ * @property string $uid
+ * @property string $settings
  */
-class Friends extends CActiveRecord
+class DashboardPortlet extends CActiveRecord
 {
-	const STATUS_PENDING = 0;
-	const STATUS_IGNORE = 0;
-	const STATUS_ACTIVE = 0;
-	
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @param string $className active record class name.
-	 * @return Friends the static model class
+	 * @return DashboardPortlet the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -34,7 +25,7 @@ class Friends extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'friends';
+		return 'dashboard_portlet';
 	}
 
 	/**
@@ -45,11 +36,11 @@ class Friends extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('owner_id, friend_id, status', 'required'),
-			array('owner_id, friend_id, status', 'numerical', 'integerOnly'=>true),
+			array('settings', 'required'),
+			array('uid, dashboard', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, owner_id, friend_id, status', 'safe', 'on'=>'search'),
+			array('id, dashboard, uid', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -61,8 +52,6 @@ class Friends extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'owner' => array(self::BELONGS_TO, 'User', 'owner_id'),
-			'friend' => array(self::BELONGS_TO, 'User', 'friend_id'),
 		);
 	}
 
@@ -73,9 +62,9 @@ class Friends extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'owner_id' => 'Owner',
-			'friend_id' => 'Friend',
-			'status' => 'Status',
+			'dashboard' => 'Dashboard',
+		  'uid' => 'Uid',
+		  'settings' => 'Visible',
 		);
 	}
 
@@ -90,13 +79,24 @@ class Friends extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('owner_id',$this->owner_id);
-		$criteria->compare('friend_id',$this->friend_id);
-		$criteria->compare('status',$this->status);
+		$criteria->compare('id',$this->id,true);
+		$criteria->compare('dashboard',$this->dashboard,true);
+		$criteria->compare('uid',$this->uid,true);
 
-		return new CActiveDataProvider($this, array(
+		return new CActiveDataProvider(get_class($this), array(
 			'criteria'=>$criteria,
 		));
 	}
+	
+  protected function beforeSave()
+  {
+    if (parent::beforeSave())
+    {
+      $this->uid = Yii::app()->user->id;
+      
+      return true;
+    }
+    
+    return false;
+  }
 }

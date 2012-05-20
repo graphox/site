@@ -47,6 +47,9 @@ class AuthController extends Controller
 			$authIdentity = Yii::app()->eauth->getIdentity($service);
 			$authIdentity->redirectUrl = Yii::app()->user->returnUrl;
 			$authIdentity->cancelUrl = $this->createAbsoluteUrl('as/auth/cancel');
+			
+			if(isset($_GET['returnurl']))
+				Yii::app()->user->setReturnUrl($_GET['returnurl']);
 
 			if ($authIdentity->authenticate())
 			{

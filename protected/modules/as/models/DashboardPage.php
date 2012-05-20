@@ -1,28 +1,20 @@
 <?php
 
 /**
- * This is the model class for table "friends".
+ * This is the model class for table "dashboard_page".
  *
- * The followings are the available columns in table 'friends':
- * @property integer $id
- * @property integer $owner_id
- * @property integer $friend_id
- * @property integer $status
- *
- * The followings are the available model relations:
- * @property User $owner
- * @property User $friend
+ * The followings are the available columns in table 'dashboard_page':
+ * @property string $id
+ * @property string $user_id
+ * @property string $title
+ * @property string $path
+ * @property string $weight
  */
-class Friends extends CActiveRecord
+class DashboardPage extends CActiveRecord
 {
-	const STATUS_PENDING = 0;
-	const STATUS_IGNORE = 0;
-	const STATUS_ACTIVE = 0;
-	
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @param string $className active record class name.
-	 * @return Friends the static model class
+	 * @return DashboardPage the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -34,7 +26,7 @@ class Friends extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'friends';
+		return 'dashboard_page';
 	}
 
 	/**
@@ -45,11 +37,12 @@ class Friends extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('owner_id, friend_id, status', 'required'),
-			array('owner_id, friend_id, status', 'numerical', 'integerOnly'=>true),
+			array('user_id', 'required'),
+			array('user_id, weight', 'length', 'max'=>10),
+			array('title, path', 'length', 'max'=>1000),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, owner_id, friend_id, status', 'safe', 'on'=>'search'),
+			array('id, user_id, title, path, weight', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -61,8 +54,6 @@ class Friends extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'owner' => array(self::BELONGS_TO, 'User', 'owner_id'),
-			'friend' => array(self::BELONGS_TO, 'User', 'friend_id'),
 		);
 	}
 
@@ -73,9 +64,10 @@ class Friends extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'owner_id' => 'Owner',
-			'friend_id' => 'Friend',
-			'status' => 'Status',
+			'user_id' => 'User',
+			'title' => 'Title',
+			'path' => 'Path',
+			'weight' => 'Weight',
 		);
 	}
 
@@ -90,12 +82,13 @@ class Friends extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('owner_id',$this->owner_id);
-		$criteria->compare('friend_id',$this->friend_id);
-		$criteria->compare('status',$this->status);
+		$criteria->compare('id',$this->id,true);
+		$criteria->compare('user_id',$this->user_id,true);
+		$criteria->compare('title',$this->title,true);
+		$criteria->compare('path',$this->path,true);
+		$criteria->compare('weight',$this->weight,true);
 
-		return new CActiveDataProvider($this, array(
+		return new CActiveDataProvider(get_class($this), array(
 			'criteria'=>$criteria,
 		));
 	}

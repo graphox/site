@@ -24,7 +24,7 @@ if(!$obj)
 		AccessControl::giveAccess($admin_obj, $group, Access::create(true, true, true, true));
 	}
 		
-	$obj = AccessControl::AddObject($this->modelClass.'::Overview', $admin_obj);
+	$obj = AccessControl::AddObject($this->modelClass.'::Overview', $admin_obj, -1);
 }
 
 ?><?='<?php'?>

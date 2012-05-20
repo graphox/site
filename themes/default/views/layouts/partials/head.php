@@ -2,8 +2,8 @@
 <link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>-->
 
 <!-- JS -->
-<script type="text/javascript" src="<?=Yii::app()->theme->baseUrl?>/js/jquery-1.5.2.min.js"></script>
-<script type="text/javascript" src="<?=Yii::app()->theme->baseUrl?>/js/jquery-ui-1.8.13.custom.min.js"></script>
+<?php Yii::app()->clientScript->registerCoreScript('jquery'); #<script type="text/javascript" src="<?=Yii::app()->theme->baseUrl? >/js/jquery-1.5.2.min.js"></script> ?>
+<?php Yii::app()->clientScript->registerCoreScript('jqueryui'); # <script type="text/javascript" src="<?=Yii::app()->theme->baseUrl? >/js/jquery-ui-1.8.13.custom.min.js"></script> ?>
 <script type="text/javascript" src="<?=Yii::app()->theme->baseUrl?>/js/easing.js"></script>
 <script type="text/javascript" src="<?=Yii::app()->theme->baseUrl?>/js/jquery.scrollTo-1.4.2-min.js"></script>
 <script type="text/javascript" src="<?=Yii::app()->theme->baseUrl?>/js/jquery.cycle.all.js"></script>

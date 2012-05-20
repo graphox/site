@@ -44,7 +44,7 @@ class AsController extends CController
 		$model = new LoginForm;
 
 		$this->layout = '//layouts/main';
-		
+		Yii::app()->user->setReturnUrl(Yii::app()->request->url);
 		$this->render('as.views.auth.login',array('model'=>$model));
 		Yii::app()->end();
 	}
