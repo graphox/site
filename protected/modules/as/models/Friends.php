@@ -16,8 +16,9 @@
 class Friends extends CActiveRecord
 {
 	const STATUS_PENDING = 0;
-	const STATUS_IGNORE = 0;
-	const STATUS_ACTIVE = 0;
+	const STATUS_IGNORE = 1;
+	const STATUS_ACTIVE = 2;
+	const STATUS_DENIED = 3;
 	
 	/**
 	 * Returns the static model of the specified AR class.
