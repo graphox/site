@@ -11,8 +11,10 @@ $p->options = Yii::app()->params['purifier.settings'];
 					<?php if(count($user->names) > 0): ?>
 					<ul>
 						<?php foreach($user->names as $name): ?>
-							<?php if($name->status == Names::active): ?>
+							<?php if($name->status == Names::STATUS_ACTIVE): ?>
 								<li><?=CHtml::encode($name->name)?></li>
+							<?php else: ?>
+								<li><?=CHtml::encode($name->name)?> <strong>Not activated</strong></li>
 							<?php endif; ?>
 						<?php endforeach; ?>
 					</ul>

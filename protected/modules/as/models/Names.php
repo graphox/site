@@ -14,8 +14,9 @@
  */
 class Names extends CActiveRecord
 {
-	const PENDING = 1;
-	const ACTIVE = 2;
+	const STATUS_CANCELLED = 0;
+	const STATUS_PENDING = 1;
+	const STATUS_ACTIVE = 2;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.

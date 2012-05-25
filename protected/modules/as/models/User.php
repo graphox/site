@@ -33,6 +33,13 @@
  */
 class User extends CActiveRecord
 {
+	const BANNED = 0;
+	const ACTIVE = 1;
+	const NOT_ACTIVATED = 2;
+	
+	const OAUTH_ACCOUNT = 3;
+	const INACTIVE = 3;
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.

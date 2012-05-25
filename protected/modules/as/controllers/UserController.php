@@ -143,6 +143,16 @@ class UserController extends Controller
 		$this->render('friends', array('model' => $friends, 'error' => $error));
 	}
 	
+	function actionEdit()
+	{
+		if(Yii::app()->user->isguest)
+			$this->denyAccess();
+				
+		$user = User::model()->findByPk(Yii::app()->user->id);
+		$this->layout = '//layouts/column2';
+		$this->render('edit', array('model' => $user));
+	}
+	
 	function actionProfile()
 	{
 		if(!isset($_GET['name']))
