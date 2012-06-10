@@ -2,6 +2,116 @@
 
 class AuthController extends Controller
 {
+	public function beforeAction($action)
+	{
+		$config = array();
+		switch ($action->id)
+		{
+			case 'register':
+				$config = array(
+					'steps'=>array('user'),
+					'events'=>array(
+						'onStart'=>'wizardStart',
+						'onProcessStep'=>'registerWizardstep',
+						'onFinished'=>'wizardFinished',
+						'onInvalidStep'=>'wizardInvalidStep',
+						'onSaveDraft'=>'wizardSaveDraft'
+					),
+					
+					'menuLastItem'=>'Register'
+				);
+				break;
+
+			case 'activate':
+				$config = array(
+					'steps'=>array('activate'),
+					
+					'events'=>array(
+						'onStart'=>'wizardStart',
+						'onProcessStep'=>'registerWizardstep',
+						'onFinished'=>'wizardFinished',
+						'onInvalidStep'=>'wizardInvalidStep',
+						'onSaveDraft'=>'wizardSaveDraft'
+					),
+					
+					'menuLastItem'=>'Register'
+				);
+				break;
+
+			default:
+				break;
+		}
+		if (!empty($config))
+		{
+			$config['class']='application.components.WizardBehavior';
+			$this->attachBehavior('wizard', $config);
+		}
+		
+		return parent::beforeAction($action);
+	}
+
+	public function wizardStart($event)
+	{
+		$event->handled = true;
+	}
+	
+	public function wizardInvalidStep($event)
+	{
+		Yii::app()->getUser()->setFlash('error', $event->step.' is not a vaild step.');
+	}
+
+	public function wizardFinished($event)
+	{
+		$steps = $event->sender->read();
+		$models = $this->wizardGetModels();
+		
+		foreach($steps as $step => $data)
+		{
+			$model = new $models[strtolower($step)]();
+			if(!$model->do_delay_save($data))
+				throw new Exception('could not save!');
+		}
+		
+		if ($event->step===true)
+			$this->render('completed', compact('event'));
+		else
+			$this->render('finished', compact('event'));
+
+		$event->sender->reset();
+		Yii::app()->end();
+	}
+	
+	public function wizardGetModels()
+	{
+		Yii::import('as.models.forms.*');
+		
+		return array(
+			'user' => 'RegisterForm',
+			'profile' => 'RegisterForm',
+			'activate' => 'ActivateForm',
+		);	
+	}
+	
+	public function registerWizardStep($event)
+	{
+		$models = $this->wizardGetModels();
+		
+		$model = new $models[strtolower($event->step)]();
+		$model->attributes = $event->data;
+		
+		
+		$form = $model->getForm();
+
+		// Note that we also allow sumission via the Save button
+		if ($form->submitted() && $form->validate())
+		{
+			$event->sender->save($model->delay_save());
+			$event->handled = true;
+		}
+		else
+			$this->render('form', compact('event','form'));
+	}	
+
 	public function actionIndex()
 	{
 		$this->actionAuth();
@@ -12,9 +122,16 @@ class AuthController extends Controller
 	
 	}
 	
-	public function actionRegister()
+	public function actionRegister($step = null)
 	{
-		echo 'implementation not complete';
+		$this->pageTitle = 'Registration Wizard';
+		$this->process($step);
+	}
+	
+	public function actionActivate($step = null)
+	{
+		$this->pageTitle = 'activation Wizard';
+		$this->process($step);
 	}
 	
 	public function actionLogout()
@@ -25,6 +142,11 @@ class AuthController extends Controller
 	
 	public function actionAuth()
 	{
+		if(!Yii::app()->user->isGuest)
+		{
+			Yii::app()->getUser()->setFlash('error', 'You are already logged in.');
+			$this->redirect(array('/'));
+		}
 		$service = Yii::app()->request->getQuery('service');
 		$error = Yii::app()->request->getQuery('error');
 

@@ -6,12 +6,12 @@ class Crypto
 	static $salt = 'AsalyWICHyouMIGHTwantTOchange';
 	static $peper = 'ApeperWICHyouMIGHTwantTOchange';
 	
-	function hash($input, $pepper = null)
+	public static function hash($input, $pepper = null)
 	{
 		if($pepper === null)
 			$pepper = static::$peper;
 			
-		if(	ord($input[floor( strleng($input) /2 )]) < ord($input[floor( strleng($input) /4	)]) )
+		if(	ord($input[floor( strlen($input) /2 )]) < ord($input[floor( strlen($input) /4	)]) )
 			$input = static::$salt.$input;
 		else
 			$input .= static::$salt;
@@ -19,7 +19,7 @@ class Crypto
 		return hash_hmac ('sha256', $input, static::$key);
 	}
 	
-	public function old_hash($code = false)
+	public static function old_hash($code = false)
 	{
 		if (!$code) return;
 		#thanks to http://www.phphulp.nl/ for the idea

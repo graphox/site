@@ -13,23 +13,35 @@ class UserIdentity extends CUserIdentity
 	public function authenticate()
 	{
 		$user = User::model()->findByAttributes(array('email' => $this->username)); #email is stored in username variable
-		$crypto = new Crypto;
 		
 		$this->errorCode = self::ERROR_NONE;
 		
-		if($user === null)
+		if($user === null && ($user = User::model()->findByAttributes(array('username' => $this->username))) === null)
 			$this->errorCode=self::ERROR_USERNAME_INVALID;
 		else
 		{
+		
+			if($user->status != User::STATUS_ACTIVE)
+			{
+				Yii::app()->getUser()->setFlash('error', 'Account is not active.');
+				return self::ERROR_NONE;
+			}
+			
 			switch($user->hashing_method)
 			{
 				case 'plain':
 					if($this->password != $user->web_password)
 						$this->errorCode=self::ERROR_PASSWORD_INVALID;
 					break;
+				
+				case 'sha256':
+					if(strpos(Crypto::hash($this->password, $user->salt), $user->web_password) !== 0)
+						$this->errorCode=self::ERROR_PASSWORD_INVALID;
+
+					break;
 						
 				default:
-					if($crypto->oldhash($this->password) != $user->web_password)
+					if(Crypto::oldhash($this->password) != $user->web_password)
 						$this->errorCode=self::ERROR_PASSWORD_INVALID;
 			}
 		}

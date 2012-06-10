@@ -104,7 +104,7 @@ jQuery(function($) {
 
 				<?php if($model->status != User::OAUTH_ACCOUNT): ?>
 				<fieldset>
-					<?=CHtml::label('retype password')?>
+					<?=CHtml::label('retype password *', 'retype_password')?>
 					<?=CHtml::passwordField('retype_password')?>
 				</fieldset>
 				<?php endif; ?>

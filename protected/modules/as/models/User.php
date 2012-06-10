@@ -40,6 +40,15 @@ class User extends CActiveRecord
 	const OAUTH_ACCOUNT = 3;
 	const INACTIVE = 3;
 
+	const STATUS_BANNED = 0;
+	const STATUS_ACTIVE = 1;
+	const STATUS_NOT_ACTIVATED = 2;
+	
+	const STATUS_OAUTH_ACCOUNT = 3;
+	const STATUS_INACTIVE = 3;
+	
+	public $retype_password;
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -89,8 +98,8 @@ class User extends CActiveRecord
 			'commentVotes' => array(self::HAS_MANY, 'CommentVotes', 'user_id'),
 			'externalUsers' => array(self::HAS_MANY, 'ExternalUser', 'user_id'),
 			'forumMessages' => array(self::HAS_MANY, 'ForumMessage', 'user_id'),
-			'friends' => array(self::HAS_MANY, 'Friends', 'friend_id'),
-			'friends1' => array(self::HAS_MANY, 'Friends', 'owner_id'),
+			'people_that_have_you_as_friends' => array(self::HAS_MANY, 'Friends', 'friend_id'),
+			'friends' => array(self::HAS_MANY, 'Friends', 'owner_id'),
 			'images' => array(self::HAS_MANY, 'Images', 'owned_by'),
 			'names' => array(self::HAS_MANY, 'Names', 'user_id'),
 			'onlinePlayers' => array(self::HAS_MANY, 'OnlinePlayer', 'user_id'),
@@ -178,4 +187,5 @@ class User extends CActiveRecord
 			)
 		);
 	}*/
+
 }

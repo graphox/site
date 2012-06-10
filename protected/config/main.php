@@ -53,6 +53,10 @@ return array(
 
 	// application components
 	'components'=>array(
+		'swiftMailer' => array(
+		    'class' => 'ext.swiftMailer.SwiftMailer',
+		),
+		
 		'user'=>array(
 			'class'=> 'as.components.webUser'
 			// enable cookie-based authentication
@@ -224,6 +228,15 @@ return array(
 	'params'=>array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
+		
+		'email.settings' => array(
+			'host' => 'localhost',
+			'port' => 25,
+			
+			'from' => array( 'doNotReply', 'doNotReply@localhost' ),
+			
+		),
+		
 		'purifier.settings' => array(
 			'AutoFormat.AutoParagraph' => true,
 			'AutoFormat.RemoveEmpty.RemoveNbsp' => true,

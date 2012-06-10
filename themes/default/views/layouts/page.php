@@ -12,5 +12,6 @@
 	<?php endif; ?>
 	
 	<?=$content?>
+</div>
 
 <?php $this->endContent(); ?>

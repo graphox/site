@@ -147,7 +147,6 @@ class UserController extends Controller
 	{
 		if(Yii::app()->user->isguest)
 			$this->denyAccess();
-				
 		$user = User::model()->findByPk(Yii::app()->user->id);
 		$this->layout = '//layouts/column2';
 		$this->render('edit', array('model' => $user));
@@ -268,6 +267,42 @@ class UserController extends Controller
 	function actionIndex()
 	{
 		$this->redirect(array('//as/user/dashboard'));
+	}
+	
+	function actionName()
+	{
+		if(!isset($_GET['action']))
+			throw new CHttpException(400, 'bad request');
+
+		if(Yii::app()->user->isguest)
+			$this->denyAccess();
+		
+		switch($_GET['action'])
+		{
+			case 'add':
+				if(!isset($_GET['name']))
+					throw new CHttpException(400, 'no name argument given');
+					
+				$name = new Names;
+				$name->user_id = Yii::app()->user->id;
+				$name->status = Names::STATUS_PENDING;
+				$name->name = strtolower($_GET['name']);
+				if(!$name->validate())
+					Yii::app()->user->setFlash('error', 'Could not insert name.');
+				elseif(!$name->save())
+					throw new CHttpException(500, 'Could not save');
+				
+				if(isset($_GET['ajax']))
+					echo json_encode(array('result' => true, 'message' => 'Successfully added name.'));
+				else
+					Yii::app()->user->setFlash('success', 'Successfully added name.');
+				
+				break;
+			
+			default:
+				throw new CHttpException(400, 'invalid action');
+		
+		}
 	}
 
 }
