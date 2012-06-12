@@ -71,7 +71,7 @@ class AccessControl
 		
 		$acl->name = $name;
 		if(!$acl->save())
-			throw new Exception('Could not save privilege! '.print_r($acl>getErrors(), true));
+			throw new Exception('Could not save privilege! '.print_r($acl->getErrors(), true));
 		
 		if($default_access !== -1)
 			self::giveAccess($acl, null, $default_access);
@@ -102,6 +102,12 @@ class AccessControl
 
 				
 			$groups = $user->aclGroups;
+			$user = self::getGroup('user');
+			
+			if(!$user)
+				throw new exception('DB corruption, group user not found!');
+			
+			$groups[] = $user;
 		}
 		
 		$world = self::getGroup('world');
@@ -114,13 +120,12 @@ class AccessControl
 		#try all groups for every object
 		do
 		{
+
 			$privileges = $object->aclPrivileges;
 
 			if(!$privileges)
 				continue;
-
-
-			$priviliges = $object->aclPrivileges;
+			
 			
 			#TODO: let the database sort
 			usort($privileges, function($a, $b)

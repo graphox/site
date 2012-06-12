@@ -52,6 +52,21 @@ class ForumMessage extends CActiveRecord
 			array('id, user_id, topic_id, title, content, date_added, date_changed', 'safe', 'on'=>'search'),
 		);
 	}
+	
+	public function scopes()
+	{
+		return array(
+		            'byDate'=>array(
+		                'order'=>'date_added DESC',
+		            ),
+					'byDateAsc'=>array(
+		                'order'=>'date_added ASC',
+		            ),
+					'limitIndex'=>array(
+						'limit' => 10,
+					),
+		        );
+	}
 
 	/**
 	 * @return array relational rules.

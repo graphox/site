@@ -29,9 +29,9 @@ Yii::app()->getPanel('adminPanel')->show(array(
 		<div id="header">
 			<!-- wrapper-header -->
 			<div class="wrapper">
-				<?=CHtml::tag('a', array('title' => 'home', 'href' => $this->createUrl('/')))?>
+				<a title="home" href="<?=$this->createUrl('/')?>">
 					<img id="logo" src="<?=Yii::app()->theme->baseUrl?>/img/logo.png" alt="<?=CHtml::encode(Yii::app()->name); ?>" />
-				</a>
+				<?=CHtml::closeTag('a')?>
 					<!-- search -->
 					<div class="top-search">
 						<?=CHtml::form(array('//as/search/'), 'GET', array('id' => 'searchform'))?>
@@ -49,9 +49,5 @@ Yii::app()->getPanel('adminPanel')->show(array(
 			
 			
 			<!-- Menu -->
-			<div id="menu">
-				<?php /**/ ?>
-					<?php $this->widget('as.components.UI.UIDbMenuWidget'); ?>
-				<?php //*/ ?>
-			</div>
+			<?php $this->widget('as.components.UI.UIDbMenuWidget'); ?>
 			<!-- ENDS Menu -->

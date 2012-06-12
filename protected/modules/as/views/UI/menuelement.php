@@ -11,14 +11,12 @@
 		<?php endif; ?>
 	</a>
 	<?php if(count($element->children) > 0): ?>
-	<ul>
-		<?php 
-			$top_level = false;
-			$elements = $element->children;
-			
-			Yii::app()->controller->renderPartial('as.views.UI.menuelement', get_defined_vars());
-		?>
-	</ul>
+	<?php 
+		$top_level = false;
+		$elements = $element->children;
+		
+		Yii::app()->controller->renderPartial('as.views.UI.menuelement', get_defined_vars());
+	?>
 	<?php endif; ?>
 </li>
 <?php endforeach; ?>
