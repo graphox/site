@@ -152,9 +152,6 @@ class AuthController extends Controller
 
 		if(isset($_GET['returnurl']))
 			Yii::app()->user->setReturnUrl($_GET['returnurl']);
-		elseif(Yii::app()->user->returnUrl == Yii::app()->request->scriptUrl)
-			Yii::app()->user->setReturnUrl(array('//as/user/dashboard'));
-
 
 		if(isset($error))
 		{
