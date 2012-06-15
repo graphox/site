@@ -11,6 +11,7 @@
 		<?php include dirname(__FILE__).'/head.php'; ?>
 		<!-- tabs -->
 		<link rel="stylesheet" href="<?=Yii::app()->theme->baseUrl?>/css/tabs.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="<?=Yii::app()->theme->baseUrl?>/css/as-theme.css" type="text/css" media="screen" />
 		<script type="text/javascript" src="<?=Yii::app()->theme->baseUrl?>/js/tabs.js"></script>
 		<!-- ENDS tabs -->
 	</head>

@@ -215,12 +215,12 @@ return array(
 			),
 		),
 		
-#		'cache'=>array(
-#			'class'=>'system.caching.CDummyCache',
+		'cache'=>array(
+			'class'=>'system.caching.CFileCache',
 #			'servers'=>array(
 #				 'localhost'
 #			),
-#		)
+		)
 	),
 	
 	// application-level parameters that can be accessed
