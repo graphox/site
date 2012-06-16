@@ -22,7 +22,7 @@
 			'validateOnSubmit'=>true,
 		),
 		'htmlOptions' => array('class' => 'admin-form'),
-		'action' => array('//as/auth', 'returnurl' => isset($_GET['returnurl']) ? $_GET['returnurl'] : rawurlencode(Yii::app()->request->url)),
+		'action' => isset($_GET['returnurl']) ? array('//as/auth', 'returnurl' => $_GET['returnurl']) : array('//as/auth'),
 			
 	)); ?>
 
