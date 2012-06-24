@@ -277,6 +277,8 @@ class AuthController extends Controller
 			}
 		}
 		
+		$model->password = '';
+		
 		// display the login form
 		$this->render('as.views.auth.login',array('model'=>$model));
 	}

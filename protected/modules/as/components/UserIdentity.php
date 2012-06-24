@@ -59,6 +59,34 @@ class UserIdentity extends CUserIdentity
 		return !$this->errorCode;
 	}
 	
+	public function apiAuth()
+	{
+		$this->authenticate();
+		
+		if($this->errorCode == self::ERROR_NONE)
+		{
+			return Crypto::hash($this->username.$this->email.$this->id, $this->email);
+		}
+		else
+			return false;
+	}
+
+	public function apiCheckAuth($user, $key)
+	{
+		$user = User::model()->findByAttributes(array('email' => $this->username)); #email is stored in username variable
+		
+		$this->errorCode = self::ERROR_NONE;
+		
+		if($user === null && ($user = User::model()->findByAttributes(array('username' => $this->username))) === null)
+			$this->errorCode=self::ERROR_USERNAME_INVALID;
+		else
+		{
+			return Crypto::hash($user->username.$user->email.$user->id, $user->email) == $key;
+		}	
+		
+		return false;
+	}
+	
 	public function getId()
 	{
 		return $this->_id;
