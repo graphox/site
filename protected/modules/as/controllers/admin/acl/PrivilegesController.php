@@ -69,6 +69,51 @@ class PrivilegesController extends AdminController
 			'can' => $access
 		));
 	}
+
+	public function actionOrder()
+	{
+		$this->breadcrumbs = array(
+			array('Acl Privileges', array('index')),
+			array('order', '', array('class' => 'active')),
+		);
+		
+		if((($access = AccessControl::GetAccess('AclPrivilege::Overview')) === false) || $access->update != 1)
+			$this->denyAccess();
+
+		if(isset($_POST['ajax']))
+		{
+			switch($_POST['ajax']['action'])
+			{
+				case 'order':
+						
+					$i = 0;
+					foreach($_POST['ajax']['data'] as $element)
+					{
+						$group = AclGroup::model()->findByAttributes(array('name' => $element['group']));
+						$object = AclObject::model()->findByAttributes(array('name' => $element['object']));
+						
+						if(!$group || !$object)
+						{
+							#TODO: transaction stop ..
+							throw new CHttpException(400, 'Invalid group or object ('.$element['group'].'/'.$element['object'].')');
+						}
+						
+						$order_model = AclPrivilege::model()->findByAttributes(array('group_id' => $group->id, 'object_id' => $object->id));
+						$order_model->order_by = $i;
+						$order_model->save();					
+						$i ++;
+					}
+					
+					break;
+				
+			}
+			
+			return;
+		}
+		
+		$model = AclPrivilege::model()->findAll(array('order' => 'order_by'));
+		$this->render('order', array('model' => $model));	
+	}
 	
 	public function actionInspect()
 	{

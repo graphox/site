@@ -124,4 +124,10 @@ if(!$can->read) return;
 				<?php endforeach; ?>			</tbody>
 		</table>
 	</div><!-- end of tab-->
+
+	<footer>
+		<div class="submit_link">
+			<?=CHtml::link('Order', array('order'), array('class' => 'lookalike-submit alt_btn'));?>
+		</div>
+	</footer>
 </article>
