@@ -119,6 +119,13 @@ class GalleryController extends Controller
 		#TODO: commenting, edit details with ajax, thumbs
 	}
 	
+	public function actionBrowse()
+	{
+		$galleries = Gallery::model()->findAll();
+	
+		$this->render('browse', array('galleries' => $galleries));
+	}
+	
 	public function actionRawimage()
 	{
 		if(!isset($_GET['id']))

@@ -304,5 +304,66 @@ class UserController extends Controller
 		
 		}
 	}
+	
+	function actionNewMessage()
+	{
+		$form = new SendMessageForm;
+		
+		if(isset($_POST['SendMessageForm']))
+		{
+			$form->attributes = $_POST['SendMessageForm'];
+			
+			if($form->validate() && $form->save())
+			{
+				Yii::app()->user->setFlash('success', "message successfully sent!");
+				$this->redirect(array('//as/user/message'));
+			}
+		}
+		
+		$this->render('new_message', array('model' => $form));
+	}
+	
+	function actionMessage()
+	{
+		$dirs = PmDirectory::model()->findAllByAttributes(array('user_id' => Yii::app()->user->id));
+		
+		#jit create inbox
+		if(count($dirs) == 0)
+		{
+			$dir = new PmDirectory;
+			$dir->name = 'inbox';
+			$dir->user_id = Yii::app()->user->id;
+			$dir->save();
+			$dirs[] = $dir;
+		}
+		
+		$root = (object)array(
+			'name' => 'Folders',
+			'children' => array()
+		);
+		
+		#build tree
+			$ids = array();
+			
+			foreach($dirs as $dir)
+				$ids[$dir->id] = (object)array('name' => $dir->name, 'children' => array());
+
+			foreach($dirs as &$element)
+				if($element->parent_id == null)
+					$root->children[] =& $ids[$element->id];
+				else
+					$ids[$element->parent_id]->children[] = $ids[$element->id];
+		#/build tree
+		
+		if(!isset($_GET['directory']))
+			$_GET['directory'] = 'inbox';
+		
+		$dir = PmDirectory::model()->findByAttributes(array('user_id' => Yii::app()->user->id, 'name' => $_GET['directory']));
+		
+		if(!$dir)
+			throw new CHttpException(404, 'Could not find folder: '. $_GET['directory']);
+		
+		$this->render('messages', array('tree' => $root, 'dir' => $dir));
+	}
 
 }
