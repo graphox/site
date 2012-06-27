@@ -602,7 +602,7 @@ public function run()
 protected function renderAddButton() 
 {
 	if(!isset($this->returnLink) or $this->returnLink == "")
-		$this->returnLink = $this->model->tableSchema->name . "/create";
+		$this->returnLink = $this->_model->tableSchema->name . "/create";
 
 	if($this->addButtonLink != '')
 		$link = $this->addButtonLink;

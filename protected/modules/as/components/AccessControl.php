@@ -116,42 +116,47 @@ class AccessControl
 			throw new exception('DB corruption, group world not found!');
 		
 		$groups[] = $world;
-		
-		#try all groups for every object
-		do
+
+		$fetch_parents = function($groups, &$parents, &$fetch_parents)
 		{
-
-			$privileges = $object->aclPrivileges;
-
-			if(!$privileges)
+			foreach($groups as $group)
+			{
+				$parents[$group->id] = $group->id;
+				if($group->parent)
+					$fetch_parents(array($group->parent), $parents, $fetch_parents);
+			}
+		};	
+		
+		#Fetch all groups that the user has joined, including all parent ones
+		$fetch_parents($groups, &$group_ids, $fetch_parents);
+		
+		$fetch_objects = function($objects, &$parents, &$fetch_objects)
+		{
+			foreach($objects as $object)
+			{
+				$parents[$object->id] = $object->id;
+				if($object->parent)
+					$fetch_objects(array($object->parent), $parents, $fetch_objects);
+			}
+		};	
+		#Fetch all the parent objects
+		$fetch_objects(array($object), $object_ids, $fetch_objects);
+		
+				
+		$privileges = AclPrivilege::model()->findAll(array('order' => 'order_by'));
+		
+		#try all possibillities based on the order
+		foreach($privileges as $priv)
+		{
+			if(!isset($group_ids[$priv->group_id]))
 				continue;
 			
-			
-			#TODO: let the database sort
-			usort($privileges, function($a, $b)
-			{
-				if($a->order_by == $b->order_by)
-					return 0;
-				elseif($a->order_by < $b->order_by)
-					return -1;
-				else
-					return 1;
-			});
-
-
-
-			
-			foreach($privileges as $privilege)
-			{
-				foreach($groups as $group)
-				{
-					if($privilege->group_id == $group->id)
-						return Access::FromResult($privilege);
-				}
-			}
-		}
-		while($object = $object->parent);
-
+			if(!isset($object_ids[$priv->object_id]))
+				continue;
+		
+			return Access::FromResult($priv);
+		}	
+				
 		throw new exception('Could not find rule');
 	}
 	

@@ -5,7 +5,7 @@ class AsController extends CController
 	public $menu;
 	public $breadcrumbs;
 
-	public 	$layout = '//layouts/withsidebar';
+	public $layout = '//layouts/column2';
 	
 	public $title;
 	public $description;

@@ -28,6 +28,9 @@
  */
 class Pages extends CActiveRecord
 {
+	public $module = 'web';
+	public $no_parent = 0;
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -38,6 +41,56 @@ class Pages extends CActiveRecord
 		return parent::model($className);
 	}
 
+	/**
+	 * Loads the values that the user should not be able to change
+	 * @param bool $isWeb, default true, is web module
+	 * @return $this
+	 */
+	public function loadDefaults($isWeb = true)
+	{
+		if($isWeb)
+			$this->module = 'web';
+		
+		if($this->no_parent === "1" || $this->no_parent === 1)
+		{
+			$this->parent_id = null;
+			$this->parent = null;
+		}
+
+		$this->editor_id = Yii::app()->user->id;
+		$this->acl_object_id = AccessControl::GetObjectByName('site')->id;
+	}
+	
+	/**
+	 * Set the acl_object_id after saving.
+	 */
+	public function afterSave()
+	{
+		parent::afterSave();
+		
+		$this->setIsNewRecord(false);
+		$this->setScenario('update');
+		
+		#Only change when nothing else has been set.
+		if($this->acl_object_id != AccessControl::GetObjectByName('site')->id)
+			return;
+		
+		$acl_object = AccessControl::GetObjectByName($this->module.'.page.'.$this->id);
+		
+		if(!$acl_object)
+		{
+			$parent = AccessControl::GetObjectByName($this->module.'.pages');
+			
+			if(!$parent)
+				$parent = AccessControl::AddObject($this->module.'.pages');
+						
+			$acl_object = AccessControl::AddObject($this->module.'.page.'.$this->id, $parent);
+		}
+		
+		$this->acl_object_id = $acl_object->id;
+		$this->save();
+	}
+	
 	/**
 	 * @return string the associated database table name
 	 */
@@ -54,8 +107,8 @@ class Pages extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('module, uri, editor_id, title, description, content, acl_object_id', 'required'),
-			array('parent_id, editor_id, allow_comments, acl_object_id', 'numerical', 'integerOnly'=>true),
+			array('module, markup, uri, editor_id, title, description, content, acl_object_id', 'required'),
+			array('parent_id, editor_id, allow_comments, acl_object_id, no_parent', 'numerical', 'integerOnly'=>true),
 			array('module, uri, title, layout', 'length', 'max'=>50),
 			array('description', 'length', 'max'=>500),
 			// The following rule is used by search().
@@ -101,6 +154,7 @@ class Pages extends CActiveRecord
 			'content' => 'Content',
 			'change_time' => 'Change Time',
 			'acl_object_id' => 'Acl Object',
+			'markup' => 'Content markup'
 		);
 	}
 
@@ -127,6 +181,7 @@ class Pages extends CActiveRecord
 		$criteria->compare('content',$this->content,true);
 		$criteria->compare('change_time',$this->change_time,true);
 		$criteria->compare('acl_object_id',$this->acl_object_id);
+		$criteria->compare('markup',$this->markup, true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
