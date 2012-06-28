@@ -15,14 +15,37 @@ class EditProfileForm extends Profile
 		return parent::model($className);
 	}
 	
+	public function load($profile)
+	{
+		$this->attributes = $profile->attributes;
+		$this->isNewRecord = false;
+			
+		$this->user_id = $profile->user_id;
+		$this->avatar_img_id = $profile->avatar_img_id;
+		$this->page_id	= $profile->page_id;
+		$this->id = $profile->id;
+		
+		$this->init();
+	}
+	
 	public function init()
 	{
+		$this->page = Pages::model()->findByPk($this->page_id);
+	
 		if($this->page)
 		{
 			$this->page_title = $this->page->title;
 			$this->page_description = $this->page->description;
 			$this->page_content = $this->page->content;
 			$this->page_markup = $this->page->markup;
+		}
+		else
+		{
+			$this->page = new Pages;
+		
+			$this->page->module = 'profile';
+			$this->page->editor_id = Yii::app()->user->id;
+			$this->page->uri = '/';
 		}
 		
 		return parent::init();
@@ -41,36 +64,45 @@ class EditProfileForm extends Profile
 			array('user_id, avatar_img_id, page_id', 'unsafe'),
 			array('page_title, page_description, homepage', 'length', 'max'=>500),
 
+			array('page_markup', 'checkAllowedMarkup'),
 			array('page_title,page_description,allow_comments,page_content,page_markup,profile_img', 'safe'),
 		);
 		
 	}
 	
-	public function afterSave()
+	public function checkAllowedMarkup($field, $options)
 	{
-		if($this->scenario == 'pageisset')
+		static $allowed;
+		
+		if(!isset($allowed))
+			$allowed = ContentMakeup::userAllowed();
+		
+		if(!isset($allowed[$this->$field]))
+			$this->addError($field, 'Invalid makrup style: '.$this->$field);
+	}
+	
+	public function save( $runValidation=true, $attributes=NULL)
+	{
+		if(parent::save($runValidation, $attributes))
 		{
-			$page = $this->page;
-			if(!$page)
-				$page = new Pages;
-		
-			$page->module = 'profile';
-			$page->editor_id = Yii::app()->user->id;
-			$page->uri = '';
+			if($this->scenario == 'pageisset')
+			{
+				$this->page->title = $this->page_title;
+				$this->page->description = $this->page_description;
+				$this->page->content = $this->page_content;
+				$this->page->markup = $this->page_markup;
+			
+				if(!$this->page->validate() || !$this->page->save())
+					throw new Exception(print_r($this->page->getErrors(), true));
+			
+				$this->page_id = $this->page->id;
 
-			$page->title = $this->page_title;
-			$page->description = $this->page_description;
-			$page->content = $this->page_content;
-			$page->markup = $this->page_markup;
+				if(!parent::save())
+					throw new Exception(print_r($this->page->getErrors(), true));
+			}
 			
-			if(!$page->validate())
-				foreach($page->getErrors() as $key => $error)
-					foreach($error as $msg)
-						$this->addError($key, $msg);
-				
-			
+			return true;
 		}
-		
-		return parent::afterSave();
+		return false;
 	}
 }

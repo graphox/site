@@ -62,38 +62,42 @@ class Pages extends CActiveRecord
 	
 	public function beforeSave()
 	{
-		$this->acl_object_id = AccessControl::GetObjectByName('site')->id;
+		if(parent::beforeSave())
+			$this->acl_object_id = AccessControl::GetObjectByName('site')->id;
+		else
+			return false;
+		
+		return true;
 	}
 	
 	
 	/**
 	 * Set the acl_object_id after saving.
 	 */
-	public function afterSave()
+	public function save($runValidation=true, $attributes=NULL)
 	{
-		parent::afterSave();
-		
-		$this->setIsNewRecord(false);
-		$this->setScenario('update');
-		
-		#Only change when nothing else has been set.
-		if($this->acl_object_id != AccessControl::GetObjectByName('site')->id)
-			return;
-		
-		$acl_object = AccessControl::GetObjectByName($this->module.'.page.'.$this->id);
-		
-		if(!$acl_object)
+		if(parent::save($runValidation, $attributes))
 		{
-			$parent = AccessControl::GetObjectByName($this->module.'.pages');
+			if($this->acl_object_id != AccessControl::GetObjectByName('site')->id)
+				return true;
+		
+			$acl_object = AccessControl::GetObjectByName($this->module.'.page.'.$this->id);
+		
+			if(!$acl_object)
+			{
+				$parent = AccessControl::GetObjectByName($this->module.'.pages');
 			
-			if(!$parent)
-				$parent = AccessControl::AddObject($this->module.'.pages');
+				if(!$parent)
+					$parent = AccessControl::AddObject($this->module.'.pages');
 						
-			$acl_object = AccessControl::AddObject($this->module.'.page.'.$this->id, $parent);
+				$acl_object = AccessControl::AddObject($this->module.'.page.'.$this->id, $parent);
+			}
+		
+			$this->acl_object_id = $acl_object->id;
+			return parent::save();
 		}
 		
-		$this->acl_object_id = $acl_object->id;
-		$this->save();
+		return false;
 	}
 	
 	/**

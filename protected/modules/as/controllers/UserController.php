@@ -197,7 +197,14 @@ class UserController extends Controller
 			}
 		}
 		
-		$profile_model = new EditProfileForm('edit');
+		$profile_model = new EditProfileForm;
+		
+		#copy profile model to editprofileform model
+		if($user->profile)
+		{
+			$profile_model->load($user->profile);
+		}
+		
 		
 		if(isset($_POST['EditProfileForm']))
 		{
@@ -212,7 +219,7 @@ class UserController extends Controller
 			
 			$profile_model->user_id = Yii::app()->user->id;
 			
-			if($profile_model->validate()/* && $profile_model->save()*/)
+			if($profile_model->save())
 				Yii::app()->user->setFlash('edit-profile', 'Successfully saved profile.');
 		}
 		
