@@ -147,17 +147,109 @@ class UserController extends Controller
 	{
 		if(Yii::app()->user->isguest)
 			$this->denyAccess();
+			
 		$user = User::model()->findByPk(Yii::app()->user->id);
+		
+		if(isset($_POST['User']))
+		{
+			$user->attributes = array(
+				'ingame_password' => isset($_POST['User']['ingame_password']) ? $_POST['User']['ingame_password'] : '',
+				'web_password' => isset($_POST['User']['web_password']) && isset($_POST['retype_password']) && $_POST['retype_password'] == $_POST['User']['web_password'] ? $_POST['User']['web_password'] : '',
+				
+			);
+			
+			if($user->validate())
+			{
+				$user->web_password = Crypto::hash($user->web_password, $user->hashing_method);
+				if($user->save(false))
+					Yii::app()->user->setFlash('edit-account', 'successfully changed your password!');
+			}
+		}
+		
+		$name = new Names;
+		
+		if(isset($_POST['Names']))
+		{
+			$name->attributes = array(
+				'name' => isset($_POST['Names']['name']) ? $_POST['Names']['name'] : '',
+				'user_id' => Yii::app()->user->id,
+				'status' => Names::STATUS_PENDING	
+			);
+			
+			if($name->validate() && $name->save())
+				Yii::app()->user->setFlash('edit-names', 'successfully added a name, please wait for an admin to verify the request.');
+		}
+		
+		if(isset($_POST['delete-name']))
+		{
+			$dname = Names::model()->findByPk($_POST['delete-name']);
+			
+			if(!$dname)
+				Yii::app()->user->setFlash('delete-names-error', 'Could not find requested name.');
+			elseif($dname->user_id != Yii::app()->user->id)
+				Yii::app()->user->setFlash('delete-names-error', 'You can only delete your own names!');
+			else
+			{
+				if($dname->delete())
+					Yii::app()->user->setFlash('edit-names', 'Successfully deleted name.');
+				else
+					Yii::app()->user->setFlash('delete-names-error', 'Could not delete the name, please try again.');
+			}
+		}
+		
+		$profile_model = new EditProfileForm('edit');
+		
+		if(isset($_POST['EditProfileForm']))
+		{
+			if(
+				isset($_POST['EditProfileForm']['page_title']) && !empty($_POST['EditProfileForm']['page_title']) ||
+				isset($_POST['EditProfileForm']['page_content']) && !empty($_POST['EditProfileForm']['page_content']) ||
+				isset($_POST['EditProfileForm']['page_description']) && !empty($_POST['EditProfileForm']['page_description']) 
+			)
+				$profile_model->scenario = 'pageisset';
+
+			$profile_model->attributes = $_POST['EditProfileForm'];
+			
+			$profile_model->user_id = Yii::app()->user->id;
+			
+			if($profile_model->validate()/* && $profile_model->save()*/)
+				Yii::app()->user->setFlash('edit-profile', 'Successfully saved profile.');
+		}
+		
+		
+		
+		$user->web_password = '';
+		
+		Yii::app()->clientScript->registerScript('addNameSubmit', '
+			$(".name-delete-buttons").toggle();
+			$(".name-delete-buttons > span").click(function() {
+				console.log("deleting name ...");
+				$(this).parent().parent().submit();
+			});
+	
+
+		', CClientScript::POS_READY);
+		
 		$this->layout = '//layouts/column2';
-		$this->render('edit', array('model' => $user));
+		$this->render('edit', array('model' => $user, 'name_model' => $name, 'profile_model' => $profile_model));
 	}
 	
 	function actionProfile()
 	{
-		if(!isset($_GET['name']))
-			throw new CHttpException(400, 'no name given');
+		if(isset($_GET['id']))
+			$user = User::model()->with('profile', 'names')->findByPk($_GET['id']);
+		elseif(isset($_GET['name']))
+			$user = User::model()->with('profile', 'names')->findByAttributes(array('username' => $_GET['name']));
+		elseif(!Yii::app()->user->isGuest)
+			$this->redirect(array('edit'));
+		else
+			throw new CHttpException(400, 'no name or id given');
 		
-		$user = User::model()->with('profile', 'names')->findByAttributes(array('username' => $_GET['name']));
+		if(!$user)
+			throw new CHttpEception(404, 'Could not find user');
+		
+		if(!isset($_GET['id']) || !isset($_GET['name']))
+			$this->redirect(array('//as/user/profile', 'id' => $user->id, 'name' => $user->username));		
 		
 		$this->title = $user->username.'\'s profile';
 		$this->render('profile', array('user' => $user));
@@ -205,7 +297,7 @@ class UserController extends Controller
 		
 		$settings = array();
 
-		$this->layout = '//layouts/main';
+		//$this->layout = '//layouts/main';
 		
 		// Get user settings.
 		$criteria = new CDbCriteria(array(
@@ -267,42 +359,6 @@ class UserController extends Controller
 	function actionIndex()
 	{
 		$this->redirect(array('//as/user/dashboard'));
-	}
-	
-	function actionName()
-	{
-		if(!isset($_GET['action']))
-			throw new CHttpException(400, 'bad request');
-
-		if(Yii::app()->user->isguest)
-			$this->denyAccess();
-		
-		switch($_GET['action'])
-		{
-			case 'add':
-				if(!isset($_GET['name']))
-					throw new CHttpException(400, 'no name argument given');
-					
-				$name = new Names;
-				$name->user_id = Yii::app()->user->id;
-				$name->status = Names::STATUS_PENDING;
-				$name->name = strtolower($_GET['name']);
-				if(!$name->validate())
-					Yii::app()->user->setFlash('error', 'Could not insert name.');
-				elseif(!$name->save())
-					throw new CHttpException(500, 'Could not save');
-				
-				if(isset($_GET['ajax']))
-					echo json_encode(array('result' => true, 'message' => 'Successfully added name.'));
-				else
-					Yii::app()->user->setFlash('success', 'Successfully added name.');
-				
-				break;
-			
-			default:
-				throw new CHttpException(400, 'invalid action');
-		
-		}
 	}
 	
 	function actionNewMessage()

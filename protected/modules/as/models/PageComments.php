@@ -44,7 +44,7 @@ class PageComments extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('page_id, title, content', 'required'),
+			array('page_id, title, content, markup', 'required'),
 			array('user_id, page_id', 'numerical', 'integerOnly'=>true),
 			array('title', 'length', 'max'=>50),
 			// The following rule is used by search().

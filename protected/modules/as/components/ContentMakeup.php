@@ -32,16 +32,18 @@ class ContentMakeup
 			case 'html':
 				break;
 			
-			case 'php':
+			case 'php': /* TODO: rethink safety
 				ob_start();
 				ob_implicit_flush(false);
 				eval('?>'.$content.'<?');
 				$content = ob_get_clean();
+				break;*/
+				$content = htmlentities($content);
 				break;
 
 			default:
 			case 'plain':
-				$content = CHtml::encode($content);
+				$content = htmlentities($content);
 				break;
 		
 		}
@@ -81,5 +83,7 @@ class ContentMakeup
 		}
 		
 		$allowed['plain'] = 'plain';
+		
+		return $allowed;
 	}
 }

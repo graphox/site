@@ -58,8 +58,13 @@ class Pages extends CActiveRecord
 		}
 
 		$this->editor_id = Yii::app()->user->id;
+	}
+	
+	public function beforeSave()
+	{
 		$this->acl_object_id = AccessControl::GetObjectByName('site')->id;
 	}
+	
 	
 	/**
 	 * Set the acl_object_id after saving.
@@ -107,7 +112,7 @@ class Pages extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('module, markup, uri, editor_id, title, description, content, acl_object_id', 'required'),
+			array('module, markup, uri, editor_id, title, description, content', 'required'),
 			array('parent_id, editor_id, allow_comments, acl_object_id, no_parent', 'numerical', 'integerOnly'=>true),
 			array('module, uri, title, layout', 'length', 'max'=>50),
 			array('description', 'length', 'max'=>500),

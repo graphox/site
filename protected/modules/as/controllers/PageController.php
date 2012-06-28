@@ -41,7 +41,7 @@ class PageController extends Controller
 			
 			if($model->validate())
 			{
-				if(!in_array(ContentMakeup::UserAllowed(), $model->markup))
+				if(!in_array($model->makeup, ContentMakeup::UserAllowed()))
 					$model->addError('markup', 'You\'ve selected an invalid type.');
 				elseif($model->save())
 				{
@@ -193,7 +193,7 @@ class PageController extends Controller
 			$model->posted_date = new CDbExpression('NOW()');
 						
 			if($model->validate())
-				if(!in_array(ContentMakeup::UserAllowed(), $model->markup))
+				if(!in_array($model->markup, ContentMakeup::UserAllowed()))
 					$model->addError('markup', 'You\'ve selected an invalid type.');
 				elseif($model->save())
 				{

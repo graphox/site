@@ -50,11 +50,49 @@ return CMap::mergeArray(
 		),
 
 		'behaviors' => array(
-		    'ext.qtzpanel.QtzPanelBehavior',
+			'ext.qtzpanel.QtzPanelBehavior',
 		),
 
 		// application components
 		'components'=>array(
+			'widgetFactory'=>array(
+				'class'=>'CWidgetFactory',
+
+				'widgets'=>array(
+					'CGridView'=>array(
+						'htmlOptions'=>array('cellspacing'=>'0','cellpadding'=>'0'),
+						'itemsCssClass'=>'item-class',
+						'pagerCssClass'=>'pager-class'
+					),
+					
+					'CJuiTabs'=>array(
+						'cssFile' => false,
+						'htmlOptions'=>array('class'=>'shadowtabs'),
+					),
+						'CJuiAccordion'=>array(
+							'htmlOptions'=>array('class'=>'shadowaccordion'),
+						),
+						'CJuiProgressBar'=>array(
+						   'htmlOptions'=>array('class'=>'shadowprogressbar'),
+						),
+						'CJuiSlider'=>array(
+							'htmlOptions'=>array('class'=>'shadowslider'),
+						),
+						'CJuiSliderInput'=>array(
+							'htmlOptions'=>array('class'=>'shadowslider'),
+						),
+						'CJuiButton'=>array(
+							'htmlOptions'=>array('class'=>'shadowbutton'),
+						),
+						'CJuiButton'=>array(
+							'htmlOptions'=>array('class'=>'shadowbutton'),
+						),
+						'CJuiButton'=>array(
+							'htmlOptions'=>array('class'=>'button green'),
+						),
+					),
+				),		
+		
 			'swiftMailer' => array(
 				'class' => 'ext.swiftMailer.SwiftMailer',
 			),
