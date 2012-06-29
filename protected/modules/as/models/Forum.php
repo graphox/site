@@ -20,6 +20,7 @@
  */
 class Forum extends CActiveRecord
 {
+	public $no_parent;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -43,17 +44,51 @@ class Forum extends CActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
-			array('acl_object_id, name, description, main_forum', 'required'),
-			array('parent_id, acl_object_id, main_forum', 'numerical', 'integerOnly'=>true),
+			array('name, description, parent_id', 'required'),
 			array('name', 'length', 'max'=>50),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('id, parent_id, acl_object_id, name, description, main_forum', 'safe', 'on'=>'search'),
+			array('parent_id,name,description,no_parent', 'safe'),
+			array('parent_id', 'validParentId'),
 		);
 	}
+	
+	public function initAcl()
+	{
+		#already updated
+		if($this->id && AccessControl::GetObjectByName('forum.'.$this->id))
+			return;
+		
+		
+		if($this->parent_id)
+			$parent = AccessControl::GetObjectByName('forum.'.$this->parent_id);
+		else
+			$parent = AccessControl::GetObjectByName('forum.overview');
+		
+		$acl_obj = AccessControl::AddObject('forum.'.uniqid(), $parent);
+	
+		$this->acl_object_id = $acl_obj->id;
+	
+		return $acl_obj;
+	}
+	
+	public function updateAcl($rule)
+	{
+		$rule->name = 'forum.'.$this->id;
+		$rule->save(false);
+	}
+	
+	/**
+	 * Check if it is a valid id and if no_parent is set
+	 */	
+	public function validParentId($field, $options)
+	{
+		$parent = self::model()->findByPk($this->$field);
+		
+		if(!$parent)
+			$this->addError($field, 'invalid parent');
+		elseif(isset($this->no_parent) && $this->no_parent == 1)
+			$this->$field = NULL;
+	}	
 
 	/**
 	 * @return array relational rules.

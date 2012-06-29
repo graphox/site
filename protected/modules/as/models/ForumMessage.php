@@ -44,12 +44,10 @@ class ForumMessage extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, topic_id, title, content, date_added, date_changed', 'required'),
-			array('user_id, topic_id', 'numerical', 'integerOnly'=>true),
+			array('title, content, markup', 'required'),
+			array('markup', 'as.components.validators.ValidateMarkup'),
 			array('title', 'length', 'max'=>50),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('id, user_id, topic_id, title, content, date_added, date_changed', 'safe', 'on'=>'search'),
+			array('title, content', 'safe'),
 		);
 	}
 	
@@ -57,10 +55,10 @@ class ForumMessage extends CActiveRecord
 	{
 		return array(
 		            'byDate'=>array(
-		                'order'=>'date_added DESC',
+		                'order'=>'posted_date DESC',
 		            ),
 					'byDateAsc'=>array(
-		                'order'=>'date_added ASC',
+		                'order'=>'posted_date ASC',
 		            ),
 					'limitIndex'=>array(
 						'limit' => 10,

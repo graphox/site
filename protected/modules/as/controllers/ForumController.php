@@ -2,15 +2,9 @@
 /**
  * Forum controller Home page
  */
-class ForumController extends Controller {
-	
-	/**
-	 * Page size constants
-	 */
-	const TOPIC_PAGE_SIZE = 50;
-	const POST_PAGE_SIZE = 50;
-	
-	public $installed = false;
+class ForumController extends Controller
+{
+
 	
 	/**
 	 * Controller constructor
@@ -22,19 +16,18 @@ class ForumController extends Controller {
 		// Add page breadcrumb and title
 		$this->pageTitle = Yii::t('forum', 'Forum');
 		$this->breadcrumbs = array(
-			array('Forum', array('index')),
+			'Forum' => array('index'),
 		);
 		
-		if(!$this->installed)
-		{
-			$obj = AccessControl::GetObjectByName('Forum::Overview');
+		
+			$obj = AccessControl::GetObjectByName('forum.overview');
 			
 			if(!$obj)
 			{
 				#since this is an admin object
-				if(($admin_obj = AccessControl::GetObjectByName('Forum')) == false)
+				if(($admin_obj = AccessControl::GetObjectByName('forum.')) == false)
 				{
-					$admin_obj = AccessControl::AddObject('Forum', null, -1);
+					$admin_obj = AccessControl::AddObject('forum', null, -1);
 		
 					if(($group = AccessControl::getGroup('user')) == false)
 					{
@@ -44,9 +37,9 @@ class ForumController extends Controller {
 					AccessControl::giveAccess($admin_obj, $group, Access::create(true, true, true, true));
 				}
 		
-				$obj = AccessControl::AddObject('Forum::Overview', $admin_obj, -1);
+				$obj = AccessControl::AddObject('forum.overview', $admin_obj, -1);
 			}
-		}
+		
     }
 
 	/**
@@ -54,7 +47,7 @@ class ForumController extends Controller {
 	 */
     public function actionIndex()
     {
-		if((($access = AccessControl::GetAccess('Forum::Overview')) === false) || $access->read != 1)
+		if((($access = AccessControl::GetAccess('forum.overview')) === false) || $access->read != 1)
 			$this->denyAccess();
 				
 		//TODO: search
@@ -76,22 +69,22 @@ class ForumController extends Controller {
 		
 		foreach($forums_model as $forum)
 		{
-			$access = AccessControl::GetUserAccess($forum->aclObject);
+			$forum_access = AccessControl::GetUserAccess($forum->aclObject);
 			
-			if($access && $access->read == 1)
+			if($forum_access && $forum_access->read == 1)
 			{
 				$children = array();
 				foreach($forum->forums as $child)
 				{
-					$access = AccessControl::GetUserAccess($forum->aclObject);
+					$forum_child_access = AccessControl::GetUserAccess($forum->aclObject);
 			
-					if($access && $access->read == 1)
+					if($forum_child_access && $forum_child_access->read == 1)
 					{
-						$children[] = array( 'name' => $child->name, 'description' => $child->description, 'children' => array());
+						$children[] = array('id'=> $child->id,  'name' => $child->name, 'description' => $child->description, 'children' => array());
 					}
 				}
 				
-				$forums[] = array( 'name' => $forum->name, 'description' => $forum->description, 'children' => $children);
+				$forums[] = array( 'id'=> $forum->id, 'name' => $forum->name, 'description' => $forum->description, 'children' => $children);
 			}
 		}		
 	
@@ -117,17 +110,50 @@ class ForumController extends Controller {
         $this->render('index', array('can' => $access, 'models' => $models, 'pages' => $pages, 'forums' => $forums));
     }
     
+    public function actionAddforum()
+    {
+    	$can = AccessControl::GetAccess('forum.overview');
+    	
+    	if(!$can->update)
+    		$this->denyAccess();
+    	
+    	$model = new Forum;
+		if(isset($_GET['parent-id']) && $_GET['parent-id'] != -1)
+			$model->parent_id = $_GET['parent-id'];
+		
+		if(isset($_POST['Forum']))
+		{
+			$model->attributes = $_POST['Forum'];
+			if($model->validate())
+			{
+				$acl = $model->initAcl();
+				if($model->save(false))
+				{
+					$model->updateAcl($acl);
+					Yii::app()->user->setFlash('edit-forum', 'successfully updated forum.');
+					Yii::app()->user->setFlash('edit-forum:id', $model->id);
+				}
+			}
+		}
+		
+		$this->render('add_forum', array('model' => $model));
+    }
+    
+    
     public function actionViewforum()
     {
-		if(!isset($_GET['forum']))
+    	if(isset($_GET['id']))
+	    	$forum = Forum::model()->findByPk($_GET['id']);
+    	elseif(isset($_GET['forum']))
+			$forum = Forum::model()->findByAttributes(array('name' => $_GET['forum']));
+		else
 			throw new CHttpException(400, 'no forum name/id was given.');
 		
-		$forum = Forum::model()->findByPk(isset($_GET['forumid']) ? $_GET['forumid'] : $_GET['forum']);
+		if(!$forum)
+			throw new CHttpException(404, 'Invalid forum id/name');
 		
-		if(!$forum && ($forum = Forum::model()->findByAttributes(array('name' => $_GET['forum']))) === null)
-		{
-			throw new CHttpException(404, Yii::t('forum', 'Could not find that forum, did you enter the correct name/id ?'));
-		}
+		if(!isset($_GET['id']) || !isset($_GET['forum']))
+			$this->redirect(array('//as/forum/viewforum', 'id' => $forum->id, 'forum' => $forum->name));
 		
 		$access = AccessControl::GetUserAccess($forum->aclObject);
 
@@ -138,9 +164,8 @@ class ForumController extends Controller {
 		$criteria = new CDbCriteria();
 		$criteria->select = '*';
 		$criteria->condition = 'forum_id=:forumID';
-		$criteria->params = array(':forumID'=>(int)$forum->id);
-		
-				
+		$criteria->params = array(':forumID'=>$forum->id);
+						
 		$count = ForumTopic::model()->count($criteria);
 		$pages = new CPagination($count);
 
@@ -149,13 +174,19 @@ class ForumController extends Controller {
 		$pages->applyLimit($criteria);
 		$models = ForumTopic::model()->findAll($criteria);
 		
+		$this->breadcrumbs = array(
+			'Forum' => array('index'),
+			$forum->name => array()
+		);
+		
+		
 		$this->render('view_forum', array('can' => $access, 'models' => $models, 'pages' => $pages, 'forum' => $forum));
     }
 	
 	/**
 	 * Add topic action
 	 */
-	public function actionaddtopic()
+	public function actionAddtopic()
 	{
 		if(!isset($_GET['forum']))
 			throw new CHttpException(400, 'no forum name/id was given.');
@@ -172,59 +203,68 @@ class ForumController extends Controller {
 		if(Yii::app()->user->isGuest || $access->write != 1)
 			throw new CHttpException(403, Yii::t('forum', 'You don\'t have permission to post a topic in this forum.'));
 			
-		$model = new AddTopicForm;
+		$model = new ForumTopic;
 		
 		// Did we submit the form?
-		if( isset($_POST['AddTopicForm']) )
+		if( isset($_POST['ForumTopic']) )
 		{
-			$model->attributes = $_POST['AddTopicForm'];
+			$model->attributes = $_POST['ForumTopic'];
 			$model->status = 0;
 			$model->forum_id = $forum->id;
 			$model->acl_object_id = -1;
+			$model->user_id = Yii::app()->user->id;
+			$model->posted_date = new CDbExpression('NOW()');
 			
 			if($model->validate())
 			{
-				#if the rest is ok then we add a object, TODO: is this executed only once? then check uniqueness
-				if(($acl_obj = AccessControl::GetObjectByName(substr('Forum::'.$forum->name.'::topic::'.$model->name.'::'.md5($model->description), 0, 50))) == false)
-					$acl_obj = AccessControl::AddObject(substr('Forum::'.$forum->name.'::topic::'.$model->name.'::'.md5($model->description), 0, 50), null, -1);
+				if(($acl_obj = AccessControl::GetObjectByName(substr('forum.'.$forum->name.'.topic.'.$model->id, 0, 50))) == false)
+					$acl_obj = AccessControl::AddObject(substr('forum.'.$forum->name.'.topic.'.$model->id, 0, 50), null, -1);
 				
 				$model->acl_object_id = $acl_obj->id;
 			}
 			
 			if( $model->save() )
 			{
+				#change the acl name
+				$acl_obj->name = substr('forum.'.$forum->name.'.topic.'.$model->id, 0, 50);
+				if(!$acl_obj->save())
+					throw new Exception(print_r($acl_obj->getErrors(), true));
+			
 				Yii::app()->user->setFlash('success', Yii::t('forum', 'Thank You. Your topic created.'));
-				$this->redirect('index');
+				$this->redirect(array('//as/forum/viewtopic', 'topicid'=> $model->id, 'topic' => $model->title));
 			}
 		}
 		
 		// Add page breadcrumb and title
 		$this->pageTitle = Yii::t('forum', 'Create A Topic');
 		$this->breadcrumbs = array(
-			array('Forum', array('index')),
-			array($forum->name, array()),
-			array(Yii::t('forum', 'Create A Topic'), array())			
+			'Forum' => array('index'),
+			$forum->name => array('//as/forum/viewforum', 'id' => $forum->id, 'name' => $forum->name),
+			Yii::t('forum', 'Create A Topic') => array()
 		);
 		
 		
 		// Render
-		$this->render('add_topic', array('model'=>$model));
+		$this->render('as.views.edit', array('model'=>$model, 'header' => 'Create a topic'));
 	}
 	
 	/**
 	 * View Topic Action
 	 */
-	public function actionviewtopic()
+	public function actionViewtopic()
 	{
-		if(!isset($_GET['topic']))
-			throw new CHttpException(400, 'no forum name/id was given.');
+    	if(isset($_GET['topicid']))
+	    	$topic = ForumTopic::model()->findByPk($_GET['topicid']);
+    	elseif(isset($_GET['topic']))
+			$topic = ForumTopic::model()->findByAttributes(array('title' => $_GET['topic']));
+		else
+			throw new CHttpException(400, 'no topic name/id was given.');
 		
-		$topic = ForumTopic::model()->findByPk(isset($_GET['topicid']) ? $_GET['topicid'] : $_GET['topic']);
-		
-		if(!$topic && ($topic = ForumTopic::model()->findByAttributes(array('name' => $_GET['topic']))) === null)
-		{
+		if(!$topic)
 			throw new CHttpException(404, Yii::t('forum', 'Could not find that topic, did you enter the correct name/id ?'));
-		}
+		
+		if(!isset($_GET['topicid']) || !isset($_GET['topic']))
+			$this->redirect(array('//as/forum/viewtopic', 'topicid'=> $topic->id, 'topic' => $topic->name));
 		
 		$access = AccessControl::GetUserAccess($topic->aclObject);
 		
@@ -297,23 +337,24 @@ class ForumController extends Controller {
 		$criteria = new CDbCriteria;
 		$criteria->condition = 'topic_id = :tid';
 		$criteria->params = array(':tid' => $topic->id);
+		$criteria->order = 'posted_date';
 
 		$count = ForumMessage::model()->count($criteria);
 		$pages = new CPagination($count);
-		$pages->pageSize = self::POST_PAGE_SIZE;
+		$pages->pageSize = isset($_GET['per-page'])?max((int)$_GET['per-page'],3) : 20;
 		#$pages->route = '/as/forum/topic/'.$topic->id . '-' . $topic->alias;
 		#$pages->params = array('lang'=>false);
 
 		$pages->applyLimit($criteria);
 
-		$posts = ForumMessage::model()->byDateAsc()->with(array('user'))->findAll($criteria);
+		$models = ForumMessage::model()->byDateAsc()->with(array('user'))->findAll($criteria);
 			
 		// Show titles and nav
-		$this->pageTitle = Yii::t('forum', 'viewing topic: {title}', array('{title}'=> $topic->name ));
+		$this->pageTitle = Yii::t('forum', 'viewing topic: {title}', array('{title}'=> $topic->title ));
 		$this->breadcrumbs = array(
-			array('Forum', array('index')),
-			array($topic->forum->name, array()),
-			array(Yii::t('forum', 'viewing topic: {title}', array('{title}'=> $topic->name)), array())
+			'Forum' => array('index'),
+			$topic->forum->name => array('//as/forum/viewforum', 'id' => $topic->forum->id, 'forum' => $topic->forum->name),
+			Yii::t('forum', 'viewing topic: {title}', array('{title}'=> $topic->title)) => array()
 		);
 
 		$markdown = new CMarkdownParser;
@@ -322,6 +363,43 @@ class ForumController extends Controller {
 		# $subscribed = TopicSubs::model()->find('topicid=:topicid AND userid=:userid', array( ':topicid' => $topic->id, ':userid' => Yii::app()->user->id ) );
 			
 		#Render
-		$this->render('view_topic', array( /*'subscribed' => $subscribed,*/ 'markdown' => $markdown, 'model' => $topic, 'posts' => $posts, 'newPost' => $newPost, 'count' => $count, 'pages' => $pages, 'can' => $access ));
+		$this->render('view_topic', array( 'topic' => $topic, 'markdown' => $markdown, 'models' => $models, 'newPost' => $newPost, 'count' => $count, 'pages' => $pages, 'can' => $access ));
+	}
+	
+	function actionReply()
+	{
+		if(!isset($_GET['topic']))
+			throw new CHttpException(404, 'Could not find topic.');
+		
+		$topic = ForumTopic::model()->findByPk($_GET['topic']);
+
+		if(!$topic)
+			throw new CHttpException(404, Yii::t('forum', 'Could not find that topic, did you enter the correct name/id ?'));
+		
+		$access = AccessControl::GetUserAccess($topic->aclObject);
+		
+		if($access->write != 1)
+			throw new CHttpException(403, Yii::t('forum', 'You don\'t have permission to reply on this topic.'));
+		
+		$model = new ForumMessage;
+		
+		if(isset($_POST['ForumMessage']))
+		{
+			$model->attributes = $_POST['ForumMessage'];
+			if($model->validate())
+			{
+				$model->user_id = Yii::app()->user->id;
+				$model->topic_id = $topic->id;
+				$model->posted_date = new CDbExpression('NOW()');
+				
+				if($model->save())
+				{
+					Yii::app()->user->setFlash('add-reply-message', 'Successfully added reply.');
+					$this->redirect(array('//as/forum/viewtopic', 'topicid'=> $topic->id, 'topic' => $topic->title));
+				}
+			}
+		}
+		
+		$this->render('as.views.edit', array('model' => $model, 'action' => array()));
 	}
 }

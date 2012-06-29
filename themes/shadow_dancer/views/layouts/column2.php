@@ -7,6 +7,18 @@
 	</div>
 	<div class="span-5 last">
 		<div id="sidebar">
+
+		<?php $this->beginWidget('as.components.UI.UIDbWidgetArea', array(
+			'title'=>'Test',
+		)); ?>
+			<div>
+				{{as:widget:TEST}}
+			</div>
+		<?php
+			$this->endWidget();
+		?>
+		
+		
 		<?php
 			$this->beginWidget('zii.widgets.CPortlet', array(
 				'title'=>'<span class="icon icon-sitemap_color">Operations</span>',

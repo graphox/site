@@ -5,8 +5,8 @@
  *
  * The followings are the available columns in table 'forum_topic':
  * @property integer $id
- * @property string $name
- * @property string $description
+ * @property string $title
+ * @property string $content
  * @property integer $status
  * @property integer $forum_id
  * @property integer $acl_object_id
@@ -44,13 +44,10 @@ class ForumTopic extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, description, status, forum_id, acl_object_id', 'required'),
-			array('id, status, forum_id, acl_object_id', 'numerical', 'integerOnly'=>true),
-			array('name', 'length', 'max'=>50),
-			array('description', 'length', 'max'=>500),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('id, name, description, status, forum_id, acl_object_id', 'safe', 'on'=>'search'),
+			array('title, content, markup', 'required'),
+			array('markup', 'as.components.validators.ValidateMarkup'),
+			array('title, markup', 'length', 'max'=>50),
+			array('content', 'length', 'min'=>3),
 		);
 	}
 
@@ -64,6 +61,7 @@ class ForumTopic extends CActiveRecord
 		return array(
 			'forumMessages' => array(self::HAS_MANY, 'ForumMessage', 'topic_id'),
 			'forum' => array(self::BELONGS_TO, 'Forum', 'forum_id'),
+			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
 			'aclObject' => array(self::BELONGS_TO, 'AclObject', 'acl_object_id'),
 		);
 	}

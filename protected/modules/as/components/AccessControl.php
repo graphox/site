@@ -157,19 +157,13 @@ class AccessControl
 			return Access::FromResult($priv);
 		}	
 				
-		throw new exception('Could not find rule');
+		throw new exception('Could not find rule checked groups:'.print_r($group_ids, true).' Checked objects:'.print_r($object_ids, true));
 	}
 	
-	static function GetAccess($name, $is_page = false)
+	static function GetAccess($name)
 	{
-		if($is_page)
-			$name = 'Page:'.$name;
-		
 		$object = self::GetObjectByName($name);
-		
-		if(!$object)
-			return false;
-		
+
 		return self::GetUserAccess($object);
 	}
 	
