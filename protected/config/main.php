@@ -55,6 +55,24 @@ return CMap::mergeArray(
 
 		// application components
 		'components'=>array(
+			'mailer' => array(
+				'class' => 'as.components.AsMailer',
+
+				'type' => 'smtp',
+				
+				'host' => 'localhost',
+				'port' => 25,
+				
+				'defaultAttributes' => array(
+					'from' => array( 'doNotReply@localhost' => 'doNotReply' ),
+					
+				),
+			),
+			
+			'settings' => array(
+				'class' => 'as.components.AsSettings'
+			),
+		
 			'widgetFactory'=>array(
 				'class'=>'CWidgetFactory',
 
@@ -300,6 +318,6 @@ return CMap::mergeArray(
 			)
 		),
 	),
-	file_exists(FCPATH.'config.php')
+	defined('FCPATH') && file_exists(FCPATH.'config.php')
 		? require(FCPATH.'config.php')
 		: array());
