@@ -1,25 +1,22 @@
 <?php
 
 /**
- * This is the model class for table "acl_object".
+ * This is the model class for table "activationkey".
  *
- * The followings are the available columns in table 'acl_object':
+ * The followings are the available columns in table 'activationkey':
  * @property integer $id
- * @property string $name
- * @property integer $default_value
+ * @property string $hash
+ * @property integer $user_id
  *
  * The followings are the available model relations:
- * @property AclAction[] $aclActions
- * @property Content[] $contents
- * @property Group[] $groups
- * @property Markup[] $markups
+ * @property User $user
  */
-class AclObject extends AsActiveRecord
+class Activationkey extends AsActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return AclObject the static model class
+	 * @return Activationkey the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -31,7 +28,7 @@ class AclObject extends AsActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'acl_object';
+		return 'activationkey';
 	}
 
 	/**
@@ -42,13 +39,39 @@ class AclObject extends AsActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, default_value', 'required'),
-			array('default_value', 'numerical', 'integerOnly'=>true),
-			array('name', 'length', 'max'=>50),
+			array('hash, user_id', 'required', 'on' => 'insert,update'),
+			array('user_id', 'numerical', 'integerOnly'=>true, 'on' => 'insert,update'),
+			array('hash', 'length', 'max'=>500, 'on' => 'insert,update'),
+			
+			array('hash', 'required', 'on' => 'activate'),
+			array('hash', 'activate', 'on' => 'activate'),
+			
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, name, default_value', 'safe', 'on'=>'search'),
+			array('id, hash, user_id', 'safe', 'on'=>'search'),
 		);
+	}
+	
+	/**
+	 * Validate the activation key and activate the account
+	 */
+	public function activate($field, $settings)
+	{
+		$model = self::model()->with('user')->findByAttributes(array(
+			'hash' => $this->$field
+		));
+		
+		if(!$this->hasErrors() && $model !== NULL)
+		{
+			Yii::log('Activated account: '.$model->user->username, 'info', 'as.user');
+			$model->user->status = 'active';
+			if(!$model->user->save(false))
+				$this->addError('hash', 'could not activate user, please try again.');
+			else
+				$model->delete();
+		}
+		elseif($model === NULL)
+			$this->addError($field, 'invalid activation id');
 	}
 
 	/**
@@ -59,10 +82,7 @@ class AclObject extends AsActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'aclActions' => array(self::HAS_MANY, 'AclAction', 'acl_object_id'),
-			'contents' => array(self::HAS_MANY, 'Content', 'acl_object_id'),
-			'groups' => array(self::HAS_MANY, 'Group', 'acl_object_id'),
-			'markups' => array(self::HAS_MANY, 'Markup', 'acl_object_id'),
+			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
 		);
 	}
 
@@ -73,8 +93,8 @@ class AclObject extends AsActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
-			'default_value' => 'Default Value',
+			'hash' => 'Activation key',
+			'user_id' => 'User',
 		);
 	}
 
@@ -90,8 +110,8 @@ class AclObject extends AsActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('default_value',$this->default_value);
+		$criteria->compare('hash',$this->hash,true);
+		$criteria->compare('user_id',$this->user_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

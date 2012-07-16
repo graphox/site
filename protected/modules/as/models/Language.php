@@ -1,25 +1,21 @@
 <?php
 
 /**
- * This is the model class for table "acl_object".
+ * This is the model class for table "language".
  *
- * The followings are the available columns in table 'acl_object':
+ * The followings are the available columns in table 'language':
  * @property integer $id
  * @property string $name
- * @property integer $default_value
  *
  * The followings are the available model relations:
- * @property AclAction[] $aclActions
  * @property Content[] $contents
- * @property Group[] $groups
- * @property Markup[] $markups
  */
-class AclObject extends AsActiveRecord
+class Language extends AsActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return AclObject the static model class
+	 * @return Language the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -31,7 +27,7 @@ class AclObject extends AsActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'acl_object';
+		return 'language';
 	}
 
 	/**
@@ -42,12 +38,11 @@ class AclObject extends AsActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, default_value', 'required'),
-			array('default_value', 'numerical', 'integerOnly'=>true),
+			array('name', 'required'),
 			array('name', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, name, default_value', 'safe', 'on'=>'search'),
+			array('id, name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,10 +54,7 @@ class AclObject extends AsActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'aclActions' => array(self::HAS_MANY, 'AclAction', 'acl_object_id'),
-			'contents' => array(self::HAS_MANY, 'Content', 'acl_object_id'),
-			'groups' => array(self::HAS_MANY, 'Group', 'acl_object_id'),
-			'markups' => array(self::HAS_MANY, 'Markup', 'acl_object_id'),
+			'contents' => array(self::HAS_MANY, 'Content', 'language_id'),
 		);
 	}
 
@@ -74,7 +66,6 @@ class AclObject extends AsActiveRecord
 		return array(
 			'id' => 'ID',
 			'name' => 'Name',
-			'default_value' => 'Default Value',
 		);
 	}
 
@@ -91,7 +82,6 @@ class AclObject extends AsActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('name',$this->name,true);
-		$criteria->compare('default_value',$this->default_value);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

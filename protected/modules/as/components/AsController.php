@@ -2,13 +2,12 @@
 
 class AsController extends CController
 {
-	public $menu;
-	public $breadcrumbs;
+	public $menu = array();
+	public $breadcrumbs = array();
 
 	public $layout = '//layouts/column2';
 	
-	public $title;
-	public $description;
+	public $title = '';
 
 	public function __construct($id,$module=null)
 	{
@@ -43,17 +42,28 @@ class AsController extends CController
 	
 	public function denyAccess($msg = null)
 	{
-		Yii::import('as.models.forms.*');
-		$model = new LoginForm;
-
-		$this->layout = '//layouts/main';
+		if(!Yii::app()->user->isGuest)
+			throw new CHttpException(403, 'Access denied');
+		
 		Yii::app()->user->setReturnUrl(Yii::app()->request->url);
-		$this->render('as.views.auth.login',array('model'=>$model));
-		Yii::app()->end();
+		
+		$this->redirect(Yii::app()->settings->get('as.loginUri', array('//as/auth')));
 	}
 	
-	public function addMenu($name, $elements)
+	public function render($view, $data=NULL, $return=false)
 	{
-		$this->menu[] = array($name, $elements);
+		if(isset($_POST['noLayout']))
+			return $this->renderPartial($view, $data, $return);
+		else
+			return parent::render($view, $data, $return);
+	}
+	
+	protected function performAjaxValidation($model, $id)
+	{
+		if(isset($_POST['ajax']) && $_POST['ajax'] === $id)
+		{
+			echo CActiveForm::validate($model);
+			Yii::app()->end();
+		}
 	}
 }

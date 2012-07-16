@@ -1,25 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "acl_object".
+ * This is the model class for table "group".
  *
- * The followings are the available columns in table 'acl_object':
+ * The followings are the available columns in table 'group':
  * @property integer $id
  * @property string $name
- * @property integer $default_value
+ * @property integer $acl_object_id
  *
  * The followings are the available model relations:
- * @property AclAction[] $aclActions
- * @property Content[] $contents
- * @property Group[] $groups
- * @property Markup[] $markups
+ * @property AclObject $aclObject
+ * @property GroupAction[] $groupActions
+ * @property GroupUser[] $groupUsers
+ * @property User[] $users
  */
-class AclObject extends AsActiveRecord
+class Group extends AsActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return AclObject the static model class
+	 * @return Group the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -31,7 +31,7 @@ class AclObject extends AsActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'acl_object';
+		return 'group';
 	}
 
 	/**
@@ -42,12 +42,12 @@ class AclObject extends AsActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, default_value', 'required'),
-			array('default_value', 'numerical', 'integerOnly'=>true),
+			array('name, acl_object_id', 'required'),
+			array('acl_object_id', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, name, default_value', 'safe', 'on'=>'search'),
+			array('id, name, acl_object_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,10 +59,10 @@ class AclObject extends AsActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'aclActions' => array(self::HAS_MANY, 'AclAction', 'acl_object_id'),
-			'contents' => array(self::HAS_MANY, 'Content', 'acl_object_id'),
-			'groups' => array(self::HAS_MANY, 'Group', 'acl_object_id'),
-			'markups' => array(self::HAS_MANY, 'Markup', 'acl_object_id'),
+			'aclObject' => array(self::BELONGS_TO, 'AclObject', 'acl_object_id'),
+			'groupActions' => array(self::HAS_MANY, 'GroupAction', 'group_id'),
+			'groupUsers' => array(self::HAS_MANY, 'GroupUser', 'group_id'),
+			'users' => array(self::HAS_MANY, 'User', 'display_group_id'),
 		);
 	}
 
@@ -74,7 +74,7 @@ class AclObject extends AsActiveRecord
 		return array(
 			'id' => 'ID',
 			'name' => 'Name',
-			'default_value' => 'Default Value',
+			'acl_object_id' => 'Acl Object',
 		);
 	}
 
@@ -91,7 +91,7 @@ class AclObject extends AsActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('name',$this->name,true);
-		$criteria->compare('default_value',$this->default_value);
+		$criteria->compare('acl_object_id',$this->acl_object_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

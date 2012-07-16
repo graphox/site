@@ -1,137 +1,38 @@
 <?php
 
-class AuthController extends Controller
+class AuthController extends AsController
 {
-	public function beforeAction($action)
+	public $defaultAction = 'auth';
+	
+	public function actionRegister()
 	{
-		$config = array();
-		switch ($action->id)
+		$model = new RegisterForm;
+		
+		$this->performAjaxValidation($model, 'register-form');
+		
+		if(isset($_POST['RegisterForm']))
 		{
-			case 'register':
-				$config = array(
-					'steps'=>array('user'),
-					'events'=>array(
-						'onStart'=>'wizardStart',
-						'onProcessStep'=>'registerWizardstep',
-						'onFinished'=>'wizardFinished',
-						'onInvalidStep'=>'wizardInvalidStep',
-						'onSaveDraft'=>'wizardSaveDraft'
-					),
-					
-					'menuLastItem'=>'Register'
-				);
-				break;
-
-			case 'activate':
-				$config = array(
-					'steps'=>array('activate'),
-					
-					'events'=>array(
-						'onStart'=>'wizardStart',
-						'onProcessStep'=>'registerWizardstep',
-						'onFinished'=>'wizardFinished',
-						'onInvalidStep'=>'wizardInvalidStep',
-						'onSaveDraft'=>'wizardSaveDraft'
-					),
-					
-					'menuLastItem'=>'Register'
-				);
-				break;
-
-			default:
-				break;
-		}
-		if (!empty($config))
-		{
-			$config['class']='application.components.WizardBehavior';
-			$this->attachBehavior('wizard', $config);
+			$model->attributes = $_POST['RegisterForm'];
+			if($model->save())
+				Yii::app()->user->setFlash('register.success', 'successfully registered your account, please check your inbox to activate your account');
 		}
 		
-		return parent::beforeAction($action);
-	}
-
-	public function wizardStart($event)
-	{
-		$event->handled = true;
-	}
-	
-	public function wizardInvalidStep($event)
-	{
-		Yii::app()->getUser()->setFlash('error', $event->step.' is not a vaild step.');
-	}
-
-	public function wizardFinished($event)
-	{
-		$steps = $event->sender->read();
-		$models = $this->wizardGetModels();
-		
-		foreach($steps as $step => $data)
-		{
-			$model = new $models[strtolower($step)]();
-			if(!$model->do_delay_save($data))
-				throw new Exception('could not save!');
-		}
-		
-		if ($event->step===true)
-			$this->render('completed', compact('event'));
-		else
-			$this->render('finished', compact('event'));
-
-		$event->sender->reset();
-		Yii::app()->end();
-	}
-	
-	public function wizardGetModels()
-	{
-		Yii::import('as.models.forms.*');
-		
-		return array(
-			'user' => 'RegisterForm',
-			'profile' => 'RegisterForm',
-			'activate' => 'ActivateForm',
-		);	
-	}
-	
-	public function registerWizardStep($event)
-	{
-		$models = $this->wizardGetModels();
-		
-		$model = new $models[strtolower($event->step)]();
-		$model->attributes = $event->data;
-		
-		
-		$form = $model->getForm();
-
-		// Note that we also allow sumission via the Save button
-		if ($form->submitted() && $form->validate())
-		{
-			$event->sender->save($model->delay_save());
-			$event->handled = true;
-		}
-		else
-			$this->render('form', compact('event','form'));
-	}	
-
-	public function actionIndex()
-	{
-		$this->actionAuth();
-	}
-	
-	public function actionOauth()
-	{
-	
-	}
-	
-	public function actionRegister($step = null)
-	{
-		$this->pageTitle = 'Registration Wizard';
-		$this->process($step);
+		$this->render('register', array('model' => $model));
 	}
 	
 	public function actionActivate($step = null)
 	{
-		$this->pageTitle = 'activation Wizard';
-		$this->process($step);
+		$model = new Activationkey('activate');
+		
+		if(isset($_POST['Activationkey']))
+		{
+			$model->attributes = $_POST['Activationkey'];
+			
+			if($model->validate())
+				Yii::app()->user->setFlash('activate.success', 'successfully activated your account. you can now log in.');
+		}
+		
+		$this->render('activate', array('model' => $model));
 	}
 	
 	public function actionLogout()
@@ -256,20 +157,12 @@ class AuthController extends Controller
 			$this->redirect(array('auth/auth', 'error' => 'oauth'));
 		}
 		
-		$model=new LoginForm;
+		$model=new User('login');
 
-		// if it is ajax validation request
-		if(isset($_POST['ajax']) && $_POST['ajax']==='login-form')
+		if(isset($_POST['User']))
 		{
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
-
-		// collect user input data
-		if(isset($_POST['LoginForm']))
-		{
-			$model->attributes=$_POST['LoginForm'];
-			// validate user input and redirect to the previous page if valid
+			$model->attributes = $_POST['User'];
+			
 			if($model->validate() && $model->login())
 			{
 				Yii::app()->user->setFlash('success', Yii::t('AS.auth', 'Your login was successfully.'));

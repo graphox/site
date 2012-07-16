@@ -72,6 +72,14 @@ return CMap::mergeArray(
 			'settings' => array(
 				'class' => 'as.components.AsSettings'
 			),
+			
+			'accessControl' => array(
+				'class' => 'as.components.AsAccessControl'
+			),
+			
+			'crypto' => array(
+				'class' => 'as.components.AsCrypto'
+			),
 		
 			'widgetFactory'=>array(
 				'class'=>'CWidgetFactory',
@@ -116,7 +124,7 @@ return CMap::mergeArray(
 			),
 		
 			'user'=>array(
-				'class'=> 'as.components.webUser'
+				'class'=> 'as.components.AsWebUser'
 				// enable cookie-based authentication
 				//'allowAutoLogin'=>true,
 			),
@@ -212,6 +220,10 @@ return CMap::mergeArray(
 			'urlManager'=>array(
 				'urlFormat'=>'path',
 				'rules'=>array(
+					'<module:as>/<controller:content>/<action:(create|admin|index)>' => '<module>/<controller>/<action>',
+					'<module:as>/<controller:content>/<type:\w+>' => '<module>/<controller>',
+					'<module:as>/<controller:content>/<type:\w+>/<id:\d+>/<name:(\w|-)+>/?<action:(\w+|)>' => '<module>/<controller>/<action>',
+
 					'<controller:\w+>/id/<id:\d+>'=>'<controller>/index/',
 					'<controller:\w+>/<id:\d+>'=>'<controller>/index/',
 					'<controller:\w+>/name/<name:\w+>'=>'<controller>/index/',
@@ -234,7 +246,7 @@ return CMap::mergeArray(
 			// uncomment the following to use a MySQL database
 			//*
 			'db'=>array(
-				'connectionString' => 'mysql:host=localhost;dbname=alphaserv2',
+				'connectionString' => 'mysql:host=localhost;dbname=alphaserv3',
 				'emulatePrepare' => true,
 				'username' => 'alphaserv',
 				'password' => 'alphaserv',

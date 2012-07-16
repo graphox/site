@@ -6,51 +6,51 @@
 
 <div class="container">
 	<div class="span-10">
-		<h2 class="line-divider">Normal login</h2>
+		<h2>Normal login</h2>
 
-		<p>
-			<strong>Please fill out the following form with your login credentials:</strong>
-		</p>
-
-		<p>
-			Fields with <span class="required">*</span> are required.
-		</p>
-
-		<p>
+		<div class="form">
 			<?php $form=$this->beginWidget('CActiveForm', array(
 				'id'=>'login-form',
 				'enableClientValidation'=>true,
 				'clientOptions'=>array(
 					'validateOnSubmit'=>true,
 				),
-				'htmlOptions' => array('class' => 'admin-form'),
-				'action' => isset($_GET['returnurl']) ? array('//as/auth', 'returnurl' => $_GET['returnurl']) : array('//as/auth'),
+				'action' => array('//as/auth'),
 			
 			)); ?>
 
-				<fieldset>
-					<div>
-						<?php echo $form->labelEx($model,'email'); ?>
-						<?php echo $form->textField($model, 'email', array('class' => 'form-poshytip', 'title' => 'Enter your email adress')); ?>
-						<?php echo $form->error($model,'email'); ?>
-					</div>
 
-					<div>
-						<?php echo $form->labelEx($model,'password'); ?>
-						<?php echo $form->passwordField($model,'password', array('class' => 'form-poshytip', 'title' => 'Enter your password')); ?>
-						<?php echo $form->error($model,'password'); ?>
-					</div>
+				<p>
+					<strong>Please fill out the following form with your login credentials:</strong>
+				</p>
 
-					<div class="row buttons">
-						<?php echo CHtml::submitButton('Login', array('id' => 'submit')); ?>
-					</div>
-				</fieldset>
+				<p>
+					Fields with <span class="required">*</span> are required.
+				</p>
+				
+				<?=$form->errorSummary($model)?>
+
+				<div class="row">
+					<?php echo $form->labelEx($model,'username'); ?>
+					<?php echo $form->textField($model, 'username'); ?>
+					<?php echo $form->error($model,'username'); ?>
+				</div>
+
+				<div class="row">
+					<?php echo $form->labelEx($model,'password'); ?>
+					<?php echo $form->passwordField($model,'password'); ?>
+					<?php echo $form->error($model,'password'); ?>
+				</div>
+
+				<div class="row buttons">
+					forgot password | register <?php echo CHtml::submitButton('Login', array('id' => 'submit')); ?>
+				</div>
 			<?php $this->endWidget(); ?>
-		</p>
+		</div>
 	</div>
 
 	<div class="span-9 last">
-		<h2 class="line-divider">Oauth / Openid login</h2>
+		<h2>Oauth / Openid login</h2>
 
 		<p>
 			<strong>Do you already have an account on one of these sites? Click the logo to log in with it here:</strong>
@@ -60,7 +60,7 @@
 			<?php $this->widget('as.components.widgets.AsEAuthWidget', array('action' => '//as/auth'));	?>
 		</p>
 		
-		<h2 class="line-divider">Register</h2>
+		<h2>Register</h2>
 		
 		<p>
 			<?=CHtml::link('Click here to go to the registration page.', array('//as/auth/register')) ?>
