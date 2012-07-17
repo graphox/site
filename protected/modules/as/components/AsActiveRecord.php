@@ -36,9 +36,9 @@ class AsActiveRecord extends CActiveRecord
 		return $result;
 	}
 	
-	public function findAllWithAccess($actions)
+	public function findAllWithAccess($actions, $criteria = array())
 	{
-		$all = $this->findAll();
+		$all = $this->findAll($criteria);
 		
 		$return = array();
 		
@@ -47,7 +47,7 @@ class AsActiveRecord extends CActiveRecord
 			$rules = (array) Yii::app()->accessControl->getAccess($object->aclObject, $actions);
 			
 			if(!in_array(false, $rules))
-				$return[] =& $object;
+				$return[] = $object;
 		}
 		
 		return $return;
@@ -88,5 +88,23 @@ class AsActiveRecord extends CActiveRecord
 				$this->$field = 0;
 		
 		return parent::beforeSave();
+	}
+	
+	/**
+	 * Format data into array
+	 * @attribute models an array containing the activerecord instances
+	 * @attribute key the activerecord field to use as key in the return array
+ 	 * @attribute value the activerecord field to use as value in the return array
+ 	 * @return an array containing key => value pairs based on the activerecord attributes
+	 */
+	public static function format($models, $key, $value)
+	{
+		$return = array();
+		
+		$i = 0;
+		foreach($models as $model)
+			$return[$key === 'i' ? $i++ : $model->$key ] = $model->$value;
+		
+		return $return;
 	}
 }

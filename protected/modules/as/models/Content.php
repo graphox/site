@@ -67,10 +67,18 @@ class Content extends AsActiveRecord
 			array('markup_id', 'as.components.validators.AsInArrayValidator', 'data' => $this->markupOptions, 'arrayValues' => false),
 			array('parent_id', 'as.components.validators.AsInArrayValidator', 'data' => $this->parentOptions, 'arrayValues' => false),
 
+			array('name', 'unique'),
+			array('name', 'cleanUrl'),
+
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, name, content, created_date, updated_date, creator_id, updater_id, acl_object_id, type_id, language_id, can_comment, markup_id, published, widgets_enabled, parent_id', 'safe', 'on'=>'search'),
 		);
+	}
+	
+	public function cleanUrl($field, $options)
+	{
+		$this->$field = preg_replace('/\W/', '-', $this->$field);
 	}
 	
 	/**

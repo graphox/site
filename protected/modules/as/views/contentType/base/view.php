@@ -20,6 +20,8 @@
 			</nav>
 		<?php endif; ?>
 		
+		<?php $this->widget('as.components.widgets.AsAttachmentsWidget', array('can' => $can, 'parent' => $model)); ?>
+		
 		<?php if($model->can_comment): ?>
 			<?php $this->widget('as.components.widgets.AsCommentWidget', array('can' => $can, 'parent' => $model)); ?>
 		<?php endif; ?>

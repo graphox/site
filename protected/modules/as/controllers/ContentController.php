@@ -124,6 +124,7 @@ class ContentController extends AsController
 			'delete' => false,
 			'comment' => true,
 			'like' => true,
+			'addAttachment' => false,
 		));
 		
 		if(!$this->_can->read)
@@ -138,10 +139,13 @@ class ContentController extends AsController
 	 */
 	public function actionView()
 	{
-		$this->render('view',array(
-			'model'=>$this->_content,
-			'can' => $this->_can
-		));
+		if(isset($_GET['download']))
+			$this->_content->download();
+		else
+			$this->render('view',array(
+				'model'=>$this->_content,
+				'can' => $this->_can
+			));
 	}
 
 	/**
@@ -221,15 +225,19 @@ class ContentController extends AsController
 	public function actionIndex()
 	{
 		$criteria = new CDbCriteria(array(
-			'condition' => 'published=1 AND type_id = :type_id',
+			'condition' => '(published = 1 OR creator_id = :user_id OR updater_id = :user_id) AND type_id = :type_id',
 			'params' => array(
-				':type_id' => (int)$this->_type_id
+				':type_id' => (int)$this->_type_id,
+				':user_id' => Yii::app()->user->isGuest ? -1 : (int)Yii::app()->user->id
 			),
 			'order'=>'created_date DESC',
 			'with'=>array('aclObject'),
 		));
 		
-		$criteria->addInCondition('t.id', CHtml::listData(Content::model()->findAllWithAccess(array('view' => true)), 'id', 'id'));
+
+		
+		$models = Content::model()->findAllWithAccess(array('read' => true));
+		$criteria->addInCondition('t.id', AsActiveRecord::format($models, 'i', 'id'));
 	
 		$models = new CActiveDataProvider('Content', array(
 			'criteria'=> $criteria,
@@ -237,7 +245,7 @@ class ContentController extends AsController
 				'pageSize' => 20,
 			),
 		));
-		
+
 		$this->render('index',array(
 			'models' => $models
 		));

@@ -219,10 +219,12 @@ return CMap::mergeArray(
 			//*
 			'urlManager'=>array(
 				'urlFormat'=>'path',
+				'showScriptName' => false,
 				'rules'=>array(
-					'<module:as>/<controller:content>/<action:(create|admin|index)>' => '<module>/<controller>/<action>',
-					'<module:as>/<controller:content>/<type:\w+>' => '<module>/<controller>',
-					'<module:as>/<controller:content>/<type:\w+>/<id:\d+>/<name:(\w|-)+>/?<action:(\w+|)>' => '<module>/<controller>/<action>',
+					#TODO: debug these
+					#'<module:as>/<controller:content>/<action:(create|admin|index)>' => '<module>/<controller>/<action>',
+					#'<module:as>/<controller:content>/<type:\w+>' => '<module>/<controller>',
+					#'<module:as>/<controller:content>/<type:\w+>/<id:\d+>/<name:(\w|-)+>/?<action:(\w+|)>' => '<module>/<controller>/<action>',
 
 					'<controller:\w+>/id/<id:\d+>'=>'<controller>/index/',
 					'<controller:\w+>/<id:\d+>'=>'<controller>/index/',
@@ -270,7 +272,6 @@ return CMap::mergeArray(
 				
 					array(
 						'class'=>'CWebLogRoute',
-						'categories'=>'system.db.CDbCommand',
 						'showInFireBug'=>true,
 					),
 				

@@ -11,9 +11,8 @@ $this->menu=array(
 	array('label'=>'Delete Content', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
 	array('label'=>'Manage Content', 'url'=>array('admin')),
 );
-?>
 
-<?php $this->widget('as.components.widgets.AsDisplayContentWidget', array(
-	'data'=>$model,
+$this->widget('as.components.widgets.AsDisplayContentWidget', array(
+	'data'=> $model,
 	'can' => $can
 )); ?>
