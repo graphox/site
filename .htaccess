@@ -1,0 +1,17 @@
+php_value upload_max_filesize 10240M
+php_value post_max_size 10240M
+php_value max_execution_time 200
+php_value max_input_time 200
+
+#Yii url reqriting
+
+Options +FollowSymLinks
+IndexIgnore */*
+RewriteEngine on
+
+# if a directory or a file exists, use it directly
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# otherwise forward it to index.php
+RewriteRule . index.php
