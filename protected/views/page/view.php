@@ -65,8 +65,8 @@
 		<?php endforeach; ?>
 	</div>
 	
-	<?php if($model->can('comment,add')): ?>
-		<?php $this->widget('application.components.commentFormWidget', array('parentEntity' => $model->id)); ?>
+	<?php if($model->can('comment.add')): ?>
+		<?php $this->widget('application.components.commentFormWidget', array('parentEntity' => $model)); ?>
 	<?php endif; ?>
 
 <?php endif; ?>

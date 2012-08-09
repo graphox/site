@@ -6,7 +6,7 @@
 class commentFormWidget extends CWidget
 {
 	/**
-	 * @var $parentEntity integer the entity id of the parent entity, set by the view that is requesting this widget.
+	 * @var $parentEntity BaseEntity the parent entity.
 	 */
 	public $parentEntity;
 	
