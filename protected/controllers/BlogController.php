@@ -1,6 +1,6 @@
 <?php
 
-class PageController extends Controller
+class BlogController extends Controller
 {
     /**
      * @var string the default layout for the views.
@@ -12,7 +12,7 @@ class PageController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$model = Entity::model()->findAllTypeWithAccess('object', 'page');
+		$model = Entity::model()->findAllTypeWithAccess('object', 'blog');
 		
 		$this->render('index', array(
 			'dataProvider' => new CArrayDataProvider($model)
@@ -20,17 +20,17 @@ class PageController extends Controller
 	}
 	
 	/**
-	 * Creates a page.
+	 * Creates a blog.
 	 */	
 	public function actionCreate()
 	{
-		$model = new PageEntity;
+		$model = new BlogEntity();
 		
 		$this->performAjaxValidation($model);
 
-        if(isset($_POST['PageEntity']))
+        if(isset($_POST['BlogEntity']))
         {
-            $model->attributes = $_POST['PageEntity'];
+            $model->attributes = $_POST['BlogEntity'];
             
             if($model->save())
                 $this->redirect(array('view', 'id' => $model->id));
@@ -62,15 +62,12 @@ class PageController extends Controller
     {
         $model=$this->loadModel($id)->typeModel;
 
-		if($model->can('update') !== TRUE)
-			throw new CHttpException(403, 'access denied.');
-		
         // Uncomment the following line if AJAX validation is needed
         $this->performAjaxValidation($model);
 
-        if(isset($_POST['PageEntity']))
+        if(isset($_POST['BlogEntity']))
         {
-            $model->attributes=$_POST['PageEntity'];
+            $model->attributes=$_POST['BlogEntity'];
             if($model->save())
                 $this->redirect(array('view','id'=>$model->id));
         }
@@ -90,11 +87,7 @@ class PageController extends Controller
         if(Yii::app()->request->isPostRequest)
         {
             // we only allow deletion via POST request
-            $model = $this->loadModel($id);
-			if($model->typeModel->can('delete') !== TRUE)
-				throw new CHttpException(403, 'access denied.');
-			
-			$model->delete();
+            $this->loadModel($id)->delete();
 
             // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
             if(!isset($_GET['ajax']))

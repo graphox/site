@@ -26,15 +26,15 @@ class BaseEntity extends CModel
 	);
 	
 	public $id;
-	public $type;
+	public $type = 'object';
 	public $subtype_id;
 	public $site_id;
 	public $owner_id;
 	public $creator_id;
 	public $created_date;
 	public $updated_date;
-	public $access;
-	public $status;	
+	public $access = 'public';
+	public $status = 'draft';	
 	
 	/**
 	 * the entity oject
@@ -172,11 +172,18 @@ class BaseEntity extends CModel
 				
 				foreach($this->metaMap as $meta)
 				{
-					$model = new EntityMetadata;
-					$model->type = $meta;
-					$model->entity_id = $entity->id;
-					$model->value = $this->$meta;
-					$model->save(false);
+					if(!is_array($this->$meta))
+						$this->$meta = array($this->$meta);	
+					
+					foreach($this->$meta as $var)
+					{
+						$model = new EntityMetadata;
+						$model->type = $meta;
+						$model->entity_id = $entity->id;
+						$model->value = $var;
+						$model->save(false);	
+					}
+					
 				}
 
 			   $this->id = $entity->id;

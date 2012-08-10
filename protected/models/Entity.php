@@ -414,10 +414,11 @@ class Entity extends CActiveRecord
 
 	/**
 	 * This function searches for a metadata value, also searches on the parent
-	 * @attribute metavar the type of the meatadata
+	 * @attribute string $var the type of the meatadata
+	 * @attribute boolean $alwaysMulti always get multipue
 	 * @return mixed a metadata value or an array of them
 	 */
-	public function getMetaVar($var)
+	public function getMetaVar($var, $alwaysMulti = false)
 	{
 		$values = array();
 		
@@ -426,8 +427,8 @@ class Entity extends CActiveRecord
 				$values[] = $meta->value;
 		
 		if(count($values) === 0)
-			throw new CException('Could not find metadata!');
-		elseif(count($values) === 1)
+			throw new CException('Could not find metadata '.CHtml::encode($var).'!');
+		elseif(count($values) === 1 && $alwaysMulti === FALSE)
 		{
 			return end($values);
 		}

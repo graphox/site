@@ -8,16 +8,6 @@
 class PageEntity extends BaseEntity
 {
 	/**
-	 * @var $type string the entity type, defaults to object, should not be changed.
-	 */
-	public $type = 'object';
-	
-	/**
-	 * @var $status string the default status, draft.
-	 */
-	public $status = 'draft';
-	
-	/**
 	 * @var $title string the title of the post.
 	 */
 	public $title;
@@ -76,19 +66,10 @@ class PageEntity extends BaseEntity
 	 */
 	protected function init()
 	{
-		if($this->isNewRecord)
-		{
-			$this->subtype_id = EntityType::model()->findByAttributes(array('name' => 'page'))->id;
+		parent::init();
 		
-			#TODO: add multisite support
-			$this->site_id = Entity::model()->findByAttributes(array('type' => 'site'))->id;
-
-			$this->creator_id = Yii::app()->user->id;
-			$this->owner_id = Yii::app()->user->id;
-			$this->created_date = new CDbExpression('NOW()');
-		}
-		else
-			$this->updated_date = new CDbExpression('NOW()');
+		if($this->isNewRecord)
+			$this->subtype_id = EntityType::model()->findByAttributes(array('name' => 'page'))->id;
 		
 		if(isset($this->can_comment))
 			$this->can_comment = $this->can_comment === '1';
