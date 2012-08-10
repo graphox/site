@@ -49,12 +49,13 @@ class PageEntity extends BaseEntity
 
 	/**
 	 * Renders the source into html content.
-	 * @return parent::beforeSave();
+	 * @return parent::afterValidate();
 	 */
 	protected function afterValidate()
 	{
 		$this->content = Yii::app()->contentMarkup->safeTransform($this->source);
-		return parent::beforeSave();
+
+		return parent::afterValidate();
 	}
 	
 	/**
@@ -88,6 +89,9 @@ class PageEntity extends BaseEntity
 		}
 		else
 			$this->updated_date = new CDbExpression('NOW()');
+		
+		if(isset($this->can_comment))
+			$this->can_comment = $this->can_comment === '1';
 	}
 	
 	/**
@@ -97,7 +101,12 @@ class PageEntity extends BaseEntity
 	 */
 	public function getComments()
 	{
-		return array();
+		if($this->can_comment !== true)
+			return array();
+		else
+		{
+			return $this->getRelations('comment');
+		}
 	}
 }
 

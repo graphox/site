@@ -60,13 +60,33 @@ class BaseEntity extends CModel
 		}
 		
 		$this->init();
+		//$this->afterConstruct();
 	}
 	
 	/**
 	 * initializes the model with default values
+	 * 
+	 * Values intialized by default:
+	 *	- site_id
+	 *  - creator_id
+	 *  - owner_id
+	 *  - created_date
+	 *  - updated date
 	 */
 	protected function init()
 	{
+		if($this->isNewRecord)
+		{
+			/** @todo add multisite support */
+			$this->site_id = Entity::model()->findByAttributes(array('type' => 'site'))->id;
+
+			$this->creator_id = Yii::app()->user->id;
+			$this->owner_id = Yii::app()->user->id;
+			$this->created_date = new CDbExpression('NOW()');
+		}
+		else
+			$this->updated_date = new CDbExpression('NOW()');
+		
 	}
 
 	/**
@@ -97,6 +117,13 @@ class BaseEntity extends CModel
 		);
 	}
 	
+	/**
+	 * Event called after successful save
+	 */
+	protected function afterSave()
+	{
+		
+	}
 	/**
 	 * Saves all metadata and the updated entity into the database
 	 * @return bool success
@@ -155,6 +182,7 @@ class BaseEntity extends CModel
 			   $this->id = $entity->id;
 			   $this->entity = $entity;
 			   $transaction->commit();
+			   $this->afterSave();
 			}
 			catch(Exception $e)
 			{
@@ -183,20 +211,42 @@ class BaseEntity extends CModel
 	 {
 	 	$relations = array();
 	 	
-	 	$criteria = new CDbcreteria;
+	 	$criteria = new CDbCriteria();
 	 	$criteria->compare('entity1', $this->entity->id, false);
 	 	$criteria->compare('entity2', $this->entity->id, false, 'OR');
 	 	$criteria->compare('type', $type, false);
 	 	
-	 	$relation_models = EntityRelation::model()->with(array('entityA', 'entityB'))->findAll($criteria);
+	 	$relation_models = EntityRelation::model()-> /** @todo fix this: with(array('entityA' => array('scope' => 'noscope'), 'entityB'))->*/findAll($criteria);
 	 	
 	 	foreach($relation_models as $relation)
-	 		#we don't want to fetch the source object
+		{
+			//access denied or internal error
+			if(!$relation->entityA || !$relation->entityB)
+				continue;
+			
+			#we don't want to fetch the source object
 	 		$relations[] = $relation->entityA->id !== $this->entity->id ?
-	 			$relation->entityA->getTypeModel() :
-	 			$relation->entityB->getTypeModel() ;
+	 			$relation->entityA->typeModel :
+	 			$relation->entityB->typeModel;
+		}
 
 		return $relations;
+	 }
+	 
+	 /**
+	  * Adds a relation to a child object.
+	  * @param string $type the type of the relation
+	  * @param mixed $entity the entity id or object to be related to.
+	  * @return boolean success
+	  */
+	 public function addRelation($type, $entity)
+	 {
+		 $model = new EntityRelation;
+		 $model->entity1 = $this->id;
+		 $model->entity2 = is_object($entity) ? $entity->id : $entity;
+		 $model->type = $type;
+		 
+		 return $model->save(false);
 	 }
 
 	/**

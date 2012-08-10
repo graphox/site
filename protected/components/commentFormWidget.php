@@ -12,7 +12,8 @@ class commentFormWidget extends CWidget
 	
 	public function run()
 	{
-		echo 'Hey, this is a comment form, right? no? DIEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE!!!!!!!!!!!!!!!!!!!!!11 in that case.';
-		echo '<br />@todo implement DA COMMENT FORM.';
+		$model = new CommentEntity;
+		$model->parent_id = $this->parentEntity->id;
+		$this->controller->renderPartial('//comment/add', array('model'=> $model));
 	}
 }

@@ -7,6 +7,9 @@ class PageController extends Controller
      */
     public $layout='//layouts/column2';
 
+	/**
+	 * Displays an index page
+	 */
 	public function actionIndex()
 	{
 		$model = Entity::model()->findAllTypeWithAccess('object', 'page');
@@ -16,6 +19,9 @@ class PageController extends Controller
 		));
 	}
 	
+	/**
+	 * Creates a page.
+	 */	
 	public function actionCreate()
 	{
 		$model = new PageEntity;

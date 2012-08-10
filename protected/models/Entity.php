@@ -141,10 +141,18 @@ class Entity extends CActiveRecord
 		return parent::beforeSave();
 	}
 	
-	/*public function defaultScope()
+	public function defaultScope()
 	{
-		return $this->withAccessCondition;
-	}*/
+		if($this->scenario == 'admin' or $this->scenario == 'search')
+				return parent::defaultScope();
+		else
+			return $this->withAccessCondition;
+	}
+	
+	public function noScope()
+	{
+		return array();
+	}
 	
 	public function getWithAccessCondition()
 	{
@@ -153,44 +161,48 @@ class Entity extends CActiveRecord
 		{
 			return array(
 				'condition' => '
-						'.$t.'.access = "public"
-					OR
-						(
-							'.$t.'.access = "custom"
-							AND (
-								(
-									entity_access.entity_id = '.$t.'.id
-									AND entity_access.group_id = access_group.id
-									AND (
-										entity_access.entity_action_id = entity_type_action.id
-											AND entity_type_action.entity_type_id = '.$t.'.subtype_id
-											AND entity_type_action.name = "list"
-									)
-									AND (
-										access_group.name = "world"
-											OR access_group.name = "guest"
-									)
-									AND entity_access.value = 1
-								)
-								OR
-								(
-									NOT ( '. /*check if it wasn't just entity_access.value = 0*/ '
+						'.$t.'.status = :status
+					AND
+					(
+							'.$t.'.access = "public"
+						OR
+							(
+								'.$t.'.access = "custom"
+								AND (
+									(
 										entity_access.entity_id = '.$t.'.id
 										AND entity_access.group_id = access_group.id
 										AND (
-												entity_access.entity_action_id = entity_type_action.id
+											entity_access.entity_action_id = entity_type_action.id
 												AND entity_type_action.entity_type_id = '.$t.'.subtype_id
 												AND entity_type_action.name = "list"
 										)
 										AND (
 											access_group.name = "world"
-												OR access_group.name = "guest"										
+												OR access_group.name = "guest"
 										)
+										AND entity_access.value = 1
 									)
-									AND entity_type_action.entity_type_id = '.$t.'.subtype_id
-									AND	entity_type_action.name = "list"
-									AND	entity_type_action.default = 1
-								)							
+									OR
+									(
+										NOT ( '. /*check if it wasn't just entity_access.value = 0*/ '
+											entity_access.entity_id = '.$t.'.id
+											AND entity_access.group_id = access_group.id
+											AND (
+													entity_access.entity_action_id = entity_type_action.id
+													AND entity_type_action.entity_type_id = '.$t.'.subtype_id
+													AND entity_type_action.name = "list"
+											)
+											AND (
+												access_group.name = "world"
+													OR access_group.name = "guest"										
+											)
+										)
+										AND entity_type_action.entity_type_id = '.$t.'.subtype_id
+										AND	entity_type_action.name = "list"
+										AND	entity_type_action.default = 1
+									)							
+								)
 							)
 						)',
 				'together' => true,
@@ -208,6 +220,7 @@ class Entity extends CActiveRecord
 						'alias' => 'access_group',
 					)
 				),
+				'params' => array(':status' => self::STATUS_PUBLISHED),
 
 			);
 		}
@@ -216,102 +229,112 @@ class Entity extends CActiveRecord
 		elseif(Yii::app()->user->id !== 'admin')
 		{
 			return array(
-				'condition' => '
-					'.$t.'.owner_id = :user_id
-						OR '.$t.'.access = "public"
-						OR '.$t.'.access = "registered"
-						OR (
-							'.$t.'.access = "friends"
-							AND (
-								entity_relation.type = "friend"
-								AND
-								(
-									entity_relation.entity1 = :user_id
-										OR entity_relation.entity2 = :user_id
-								)
-								AND
-								(
-									entity_relation.entity1 = '.$t.'.owner_id
-										OR entity_relation.entity2 = '.$t.'.owner_id
-										OR entity_relation.entity1 = '.$t.'.creator_id
-										OR entity_relation.entity2 = '.$t.'.creator_id
-								)
-							)
-						)
-						OR (
-							'.$t.'.access = "members"
-							AND (
-								entity_relation.type = "member"
-								AND
-								(
-									entity_relation.entity1 = :user_id
-										OR entity_relation.entity2 = :user_id
-								)
-								AND
-								(
-									entity_relation.entity1 = '.$t.'.owner_id
-										OR entity_relation.entity2 = '.$t.'.owner_id
-								)
-							)
-						)
-						OR (
-							'.$t.'.access = "custom"
+				'condition' => 
+					$t.'.owner_id = :user_id
+					OR
+					(
+						'.$t.'.status = :status
+						AND
+						(
+							'.$t.'.access = "public"
+							OR '.$t.'.access = "registered"
+							OR (
+								'.$t.'.access = "friends"
 								AND (
+									entity_relation.type = "friend"
+									AND
 									(
-										entity_access.entity_id = '.$t.'.id
-											AND entity_access.group_id = access_group.id
-											AND (
-												entity_access.entity_action_id = entity_type_action.id
-													AND entity_type_action.entity_type_id = '.$t.'.subtype_id
-													AND entity_type_action.name = "list"
-											)
-											AND (
-												access_group.name = "world"
-													OR access_group.name = "member"
-													OR (
-														(
-															access_group.entity_id = entity_relation.entity1
-																OR	access_group.entity_id = entity_relation.entity2
-														)
-														AND
-															entity_relation.type = "member"
-													)
-											)
-											AND
-												entity_access.value = 1
+										entity_relation.entity1 = :user_id
+											OR entity_relation.entity2 = :user_id
 									)
-									OR
+									AND
 									(
-										NOT ( '. /*check if it wasn't just entity_access.value = 0*/ '
-											entity_access.entity_id = '.$t.'.id
-											AND entity_access.group_id = access_group.id
-											AND (
-												entity_access.entity_action_id = entity_type_action.id
-													AND entity_type_action.entity_type_id = '.$t.'.subtype_id
-													AND entity_type_action.name = "list"
-											)
-											AND (
-												access_group.name = "world"
-													OR access_group.name = "member"
-													OR (
-														(
-															access_group.entity_id = entity_relation.entity1
-																OR	access_group.entity_id = entity_relation.entity2
-														)
-														AND
-															entity_relation.type = "member"
-													)
-											)											
-										)
-											AND entity_type_action.entity_type_id = '.$t.'.subtype_id
-											AND	entity_type_action.name = "list"
-											AND	entity_type_action.default = 1
-									
+										entity_relation.entity1 = '.$t.'.owner_id
+											OR entity_relation.entity2 = '.$t.'.owner_id
+											OR entity_relation.entity1 = '.$t.'.creator_id
+											OR entity_relation.entity2 = '.$t.'.creator_id
 									)
 								)
+							)
+							OR (
+								'.$t.'.access = "members"
+								AND (
+									entity_relation.type = "member"
+									AND
+									(
+										entity_relation.entity1 = :user_id
+											OR entity_relation.entity2 = :user_id
+									)
+									AND
+									(
+										entity_relation.entity1 = '.$t.'.owner_id
+											OR entity_relation.entity2 = '.$t.'.owner_id
+									)
+								)
+							)
+							OR (
+								'.$t.'.access = "custom"
+									AND (
+										(
+											entity_access.entity_id = '.$t.'.id
+												AND entity_access.group_id = access_group.id
+												AND (
+													entity_access.entity_action_id = entity_type_action.id
+														AND entity_type_action.entity_type_id = '.$t.'.subtype_id
+														AND entity_type_action.name = "list"
+												)
+												AND (
+													access_group.name = "world"
+														OR access_group.name = "member"
+														OR (
+															(
+																access_group.entity_id = entity_relation.entity1
+																	OR	access_group.entity_id = entity_relation.entity2
+															)
+															AND
+																entity_relation.type = "member"
+														)
+												)
+												AND
+													entity_access.value = 1
+										)
+										OR
+										(
+											NOT ( '. /*check if it wasn't just entity_access.value = 0*/ '
+												entity_access.entity_id = '.$t.'.id
+												AND entity_access.group_id = access_group.id
+												AND (
+													entity_access.entity_action_id = entity_type_action.id
+														AND entity_type_action.entity_type_id = '.$t.'.subtype_id
+														AND entity_type_action.name = "list"
+												)
+												AND (
+													access_group.name = "world"
+														OR access_group.name = "member"
+														OR (
+															(
+																access_group.entity_id = entity_relation.entity1
+																	OR	access_group.entity_id = entity_relation.entity2
+															)
+															AND
+																entity_relation.type = "member"
+														)
+												)											
+											)
+												AND entity_type_action.entity_type_id = '.$t.'.subtype_id
+												AND	entity_type_action.name = "list"
+												AND	entity_type_action.default = 1
+
+										)
+									)
+								)
+							)
 						)',
 				'together' => true,
-				'params' => array(':user_id' => Yii::app()->user->id),
+				'params' => array(
+					':user_id' => Yii::app()->user->id,
+					':status' => self::STATUS_PUBLISHED,
+				),
 				'order' => 'entity_access.order',
 				'with' => array(
 					'entityRelations' => array(
@@ -464,5 +487,26 @@ class Entity extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+	
+	/**
+	 * Changes the state to deleted, doesn't perform any non recoverable actions.
+	 * @return boolean success
+	 */
+	public function delete()
+	{
+		$this->status = self::STATUS_DELETED;
+		return $this->save(false);
+	}
+	
+	/**
+	 * Forces an entity to be deleted.
+	 * @note: Also removes all metadata and relations (database whise).
+	 * @note: It's not recoomended to use this function. use delete instead.
+	 * @see Entity::delete()
+	 */
+	public function forceDelete()
+	{
+		return parent::delete();
 	}
 }
