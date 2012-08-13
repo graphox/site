@@ -16,6 +16,7 @@
 				'title' => $model->title
 			)
 	)?>
+	<?php $this->widget('application.components.ratingWidget', array('parent' => $model->entity)) ?>
 	</header>
 	
 	<div class="well">
@@ -55,7 +56,7 @@
 					the
 					site
 					<?php /* @todo widget */ ?>
-					
+					<?php $this->widget('application.components.ratingWidget', array('parent' => $comment->entity)) ?>
 				</div>
 				
 				<div>

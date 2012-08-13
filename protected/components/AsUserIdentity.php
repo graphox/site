@@ -11,7 +11,7 @@ class AsUserIdentity extends CUserIdentity
 	
 	public function getId()
 	{
-		return $this->user->id;
+		return $this->_user->id;
 	}
 	
 	public function getUser()

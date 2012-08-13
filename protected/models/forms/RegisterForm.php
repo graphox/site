@@ -38,6 +38,12 @@ class RegisterForm extends User
 			$this->addError($field, $field . ' is already in use');
 	}
 	
+	public function beforeSave()
+	{
+		$this->status = self::STATUS_BOTH;
+		return parent::beforeSave();
+	}
+	
 	public function afterSave()
 	{
 		#send activation email

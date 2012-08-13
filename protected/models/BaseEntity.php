@@ -39,7 +39,7 @@ class BaseEntity extends CModel
 	/**
 	 * the entity oject
 	 */	
-	protected $entity;
+	public $entity;
 	
 	/**
 	 * is the entity a new record

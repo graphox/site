@@ -68,6 +68,9 @@ class BlogEntity extends PageEntity
 	 */
 	public function generateTagstring()
 	{
+		if(!is_array($this->tags))
+			$this->tags = array();
+		
 		$this->tagString = implode($this->tags, ', ');	
 	}
 		

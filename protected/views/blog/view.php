@@ -15,6 +15,7 @@
 				'title' => $model->title
 			)
 	)?>
+	<?php $this->widget('application.components.ratingWidget', array('parent' => $model->entity)) ?>
 	</header>
 	
 	<div class="well">

@@ -11,7 +11,6 @@ class UserController extends Controller
 			$model->attributes = $_POST['ActivationForm'];
 			if($model->validate())
 			{
-				Yii::app()->user->setFlash('success', 'successfully activated acount, you may now login.');
 				$this->redirect(array('login'));
 			}
 		}
@@ -73,7 +72,7 @@ class UserController extends Controller
 
 			if($model->save())
 			{
-				Yii::app()->user->setFlash('Success', 'successfully registered! you now should check your inbox for the activation email and wait for an admin to verify too.');
+				Yii::app()->user->setFlash('success', 'successfully registered! you now should check your inbox for the activation email and wait for an admin to verify too.');
 				$this->redirect(array('activate'));
 			}
 		}

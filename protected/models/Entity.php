@@ -50,6 +50,12 @@ class Entity extends CActiveRecord
 	const STATUS_DELETED = 'deleted';
 
 	/**
+	 *
+	 * @var boolean should we apply acl on this query
+	 */
+	protected $internal = false;
+	
+	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
 	 * @return Entity the static model class
@@ -143,10 +149,20 @@ class Entity extends CActiveRecord
 	
 	public function defaultScope()
 	{
-		if($this->scenario == 'admin' or $this->scenario == 'search')
-				return parent::defaultScope();
+		if($this->scenario == 'admin' or $this->scenario == 'search' or $this->internal)
+				return array();
 		else
-			return $this->withAccessCondition;
+			return $this->getWithAccessCondition();
+	}
+	
+	/**
+	 * Makes the request internal
+	 * @return \Entity this
+	 */
+	public function internal()
+	{
+		$this->internal = true;
+		return $this;
 	}
 	
 	public function noScope()
@@ -231,6 +247,8 @@ class Entity extends CActiveRecord
 			return array(
 				'condition' => 
 					$t.'.owner_id = :user_id
+					OR
+					'.$t.'.id = :user_id
 					OR
 					(
 						'.$t.'.status = :status
@@ -332,7 +350,7 @@ class Entity extends CActiveRecord
 						)',
 				'together' => true,
 				'params' => array(
-					':user_id' => Yii::app()->user->id,
+					':user_id' => Yii::app()->user->getEntity()->id,
 					':status' => self::STATUS_PUBLISHED,
 				),
 				'order' => 'entity_access.order',
@@ -510,4 +528,38 @@ class Entity extends CActiveRecord
 	{
 		return parent::delete();
 	}
+	
+	public function addRelation($type, $otherId, $data = '')
+	{
+		$model = new EntityRelation();
+		$model->entity1 = $this->id;
+		$model->entity2 = $otherId;
+		$model->type = $type;
+		$model->data = $data;
+		return $model->save(False);		
+	}
+	
+	public function findRelation($type, $id, $id2 = null)
+	{
+		if($id2 === NULL)
+			$id2 = $this->id;
+		
+		$criteria = new CDbCriteria();
+		$criteria->addInCondition('entity1', array($id, $id2));
+		$criteria->addInCondition('entity2', array($id, $id2));
+		$criteria->compare('type', $type);
+		
+		return EntityRelation::model()->find($criteria);
+	}
+
+	public function findRelations($type)
+	{
+		$criteria = new CDbCriteria();
+		$criteria->compare('entity1', $this->id);
+		$criteria->compare('entity2', $this->id, false, 'OR');
+		$criteria->compare('type', $type);		
+		
+		return EntityRelation::model()->findAll($criteria);
+	}
 }
+
