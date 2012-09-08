@@ -79,6 +79,34 @@ class UserController extends Controller
 
 		$this->render('register', array('model' => $model));
 	}
+	
+	public function actionProfile($id)
+	{
+		$model = Entity::model()->findByPk($id);
+		
+		if($model === null)
+			throw new CHttpException(404, 'Could not find profile.');
+		
+		$this->render('viewProfile', array('model' => $model->typeModel));
+			
+	}
+	
+	public function actionEditProfile()
+	{
+		$model = Yii::app()->user->entity->typeModel;
+		
+		if(isset($_POST[get_class($model)]))
+		{
+			$model->attributes = $_POST[get_class($model)];
+			if($model->save())
+			{
+				Yii::app()->user->setFlash('success', 'successfully saved profile!');
+				$this->redirecT(array('/user/profile', 'id' => $model->id, 'name' => $model->name));
+			}
+		}
+		
+		$this->render('editProfile', array('model' => $model));
+	}
 
 	// Uncomment the following methods and override them if needed
 	/*

@@ -47,6 +47,11 @@ class BaseEntity extends CModel
 	public $isNewRecord = true;
 	
 	/**
+	 * @var string the typename of the entity.
+	 */
+	public $_name;
+	
+	/**
 	 * Initializes the entity and copies the metadata and entity fields
 	 */
 	public function __construct($entity = null)
@@ -83,6 +88,9 @@ class BaseEntity extends CModel
 			$this->creator_id = Yii::app()->user->id;
 			$this->owner_id = Yii::app()->user->id;
 			$this->created_date = new CDbExpression('NOW()');
+			
+			if(isset($this->_name))
+				$this->subtype_id = EntityType::model()->findByAttributes(array('name' => $this->_name))->id;
 		}
 		else
 			$this->updated_date = new CDbExpression('NOW()');
@@ -165,9 +173,23 @@ class BaseEntity extends CModel
 				
 				if(!$this->isNewRecord)
 				{
-					EntityMetadata::model()->deleteAllByAttributes(array(
-						'entity_id' => $entity->id
-					), array('in' => array('type' => $this->metaMap)));
+					# PHP Y U NO WORK
+					#EntityMetadata::model()->deleteAll((new CDbCriteria(array(
+					#	'condition' => 'entity_id = :entity_id',
+					#	'params' => array(
+					#		':enitty_id' => $entity->id
+					#	),
+					#)))->addInCondition('type', $this->metaMap));
+					
+					$crit = new CDbCriteria(array(
+						'condition' => 'entity_id = :entity_id',
+						'params' => array(
+							':entity_id' => $entity->id
+						),
+					));
+
+					$crit->addInCondition('type', $this->metaMap);
+					EntityMetadata::model()->deleteAll($crit);
 				}
 				
 				foreach($this->metaMap as $meta)
