@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.7.0" />
+
+	<title>Class Swift_Mime_Headers_AbstractHeader | sauers</title>
+
+	<script type="text/javascript" src="resources/combined.js?2398159053"></script>
+	<script type="text/javascript" src="elementlist.js?3309092622"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?1567499433" />
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li><a href="package-bootstrap.html">bootstrap<span></span></a>
+						<ul>
+				<li><a href="package-bootstrap.widgets.html">widgets<span></span></a>
+						<ul>
+				<li><a href="package-bootstrap.widgets.input.html">input</a>
+						</li>
+							</ul></li></ul></li>
+				<li><a href="package-None.html">None</a>
+						</li>
+				<li><a href="package-PHP.html">PHP</a>
+						</li>
+				<li class="active"><a href="package-Swift.html">Swift<span></span></a>
+						<ul>
+				<li><a href="package-Swift.ByteStream.html">ByteStream</a>
+						</li>
+				<li><a href="package-Swift.CharacterStream.html">CharacterStream</a>
+						</li>
+				<li><a href="package-Swift.Encoder.html">Encoder</a>
+						</li>
+				<li><a href="package-Swift.Events.html">Events</a>
+						</li>
+				<li><a href="package-Swift.KeyCache.html">KeyCache</a>
+						</li>
+				<li><a href="package-Swift.Mailer.html">Mailer</a>
+						</li>
+				<li class="active"><a href="package-Swift.Mime.html">Mime</a>
+						</li>
+				<li><a href="package-Swift.Plugins.html">Plugins</a>
+						</li>
+				<li><a href="package-Swift.Transport.html">Transport</a>
+						</li>
+							</ul></li>
+				<li><a href="package-YiiDebugToolbar.html">YiiDebugToolbar</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr />
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-Swift_Attachment.html">Swift_Attachment</a></li>
+				<li><a href="class-Swift_EmbeddedFile.html">Swift_EmbeddedFile</a></li>
+				<li><a href="class-Swift_Image.html">Swift_Image</a></li>
+				<li><a href="class-Swift_Message.html">Swift_Message</a></li>
+				<li><a href="class-Swift_Mime_Attachment.html">Swift_Mime_Attachment</a></li>
+				<li><a href="class-Swift_Mime_ContentEncoder_Base64ContentEncoder.html">Swift_Mime_ContentEncoder_Base64ContentEncoder</a></li>
+				<li><a href="class-Swift_Mime_ContentEncoder_PlainContentEncoder.html">Swift_Mime_ContentEncoder_PlainContentEncoder</a></li>
+				<li><a href="class-Swift_Mime_ContentEncoder_QpContentEncoder.html">Swift_Mime_ContentEncoder_QpContentEncoder</a></li>
+				<li><a href="class-Swift_Mime_EmbeddedFile.html">Swift_Mime_EmbeddedFile</a></li>
+				<li><a href="class-Swift_Mime_HeaderEncoder_Base64HeaderEncoder.html">Swift_Mime_HeaderEncoder_Base64HeaderEncoder</a></li>
+				<li><a href="class-Swift_Mime_HeaderEncoder_QpHeaderEncoder.html">Swift_Mime_HeaderEncoder_QpHeaderEncoder</a></li>
+				<li class="active"><a href="class-Swift_Mime_Headers_AbstractHeader.html">Swift_Mime_Headers_AbstractHeader</a></li>
+				<li><a href="class-Swift_Mime_Headers_DateHeader.html">Swift_Mime_Headers_DateHeader</a></li>
+				<li><a href="class-Swift_Mime_Headers_IdentificationHeader.html">Swift_Mime_Headers_IdentificationHeader</a></li>
+				<li><a href="class-Swift_Mime_Headers_MailboxHeader.html">Swift_Mime_Headers_MailboxHeader</a></li>
+				<li><a href="class-Swift_Mime_Headers_ParameterizedHeader.html">Swift_Mime_Headers_ParameterizedHeader</a></li>
+				<li><a href="class-Swift_Mime_Headers_PathHeader.html">Swift_Mime_Headers_PathHeader</a></li>
+				<li><a href="class-Swift_Mime_Headers_UnstructuredHeader.html">Swift_Mime_Headers_UnstructuredHeader</a></li>
+				<li><a href="class-Swift_Mime_MimePart.html">Swift_Mime_MimePart</a></li>
+				<li><a href="class-Swift_Mime_SimpleHeaderFactory.html">Swift_Mime_SimpleHeaderFactory</a></li>
+				<li><a href="class-Swift_Mime_SimpleHeaderSet.html">Swift_Mime_SimpleHeaderSet</a></li>
+				<li><a href="class-Swift_Mime_SimpleMessage.html">Swift_Mime_SimpleMessage</a></li>
+				<li><a href="class-Swift_Mime_SimpleMimeEntity.html">Swift_Mime_SimpleMimeEntity</a></li>
+				<li><a href="class-Swift_MimePart.html">Swift_MimePart</a></li>
+			</ul>
+
+			<h3>Interfaces</h3>
+			<ul>
+				<li><a href="class-Swift_Mime_CharsetObserver.html">Swift_Mime_CharsetObserver</a></li>
+				<li><a href="class-Swift_Mime_ContentEncoder.html">Swift_Mime_ContentEncoder</a></li>
+				<li><a href="class-Swift_Mime_EncodingObserver.html">Swift_Mime_EncodingObserver</a></li>
+				<li><a href="class-Swift_Mime_Header.html">Swift_Mime_Header</a></li>
+				<li><a href="class-Swift_Mime_HeaderEncoder.html">Swift_Mime_HeaderEncoder</a></li>
+				<li><a href="class-Swift_Mime_HeaderFactory.html">Swift_Mime_HeaderFactory</a></li>
+				<li><a href="class-Swift_Mime_HeaderSet.html">Swift_Mime_HeaderSet</a></li>
+				<li><a href="class-Swift_Mime_Message.html">Swift_Mime_Message</a></li>
+				<li><a href="class-Swift_Mime_MimeEntity.html">Swift_Mime_MimeEntity</a></li>
+				<li><a href="class-Swift_Mime_ParameterizedHeader.html">Swift_Mime_ParameterizedHeader</a></li>
+			</ul>
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" class="text" />
+		<input type="submit" value="Search" />
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="package-Swift.Mime.html" title="Summary of Swift\Mime"><span>Package</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class Swift_Mime_Headers_AbstractHeader</h1>
+
+
+	<div class="description">
+	
+<p>An abstract base MIME Header.</p>
+
+	</div>
+
+	<dl class="tree">
+		<dd style="padding-left:0px">
+<b><span>Swift_Mime_Headers_AbstractHeader</span></b>			
+			 implements 
+				<a href="class-Swift_Mime_Header.html"><span>Swift_Mime_Header</span></a>
+			
+			
+		</dd>
+	</dl>
+
+
+	<div>
+		<h4>Direct known subclasses</h4>
+			<a href="class-Swift_Mime_Headers_DateHeader.html">Swift_Mime_Headers_DateHeader</a>, 
+			<a href="class-Swift_Mime_Headers_IdentificationHeader.html">Swift_Mime_Headers_IdentificationHeader</a>, 
+			<a href="class-Swift_Mime_Headers_MailboxHeader.html">Swift_Mime_Headers_MailboxHeader</a>, 
+			<a href="class-Swift_Mime_Headers_PathHeader.html">Swift_Mime_Headers_PathHeader</a>, 
+			<a href="class-Swift_Mime_Headers_UnstructuredHeader.html">Swift_Mime_Headers_UnstructuredHeader</a>
+	</div>
+
+	<div>
+		<h4>Indirect known subclasses</h4>
+			<a href="class-Swift_Mime_Headers_ParameterizedHeader.html">Swift_Mime_Headers_ParameterizedHeader</a>
+	</div>
+
+
+
+
+
+	<div class="info">
+		<b>Abstract</b><br />
+		
+		
+		<b>Package:</b> <a href="package-Swift.html">Swift</a>\<a href="package-Swift.Mime.html">Mime</a><br />
+
+				<b>Author:</b>
+				Chris Corbyn<br />
+		<b>Located at</b> <a href="source-class-Swift_Mime_Headers_AbstractHeader.html#25" title="Go to source code">protected/extensions/swiftMailer/lib/classes/Swift/Mime/Headers/AbstractHeader.php</a><br />
+	</div>
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="setCharset" id="_setCharset">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setCharset">#</a>
+		<code><a href="source-class-Swift_Mime_Headers_AbstractHeader.html#89" title="Go to source code">setCharset</a>( <span>string <var>$charset</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Set the character set used in this Header.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set the character set used in this Header.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$charset</var></dt>
+					<dd><code>string</code></dd>
+				</dl></div>
+
+
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-Swift_Mime_Header.html#_">Swift_Mime_Header::setCharset</a></code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getCharset" id="_getCharset">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getCharset">#</a>
+		<code><a href="source-class-Swift_Mime_Headers_AbstractHeader.html#103" title="Go to source code">getCharset</a>( )</code>
+
+		<div class="description short">
+			
+<p>Get the character set used in this Header.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the character set used in this Header.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setLanguage" id="_setLanguage">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setLanguage">#</a>
+		<code><a href="source-class-Swift_Mime_Headers_AbstractHeader.html#112" title="Go to source code">setLanguage</a>( <span>string <var>$lang</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Set the language used in this Header. For example, for US English, 'en-us'.
+This can be unspecified.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set the language used in this Header. For example, for US English, 'en-us'.
+This can be unspecified.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$lang</var></dt>
+					<dd><code>string</code></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getLanguage" id="_getLanguage">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getLanguage">#</a>
+		<code><a href="source-class-Swift_Mime_Headers_AbstractHeader.html#124" title="Go to source code">getLanguage</a>( )</code>
+
+		<div class="description short">
+			
+<p>Get the language used in this Header.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the language used in this Header.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setEncoder" id="_setEncoder">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setEncoder">#</a>
+		<code><a href="source-class-Swift_Mime_Headers_AbstractHeader.html#133" title="Go to source code">setEncoder</a>( <span><code><a href="class-Swift_Mime_HeaderEncoder.html">Swift_Mime_HeaderEncoder</a></code> <var>$encoder</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Set the encoder used for encoding the header.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set the encoder used for encoding the header.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$encoder</var></dt>
+					<dd><code><code><a href="class-Swift_Mime_HeaderEncoder.html">Swift_Mime_HeaderEncoder</a></code></code></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getEncoder" id="_getEncoder">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-Swift_Mime_HeaderEncoder.html">Swift_Mime_HeaderEncoder</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getEncoder">#</a>
+		<code><a href="source-class-Swift_Mime_Headers_AbstractHeader.html#143" title="Go to source code">getEncoder</a>( )</code>
+
+		<div class="description short">
+			
+<p>Get the encoder used for encoding this Header.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the encoder used for encoding this Header.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-Swift_Mime_HeaderEncoder.html">Swift_Mime_HeaderEncoder</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getFieldName" id="_getFieldName">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getFieldName">#</a>
+		<code><a href="source-class-Swift_Mime_Headers_AbstractHeader.html#152" title="Go to source code">getFieldName</a>( )</code>
+
+		<div class="description short">
+			
+<p>Get the name of this header (e.g. charset).</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the name of this header (e.g. charset).</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-Swift_Mime_Header.html#_">Swift_Mime_Header::getFieldName</a></code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setMaxLineLength" id="_setMaxLineLength">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setMaxLineLength">#</a>
+		<code><a href="source-class-Swift_Mime_Headers_AbstractHeader.html#161" title="Go to source code">setMaxLineLength</a>( <span>integer <var>$lineLength</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Set the maximum length of lines in the header (excluding EOL).</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set the maximum length of lines in the header (excluding EOL).</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$lineLength</var></dt>
+					<dd><code>integer</code></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getMaxLineLength" id="_getMaxLineLength">
+
+		<td class="attributes"><code>
+			 public 
+			integer
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getMaxLineLength">#</a>
+		<code><a href="source-class-Swift_Mime_Headers_AbstractHeader.html#171" title="Go to source code">getMaxLineLength</a>( )</code>
+
+		<div class="description short">
+			
+<p>Get the maximum permitted length of lines in this Header.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the maximum permitted length of lines in this Header.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>integer</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="toString" id="_toString">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_toString">#</a>
+		<code><a href="source-class-Swift_Mime_Headers_AbstractHeader.html#180" title="Go to source code">toString</a>( )</code>
+
+		<div class="description short">
+			
+<p>Get this Header rendered as a RFC 2822 compliant string.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get this Header rendered as a RFC 2822 compliant string.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><code><a href="class-Swift_RfcComplianceException.html">Swift_RfcComplianceException</a></code></code><br />
+				</div>
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-Swift_Mime_Header.html#_">Swift_Mime_Header::toString</a></code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setFieldName" id="_setFieldName">
+
+		<td class="attributes"><code>
+			 protected 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setFieldName">#</a>
+		<code><a href="source-class-Swift_Mime_Headers_AbstractHeader.html#192" title="Go to source code">setFieldName</a>( <span>string <var>$name</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Set the name of this Header field.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set the name of this Header field.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$name</var></dt>
+					<dd><code>string</code></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="initializeGrammar" id="_initializeGrammar">
+
+		<td class="attributes"><code>
+			 protected 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_initializeGrammar">#</a>
+		<code><a href="source-class-Swift_Mime_Headers_AbstractHeader.html#202" title="Go to source code">initializeGrammar</a>( )</code>
+
+		<div class="description short">
+			
+<p>Initialize some RFC 2822 (and friends) ABNF grammar definitions.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Initialize some RFC 2822 (and friends) ABNF grammar definitions.</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getGrammar" id="_getGrammar">
+
+		<td class="attributes"><code>
+			 protected 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getGrammar">#</a>
+		<code><a href="source-class-Swift_Mime_Headers_AbstractHeader.html#277" title="Go to source code">getGrammar</a>( <span>string <var>$name</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Get the grammar defined for $name token.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the grammar defined for $name token.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$name</var></dt>
+					<dd><code>string</code><br> execatly as written in the RFC</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="escapeSpecials" id="_escapeSpecials">
+
+		<td class="attributes"><code>
+			 protected 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_escapeSpecials">#</a>
+		<code><a href="source-class-Swift_Mime_Headers_AbstractHeader.html#296" title="Go to source code">escapeSpecials</a>( <span>string <var>$token</var></span>, <span>string[] <var>$include</var> = <span class="php-keyword1">array</span>()</span>, <span>string[] <var>$exclude</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+		<div class="description short">
+			
+<p>Escape special characters in a string (convert to quoted-pairs).</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Escape special characters in a string (convert to quoted-pairs).</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$token</var></dt>
+					<dd><code>string</code></dd>
+					<dt><var>$include</var></dt>
+					<dd><code>string[]</code><br> additonal chars to escape</dd>
+					<dt><var>$exclude</var></dt>
+					<dd><code>string[]</code><br> chars from escaping</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="createPhrase" id="_createPhrase">
+
+		<td class="attributes"><code>
+			 protected 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_createPhrase">#</a>
+		<code><a href="source-class-Swift_Mime_Headers_AbstractHeader.html#314" title="Go to source code">createPhrase</a>( <span><code><a href="class-Swift_Mime_Header.html">Swift_Mime_Header</a></code> <var>$header</var></span>, <span>string <var>$string</var></span>, <span>string <var>$charset</var></span>, <span><code><a href="class-Swift_Mime_HeaderEncoder.html">Swift_Mime_HeaderEncoder</a></code> <var>$encoder</var> = <span class="php-keyword1">null</span></span>, <span>boolean <var>$shorten</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Produces a compliant, formatted RFC 2822 'phrase' based on the string
+given.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Produces a compliant, formatted RFC 2822 'phrase' based on the string
+given.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$header</var></dt>
+					<dd><code><code><a href="class-Swift_Mime_Header.html">Swift_Mime_Header</a></code></code></dd>
+					<dt><var>$string</var></dt>
+					<dd><code>string</code><br> as displayed</dd>
+					<dt><var>$charset</var></dt>
+					<dd><code>string</code><br> of the text</dd>
+					<dt><var>$encoder</var></dt>
+					<dd><code><code><a href="class-Swift_Mime_HeaderEncoder.html">Swift_Mime_HeaderEncoder</a></code></code></dd>
+					<dt><var>$shorten</var></dt>
+					<dd><code>boolean</code><br> the first line to make remove for header name</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="encodeWords" id="_encodeWords">
+
+		<td class="attributes"><code>
+			 protected 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_encodeWords">#</a>
+		<code><a href="source-class-Swift_Mime_Headers_AbstractHeader.html#358" title="Go to source code">encodeWords</a>( <span><code><a href="class-Swift_Mime_Header.html">Swift_Mime_Header</a></code> <var>$header</var></span>, <span>string <var>$input</var></span>, <span> <var>$usedLength</var> = -<span class="php-num">1</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Encode needed word tokens within a string of input.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Encode needed word tokens within a string of input.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$header</var></dt>
+					<dd><code>string</code><br>$input</dd>
+					<dt><var>$input</var></dt>
+					<dd><code>string</code><br>$usedLength, optional</dd>
+					<dt><var>$usedLength</var></dt>
+					<dd></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="tokenNeedsEncoding" id="_tokenNeedsEncoding">
+
+		<td class="attributes"><code>
+			 protected 
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_tokenNeedsEncoding">#</a>
+		<code><a href="source-class-Swift_Mime_Headers_AbstractHeader.html#403" title="Go to source code">tokenNeedsEncoding</a>( <span>string <var>$token</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Test if a token needs to be encoded or not.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Test if a token needs to be encoded or not.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$token</var></dt>
+					<dd><code>string</code></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getEncodableWordTokens" id="_getEncodableWordTokens">
+
+		<td class="attributes"><code>
+			 protected 
+			string[]
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getEncodableWordTokens">#</a>
+		<code><a href="source-class-Swift_Mime_Headers_AbstractHeader.html#413" title="Go to source code">getEncodableWordTokens</a>( <span>string <var>$string</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Splits a string into tokens in blocks of words which can be encoded
+quickly.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Splits a string into tokens in blocks of words which can be encoded
+quickly.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$string</var></dt>
+					<dd><code>string</code></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string[]</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getTokenAsEncodedWord" id="_getTokenAsEncodedWord">
+
+		<td class="attributes"><code>
+			 protected 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getTokenAsEncodedWord">#</a>
+		<code><a href="source-class-Swift_Mime_Headers_AbstractHeader.html#448" title="Go to source code">getTokenAsEncodedWord</a>( <span>string <var>$token</var></span>, <span>integer <var>$firstLineOffset</var> = <span class="php-num">0</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Get a token as an encoded word for safe insertion into headers.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get a token as an encoded word for safe insertion into headers.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$token</var></dt>
+					<dd><code>string</code><br> to encode</dd>
+					<dt><var>$firstLineOffset</var></dt>
+					<dd><code>integer</code><br>$firstLineOffset, optional</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="generateTokenLines" id="_generateTokenLines">
+
+		<td class="attributes"><code>
+			 protected 
+			string[]
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_generateTokenLines">#</a>
+		<code><a href="source-class-Swift_Mime_Headers_AbstractHeader.html#487" title="Go to source code">generateTokenLines</a>( <span>string <var>$token</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Generates tokens from the given string which include CRLF as individual
+tokens.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Generates tokens from the given string which include CRLF as individual
+tokens.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$token</var></dt>
+					<dd><code>string</code></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string[]</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setCachedValue" id="_setCachedValue">
+
+		<td class="attributes"><code>
+			 protected 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setCachedValue">#</a>
+		<code><a href="source-class-Swift_Mime_Headers_AbstractHeader.html#498" title="Go to source code">setCachedValue</a>( <span>string <var>$value</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Set a value into the cache.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set a value into the cache.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$value</var></dt>
+					<dd><code>string</code></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getCachedValue" id="_getCachedValue">
+
+		<td class="attributes"><code>
+			 protected 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getCachedValue">#</a>
+		<code><a href="source-class-Swift_Mime_Headers_AbstractHeader.html#508" title="Go to source code">getCachedValue</a>( )</code>
+
+		<div class="description short">
+			
+<p>Get the value in the cache.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the value in the cache.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="clearCachedValueIf" id="_clearCachedValueIf">
+
+		<td class="attributes"><code>
+			 protected 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_clearCachedValueIf">#</a>
+		<code><a href="source-class-Swift_Mime_Headers_AbstractHeader.html#518" title="Go to source code">clearCachedValueIf</a>( <span>boolean <var>$condition</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Clear the cached value if $condition is met.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Clear the cached value if $condition is met.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$condition</var></dt>
+					<dd><code>boolean</code></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="toTokens" id="_toTokens">
+
+		<td class="attributes"><code>
+			 protected 
+			string[]
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_toTokens">#</a>
+		<code><a href="source-class-Swift_Mime_Headers_AbstractHeader.html#533" title="Go to source code">toTokens</a>( <span>string <var>$string</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Generate a list of all tokens in the final header.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Generate a list of all tokens in the final header.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$string</var></dt>
+					<dd><code>string</code><br> input, optional</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string[]</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-Swift_Mime_Header.html#methods">Swift_Mime_Header</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-Swift_Mime_Header.html#_">getFieldBody()</a>, 
+			<a href="class-Swift_Mime_Header.html#_">getFieldBodyModel()</a>, 
+			<a href="class-Swift_Mime_Header.html#_">getFieldType()</a>, 
+			<a href="class-Swift_Mime_Header.html#_">setFieldBodyModel()</a>
+		</code></td>
+	</tr>
+	</table>
+
+
+
+
+	<table class="summary inherited">
+	<caption>Constants inherited from <a href="class-Swift_Mime_Header.html#constants">Swift_Mime_Header</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-Swift_Mime_Header.html#TYPE_DATE"><b>TYPE_DATE</b></a>, 
+			<a href="class-Swift_Mime_Header.html#TYPE_ID"><b>TYPE_ID</b></a>, 
+			<a href="class-Swift_Mime_Header.html#TYPE_MAILBOX"><b>TYPE_MAILBOX</b></a>, 
+			<a href="class-Swift_Mime_Header.html#TYPE_PARAMETERIZED"><b>TYPE_PARAMETERIZED</b></a>, 
+			<a href="class-Swift_Mime_Header.html#TYPE_PATH"><b>TYPE_PATH</b></a>, 
+			<a href="class-Swift_Mime_Header.html#TYPE_TEXT"><b>TYPE_TEXT</b></a>
+		</code></td>
+	</tr>
+	</table>
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		sauers API documentation generated by <a href="http://apigen.org">ApiGen 2.7.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

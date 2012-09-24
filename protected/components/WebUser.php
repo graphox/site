@@ -2,30 +2,37 @@
 
 class WebUser extends CWebUser
 {
-
-	public function getEntity($refresh = false)
+	public function getNode()
 	{
-		static $entity;
+		static $node;
 		
-		if(!isset($entity) || $refresh === true)
-			$entity = Entity::model()->internal()->findByPk($this->getModel($refresh)->entity_id);
-	
-		if($entity === null)
-			throw new CException('User seems to have no entity.');
+		if(!isset($node))
+		{
+			$node = User::model()->findById($this->id);
+		}
 		
-		return $entity;
+		if($node->id !== $this->id)
+		{
+			unset ($node);
+			return $this->getNode();
+		}
+		
+		return $node;
 	}
 	
-	public function getModel($refresh = false)
+	/**
+	 * @return string the ip of the user browsing the page.
+	 */
+	public function getIp()
 	{
-		static $model;
-		
-		if(!isset($model) || $refresh === true)
-			$model = User::model()->findByPk(Yii::app()->user->id);
-		
-		if($model === null)
-			throw new CException('Could not find user! ('.print_r(Yii::app()->user->id, true).')');
-		
-		return $model;
+		return $_SERVER['REMOTE_ADDR'];
+	}
+	
+	/**
+	 * @return string the hostname of the user browsing the page.
+	 */
+	public function getHostName()
+	{
+		return gethostbyname($this->ip);
 	}
 }

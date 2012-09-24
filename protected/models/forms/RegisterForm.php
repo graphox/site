@@ -2,25 +2,21 @@
 
 class RegisterForm extends User
 {
-	public $email = '';
-	public $retype_password = '';
+	public $retypePassword = '';
 
 	public function rules()
 	{
 		$rules = array(
-			array('email, username, password, retype_password, access', 'required'),
+			array('email, username, password, retypePassword', 'required'),
 			array('username', 'length', 'max'=>45),
 			array('username', 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u',
 				'message' => Yii::t('as.user.register', "Incorrect symbols (A-z0-9).")),			
-			array('retype_password', 'compare', 'compareAttribute'=>'password',
+			array('retypePassword', 'compare', 'compareAttribute'=>'password',
 				'message' => Yii::t('as.user.register', "Retype Password is incorrect.")),
 			array('email', 'email'),
-			array('email', 'uniqueMail'),
-			array('username', 'unique'),
 			
-			array('access', 'application.components.validators.AsInArrayValidator', 'data' => $this->_entity->accessOptions),
-			
-			array('password', 'encodePassword'),
+			array('email', 'NeoUnique'),
+			array('username', 'NeoUnique'),
 		);
 		
 		/* Captcha
@@ -32,20 +28,35 @@ class RegisterForm extends User
 		return $rules;
 	}
 	
-	public function uniqueMail($field)
+	public function setAttributes($values, $safeOnly = true, $checkPassword = false)
 	{
-		if(Email::model()->findByAttributes(array('email' => $this->$field)) !== NULL)
-			$this->addError($field, $field . ' is already in use');
+		parent::setAttributes($values, $safeOnly, $checkPassword);
 	}
 	
-	public function beforeSave()
+	public function NeoUnique($field, $settings)
 	{
-		$this->status = self::STATUS_BOTH;
-		return parent::beforeSave();
+		if(count(self::model()->findAllByAttributes(array($field =>$this->$field))) !== 0)
+			$this->addError ($field, (string)$field.' already exists.');
+	}
+	
+	public function afterValidate()
+	{
+		if(!$this->hasErrors())
+			$this->encodePassword();
+		
+		parent::afterValidate();
 	}
 	
 	public function afterSave()
 	{
+		static $done;
+		
+		if(isset($done))
+			return parent::afterSave ();
+		
+		$done = true;
+		
+		return $this->actionRegistered();
 		#send activation email
 		$email = new Email;
 		$email->user_id = $this->id;

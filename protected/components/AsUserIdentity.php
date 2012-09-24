@@ -2,20 +2,15 @@
 
 class AsUserIdentity extends CUserIdentity
 {
-	protected $_user;
+	protected $_id;
 	
 	public function __construct($user)
 	{
-		$this->_user = $user;
+		$this->_id = $user->id;
 	}
 	
 	public function getId()
 	{
-		return $this->_user->id;
-	}
-	
-	public function getUser()
-	{
-		return $this->_user;
+		return $this->_id;
 	}
 }

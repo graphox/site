@@ -1,4 +1,2 @@
-Please activate your user account by clicking this link or pasting it in your browser:
-<a href="<?=$this->createAbsoluteUrl(array('/user/activate', 'code' => $model->primaryEmail->key))?>">
-	<?=$this->createAbsoluteUrl(array('/user/activate', 'code' => $model->primaryEmail->key))?>
-</a>
+Successfully activated your account!
+You may now login: <a href="<?=$this->createAbsoluteUrl('/user/login')?>">here <?=$this->createAbsoluteUrl('/user/login')?></a>

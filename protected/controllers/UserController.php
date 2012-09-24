@@ -80,28 +80,49 @@ class UserController extends Controller
 		$this->render('register', array('model' => $model));
 	}
 	
-	public function actionProfile($id)
+	public function actionProfile()
 	{
-		$model = Entity::model()->findByPk($id);
+		$model = null;
+		if(!isset($_GET['name']) && !Yii::app()->user->isGuest)
+			$model = Yii::app()->user->node;
+		elseif(isset($_GET['name']))
+			$model = User::model()->findByAttributes (array('username' => $_GET['name']));
 		
 		if($model === null)
 			throw new CHttpException(404, 'Could not find profile.');
 		
-		$this->render('viewProfile', array('model' => $model->typeModel));
-			
+		if(!isset($_GET['subaction']) || Yii::app()->user->isGuest)
+			$_GET['subaction'] = 'view';
+		
+		switch($_GET['subaction'])
+		{
+			case 'view':
+			default:
+				$this->render('viewProfile', array('model' => $model));
+			break;
+		
+			case 'edit':
+				$this->subActionEditProfile($model);
+			break;
+		}
 	}
 	
-	public function actionEditProfile()
+	public function subActionEditProfile($model)
 	{
-		$model = Yii::app()->user->entity->typeModel;
+		/** @var $model User */
+		//$model = Yii::app()->user->node;
+		if($model->id !== Yii::app()->user->node->id) /** @todo some more access checks here */
+			throw new CHttpException(403, 'Access denied!');
 		
-		if(isset($_POST[get_class($model)]))
+		$model->scenario = 'profile';
+		if(isset($_POST['User']))
 		{
-			$model->attributes = $_POST[get_class($model)];
+			$model->attributes = $_POST['User'];
+
 			if($model->save())
 			{
 				Yii::app()->user->setFlash('success', 'successfully saved profile!');
-				$this->redirecT(array('/user/profile', 'id' => $model->id, 'name' => $model->name));
+				$this->redirecT(array('/user/profile', 'name' => $model->username));
 			}
 		}
 		

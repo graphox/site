@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.7.0" />
+
+	<title>Class Swift_Mime_SimpleMimeEntity | sauers</title>
+
+	<script type="text/javascript" src="resources/combined.js?2398159053"></script>
+	<script type="text/javascript" src="elementlist.js?3309092622"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?1567499433" />
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li><a href="package-bootstrap.html">bootstrap<span></span></a>
+						<ul>
+				<li><a href="package-bootstrap.widgets.html">widgets<span></span></a>
+						<ul>
+				<li><a href="package-bootstrap.widgets.input.html">input</a>
+						</li>
+							</ul></li></ul></li>
+				<li><a href="package-None.html">None</a>
+						</li>
+				<li><a href="package-PHP.html">PHP</a>
+						</li>
+				<li class="active"><a href="package-Swift.html">Swift<span></span></a>
+						<ul>
+				<li><a href="package-Swift.ByteStream.html">ByteStream</a>
+						</li>
+				<li><a href="package-Swift.CharacterStream.html">CharacterStream</a>
+						</li>
+				<li><a href="package-Swift.Encoder.html">Encoder</a>
+						</li>
+				<li><a href="package-Swift.Events.html">Events</a>
+						</li>
+				<li><a href="package-Swift.KeyCache.html">KeyCache</a>
+						</li>
+				<li><a href="package-Swift.Mailer.html">Mailer</a>
+						</li>
+				<li class="active"><a href="package-Swift.Mime.html">Mime</a>
+						</li>
+				<li><a href="package-Swift.Plugins.html">Plugins</a>
+						</li>
+				<li><a href="package-Swift.Transport.html">Transport</a>
+						</li>
+							</ul></li>
+				<li><a href="package-YiiDebugToolbar.html">YiiDebugToolbar</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr />
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-Swift_Attachment.html">Swift_Attachment</a></li>
+				<li><a href="class-Swift_EmbeddedFile.html">Swift_EmbeddedFile</a></li>
+				<li><a href="class-Swift_Image.html">Swift_Image</a></li>
+				<li><a href="class-Swift_Message.html">Swift_Message</a></li>
+				<li><a href="class-Swift_Mime_Attachment.html">Swift_Mime_Attachment</a></li>
+				<li><a href="class-Swift_Mime_ContentEncoder_Base64ContentEncoder.html">Swift_Mime_ContentEncoder_Base64ContentEncoder</a></li>
+				<li><a href="class-Swift_Mime_ContentEncoder_PlainContentEncoder.html">Swift_Mime_ContentEncoder_PlainContentEncoder</a></li>
+				<li><a href="class-Swift_Mime_ContentEncoder_QpContentEncoder.html">Swift_Mime_ContentEncoder_QpContentEncoder</a></li>
+				<li><a href="class-Swift_Mime_EmbeddedFile.html">Swift_Mime_EmbeddedFile</a></li>
+				<li><a href="class-Swift_Mime_HeaderEncoder_Base64HeaderEncoder.html">Swift_Mime_HeaderEncoder_Base64HeaderEncoder</a></li>
+				<li><a href="class-Swift_Mime_HeaderEncoder_QpHeaderEncoder.html">Swift_Mime_HeaderEncoder_QpHeaderEncoder</a></li>
+				<li><a href="class-Swift_Mime_Headers_AbstractHeader.html">Swift_Mime_Headers_AbstractHeader</a></li>
+				<li><a href="class-Swift_Mime_Headers_DateHeader.html">Swift_Mime_Headers_DateHeader</a></li>
+				<li><a href="class-Swift_Mime_Headers_IdentificationHeader.html">Swift_Mime_Headers_IdentificationHeader</a></li>
+				<li><a href="class-Swift_Mime_Headers_MailboxHeader.html">Swift_Mime_Headers_MailboxHeader</a></li>
+				<li><a href="class-Swift_Mime_Headers_ParameterizedHeader.html">Swift_Mime_Headers_ParameterizedHeader</a></li>
+				<li><a href="class-Swift_Mime_Headers_PathHeader.html">Swift_Mime_Headers_PathHeader</a></li>
+				<li><a href="class-Swift_Mime_Headers_UnstructuredHeader.html">Swift_Mime_Headers_UnstructuredHeader</a></li>
+				<li><a href="class-Swift_Mime_MimePart.html">Swift_Mime_MimePart</a></li>
+				<li><a href="class-Swift_Mime_SimpleHeaderFactory.html">Swift_Mime_SimpleHeaderFactory</a></li>
+				<li><a href="class-Swift_Mime_SimpleHeaderSet.html">Swift_Mime_SimpleHeaderSet</a></li>
+				<li><a href="class-Swift_Mime_SimpleMessage.html">Swift_Mime_SimpleMessage</a></li>
+				<li class="active"><a href="class-Swift_Mime_SimpleMimeEntity.html">Swift_Mime_SimpleMimeEntity</a></li>
+				<li><a href="class-Swift_MimePart.html">Swift_MimePart</a></li>
+			</ul>
+
+			<h3>Interfaces</h3>
+			<ul>
+				<li><a href="class-Swift_Mime_CharsetObserver.html">Swift_Mime_CharsetObserver</a></li>
+				<li><a href="class-Swift_Mime_ContentEncoder.html">Swift_Mime_ContentEncoder</a></li>
+				<li><a href="class-Swift_Mime_EncodingObserver.html">Swift_Mime_EncodingObserver</a></li>
+				<li><a href="class-Swift_Mime_Header.html">Swift_Mime_Header</a></li>
+				<li><a href="class-Swift_Mime_HeaderEncoder.html">Swift_Mime_HeaderEncoder</a></li>
+				<li><a href="class-Swift_Mime_HeaderFactory.html">Swift_Mime_HeaderFactory</a></li>
+				<li><a href="class-Swift_Mime_HeaderSet.html">Swift_Mime_HeaderSet</a></li>
+				<li><a href="class-Swift_Mime_Message.html">Swift_Mime_Message</a></li>
+				<li><a href="class-Swift_Mime_MimeEntity.html">Swift_Mime_MimeEntity</a></li>
+				<li><a href="class-Swift_Mime_ParameterizedHeader.html">Swift_Mime_ParameterizedHeader</a></li>
+			</ul>
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" class="text" />
+		<input type="submit" value="Search" />
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="package-Swift.Mime.html" title="Summary of Swift\Mime"><span>Package</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class Swift_Mime_SimpleMimeEntity</h1>
+
+
+	<div class="description">
+	
+<p>A MIME entity, in a multipart message.</p>
+
+	</div>
+
+	<dl class="tree">
+		<dd style="padding-left:0px">
+<b><span>Swift_Mime_SimpleMimeEntity</span></b>			
+			 implements 
+				<a href="class-Swift_Mime_MimeEntity.html"><span>Swift_Mime_MimeEntity</span></a>
+			
+			
+		</dd>
+	</dl>
+
+
+	<div>
+		<h4>Direct known subclasses</h4>
+			<a href="class-Swift_Mime_Attachment.html">Swift_Mime_Attachment</a>, 
+			<a href="class-Swift_Mime_MimePart.html">Swift_Mime_MimePart</a>
+	</div>
+
+	<div>
+		<h4>Indirect known subclasses</h4>
+			<a href="class-Swift_Attachment.html">Swift_Attachment</a>, 
+			<a href="class-Swift_EmbeddedFile.html">Swift_EmbeddedFile</a>, 
+			<a href="class-Swift_Image.html">Swift_Image</a>, 
+			<a href="class-Swift_Message.html">Swift_Message</a>, 
+			<a href="class-Swift_Mime_EmbeddedFile.html">Swift_Mime_EmbeddedFile</a>, 
+			<a href="class-Swift_Mime_SimpleMessage.html">Swift_Mime_SimpleMessage</a>, 
+			<a href="class-Swift_MimePart.html">Swift_MimePart</a>
+	</div>
+
+
+
+
+
+	<div class="info">
+		
+		
+		
+		<b>Package:</b> <a href="package-Swift.html">Swift</a>\<a href="package-Swift.Mime.html">Mime</a><br />
+
+				<b>Author:</b>
+				Chris Corbyn<br />
+		<b>Located at</b> <a href="source-class-Swift_Mime_SimpleMimeEntity.html#26" title="Go to source code">protected/extensions/swiftMailer/lib/classes/Swift/Mime/SimpleMimeEntity.php</a><br />
+	</div>
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#87" title="Go to source code">__construct</a>( <span><code><a href="class-Swift_Mime_HeaderSet.html">Swift_Mime_HeaderSet</a></code> <var>$headers</var></span>, <span><code><a href="class-Swift_Mime_ContentEncoder.html">Swift_Mime_ContentEncoder</a></code> <var>$encoder</var></span>, <span><code><a href="class-Swift_KeyCache.html">Swift_KeyCache</a></code> <var>$cache</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Create a new SimpleMimeEntity with $headers, $encoder and $cache.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Create a new SimpleMimeEntity with $headers, $encoder and $cache.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$headers</var></dt>
+					<dd><code><code><a href="class-Swift_Mime_HeaderSet.html">Swift_Mime_HeaderSet</a></code></code></dd>
+					<dt><var>$encoder</var></dt>
+					<dd><code><code><a href="class-Swift_Mime_ContentEncoder.html">Swift_Mime_ContentEncoder</a></code></code></dd>
+					<dt><var>$cache</var></dt>
+					<dd><code><code><a href="class-Swift_KeyCache.html">Swift_KeyCache</a></code></code></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="generateId" id="_generateId">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_generateId">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#128" title="Go to source code">generateId</a>( )</code>
+
+		<div class="description short">
+			
+<p>Generate a new Content-ID or Message-ID for this MIME entity.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Generate a new Content-ID or Message-ID for this MIME entity.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getHeaders" id="_getHeaders">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-Swift_Mime_HeaderSet.html">Swift_Mime_HeaderSet</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getHeaders">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#142" title="Go to source code">getHeaders</a>( )</code>
+
+		<div class="description short">
+			
+<p>Get the <code><a href="class-Swift_Mime_HeaderSet.html">Swift_Mime_HeaderSet</a></code> for this entity.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the <code><a href="class-Swift_Mime_HeaderSet.html">Swift_Mime_HeaderSet</a></code> for this entity.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-Swift_Mime_HeaderSet.html">Swift_Mime_HeaderSet</a></code></code><br />
+				</div>
+
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-Swift_Mime_MimeEntity.html#_">Swift_Mime_MimeEntity::getHeaders</a></code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getNestingLevel" id="_getNestingLevel">
+
+		<td class="attributes"><code>
+			 public 
+			integer
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getNestingLevel">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#151" title="Go to source code">getNestingLevel</a>( )</code>
+
+		<div class="description short">
+			
+<p>Get the nesting level of this entity.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the nesting level of this entity.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>integer</code><br />
+				</div>
+
+
+				<h4>See</h4>
+				<div class="list">
+						<code><code><a href="class-Swift_Mime_MimeEntity.html#LEVEL_TOP">Swift_Mime_MimeEntity::<b>LEVEL_TOP</b></a></code></code>, <code><code><a href="class-Swift_Mime_MimeEntity.html#LEVEL_MIXED">Swift_Mime_MimeEntity::<b>LEVEL_MIXED</b></a></code></code>, <code><code><a href="class-Swift_Mime_MimeEntity.html#LEVEL_RELATED">Swift_Mime_MimeEntity::<b>LEVEL_RELATED</b></a></code></code>, <code><code><a href="class-Swift_Mime_MimeEntity.html#LEVEL_ALTERNATIVE">Swift_Mime_MimeEntity::<b>LEVEL_ALTERNATIVE</b></a></code></code><br />
+				</div>
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-Swift_Mime_MimeEntity.html#_">Swift_Mime_MimeEntity::getNestingLevel</a></code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getContentType" id="_getContentType">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getContentType">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#161" title="Go to source code">getContentType</a>( )</code>
+
+		<div class="description short">
+			
+<p>Get the Content-type of this entity.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the Content-type of this entity.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-Swift_Mime_MimeEntity.html#_">Swift_Mime_MimeEntity::getContentType</a></code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setContentType" id="_setContentType">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setContentType">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#170" title="Go to source code">setContentType</a>( <span>string <var>$type</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Set the Content-type of this entity.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set the Content-type of this entity.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$type</var></dt>
+					<dd><code>string</code></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getId" id="_getId">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getId">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#183" title="Go to source code">getId</a>( )</code>
+
+		<div class="description short">
+			
+<p>Get the CID of this entity. The CID will only be present in headers if a
+Content-ID header is present.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the CID of this entity. The CID will only be present in headers if a
+Content-ID header is present.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-Swift_Mime_MimeEntity.html#_">Swift_Mime_MimeEntity::getId</a></code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setId" id="_setId">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setId">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#195" title="Go to source code">setId</a>( <span>string <var>$id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Set the CID of this entity.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set the CID of this entity.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$id</var></dt>
+					<dd><code>string</code></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getDescription" id="_getDescription">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getDescription">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#209" title="Go to source code">getDescription</a>( )</code>
+
+		<div class="description short">
+			
+<p>Get the description of this entity. This value comes from the
+Content-Description header if set.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the description of this entity. This value comes from the
+Content-Description header if set.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setDescription" id="_setDescription">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setDescription">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#219" title="Go to source code">setDescription</a>( <span>string <var>$description</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Set the description of this entity. This method sets a value in the
+Content-ID header.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set the description of this entity. This method sets a value in the
+Content-ID header.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$description</var></dt>
+					<dd><code>string</code></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getMaxLineLength" id="_getMaxLineLength">
+
+		<td class="attributes"><code>
+			 public 
+			integer
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getMaxLineLength">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#233" title="Go to source code">getMaxLineLength</a>( )</code>
+
+		<div class="description short">
+			
+<p>Get the maximum line length of the body of this entity.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the maximum line length of the body of this entity.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>integer</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setMaxLineLength" id="_setMaxLineLength">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setMaxLineLength">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#242" title="Go to source code">setMaxLineLength</a>( <span>integer <var>$length</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Set the maximum line length of lines in this body. Though not enforced by the
+library, lines should not exceed 1000 chars.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set the maximum line length of lines in this body. Though not enforced by the
+library, lines should not exceed 1000 chars.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$length</var></dt>
+					<dd><code>integer</code></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getChildren" id="_getChildren">
+
+		<td class="attributes"><code>
+			 public 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getChildren">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#253" title="Go to source code">getChildren</a>( )</code>
+
+		<div class="description short">
+			
+<p>Get all children added to this entity.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get all children added to this entity.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>of Swift_Mime_Entity<br />
+				</div>
+
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-Swift_Mime_MimeEntity.html#_">Swift_Mime_MimeEntity::getChildren</a></code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setChildren" id="_setChildren">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setChildren">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#262" title="Go to source code">setChildren</a>( <span>array <var>$children</var></span>, <span>integer <var>$compoundLevel</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Set all children of this entity.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set all children of this entity.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$children</var></dt>
+					<dd><code>array</code><br> Swiift_Mime_Entity instances</dd>
+					<dt><var>$compoundLevel</var></dt>
+					<dd><code>integer</code><br> For internal use only</dd>
+				</dl></div>
+
+
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-Swift_Mime_MimeEntity.html#_">Swift_Mime_MimeEntity::setChildren</a></code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getBody" id="_getBody">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getBody">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#343" title="Go to source code">getBody</a>( )</code>
+
+		<div class="description short">
+			
+<p>Get the body of this entity as a string.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the body of this entity as a string.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-Swift_Mime_MimeEntity.html#_">Swift_Mime_MimeEntity::getBody</a></code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setBody" id="_setBody">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setBody">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#354" title="Go to source code">setBody</a>( <span>mixed <var>$body</var></span>, <span>string <var>$contentType</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Set the body of this entity, either as a string, or as an instance of <code><a href="class-Swift_OutputByteStream.html">Swift_OutputByteStream</a></code>.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set the body of this entity, either as a string, or as an instance of <code><a href="class-Swift_OutputByteStream.html">Swift_OutputByteStream</a></code>.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$body</var></dt>
+					<dd><code>mixed</code></dd>
+					<dt><var>$contentType</var></dt>
+					<dd><code>string</code><br> optional</dd>
+				</dl></div>
+
+
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-Swift_Mime_MimeEntity.html#_">Swift_Mime_MimeEntity::setBody</a></code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getEncoder" id="_getEncoder">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-Swift_Mime_ContentEncoder.html">Swift_Mime_ContentEncoder</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getEncoder">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#375" title="Go to source code">getEncoder</a>( )</code>
+
+		<div class="description short">
+			
+<p>Get the encoder used for the body of this entity.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the encoder used for the body of this entity.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-Swift_Mime_ContentEncoder.html">Swift_Mime_ContentEncoder</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setEncoder" id="_setEncoder">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setEncoder">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#384" title="Go to source code">setEncoder</a>( <span><code><a href="class-Swift_Mime_ContentEncoder.html">Swift_Mime_ContentEncoder</a></code> <var>$encoder</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Set the encoder used for the body of this entity.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set the encoder used for the body of this entity.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$encoder</var></dt>
+					<dd><code><code><a href="class-Swift_Mime_ContentEncoder.html">Swift_Mime_ContentEncoder</a></code></code></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getBoundary" id="_getBoundary">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getBoundary">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#401" title="Go to source code">getBoundary</a>( )</code>
+
+		<div class="description short">
+			
+<p>Get the boundary used to separate children in this entity.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the boundary used to separate children in this entity.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setBoundary" id="_setBoundary">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setBoundary">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#414" title="Go to source code">setBoundary</a>( <span>string <var>$boundary</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Set the boundary used to separate children in this entity.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set the boundary used to separate children in this entity.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$boundary</var></dt>
+					<dd><code>string</code></dd>
+				</dl></div>
+
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><code><a href="class-Swift_RfcComplianceException.html">Swift_RfcComplianceException</a></code></code><br />
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="charsetChanged" id="_charsetChanged">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_charsetChanged">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#426" title="Go to source code">charsetChanged</a>( <span>string <var>$charset</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Receive notification that the charset of this entity, or a parent entity has
+changed.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Receive notification that the charset of this entity, or a parent entity has
+changed.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$charset</var></dt>
+					<dd><code>string</code></dd>
+				</dl></div>
+
+
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-Swift_Mime_CharsetObserver.html#_">Swift_Mime_CharsetObserver::charsetChanged</a></code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="encoderChanged" id="_encoderChanged">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_encoderChanged">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#436" title="Go to source code">encoderChanged</a>( <span><code><a href="class-Swift_Mime_ContentEncoder.html">Swift_Mime_ContentEncoder</a></code> <var>$encoder</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Receive notification that the encoder of this entity or a parent entity has
+changed.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Receive notification that the encoder of this entity or a parent entity has
+changed.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$encoder</var></dt>
+					<dd><code><code><a href="class-Swift_Mime_ContentEncoder.html">Swift_Mime_ContentEncoder</a></code></code></dd>
+				</dl></div>
+
+
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-Swift_Mime_EncodingObserver.html#_">Swift_Mime_EncodingObserver::encoderChanged</a></code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="toString" id="_toString">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_toString">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#446" title="Go to source code">toString</a>( )</code>
+
+		<div class="description short">
+			
+<p>Get this entire entity as a string.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get this entire entity as a string.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-Swift_Mime_MimeEntity.html#_">Swift_Mime_MimeEntity::toString</a></code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="toByteStream" id="_toByteStream">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_toByteStream">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#484" title="Go to source code">toByteStream</a>( <span><code><a href="class-Swift_InputByteStream.html">Swift_InputByteStream</a></code> <var>$is</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Write this entire entity to a <code><a href="class-Swift_InputByteStream.html">Swift_InputByteStream</a></code>.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Write this entire entity to a <code><a href="class-Swift_InputByteStream.html">Swift_InputByteStream</a></code>.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$is</var></dt>
+					<dd><code><code><a href="class-Swift_InputByteStream.html">Swift_InputByteStream</a></code></code></dd>
+				</dl></div>
+
+
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-Swift_Mime_MimeEntity.html#_">Swift_Mime_MimeEntity::toByteStream</a></code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="_getIdField" id="__getIdField">
+
+		<td class="attributes"><code>
+			 protected 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#__getIdField">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#547" title="Go to source code">_getIdField</a>( )</code>
+
+		<div class="description short">
+			
+<p>Get the name of the header that provides the ID of this entity</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the name of the header that provides the ID of this entity</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="_getHeaderFieldModel" id="__getHeaderFieldModel">
+
+		<td class="attributes"><code>
+			 protected 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#__getHeaderFieldModel">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#554" title="Go to source code">_getHeaderFieldModel</a>( <span> <var>$field</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Get the model data (usually an array or a string) for $field.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the model data (usually an array or a string) for $field.</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="_setHeaderFieldModel" id="__setHeaderFieldModel">
+
+		<td class="attributes"><code>
+			 protected 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#__setHeaderFieldModel">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#565" title="Go to source code">_setHeaderFieldModel</a>( <span> <var>$field</var></span>, <span> <var>$model</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Set the model data for $field.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set the model data for $field.</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="_getHeaderParameter" id="__getHeaderParameter">
+
+		<td class="attributes"><code>
+			 protected 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#__getHeaderParameter">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#581" title="Go to source code">_getHeaderParameter</a>( <span> <var>$field</var></span>, <span> <var>$parameter</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Get the parameter value of $parameter on $field header.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the parameter value of $parameter on $field header.</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="_setHeaderParameter" id="__setHeaderParameter">
+
+		<td class="attributes"><code>
+			 protected 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#__setHeaderParameter">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#592" title="Go to source code">_setHeaderParameter</a>( <span> <var>$field</var></span>, <span> <var>$parameter</var></span>, <span> <var>$value</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Set the parameter value of $parameter on $field header.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set the parameter value of $parameter on $field header.</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="_fixHeaders" id="__fixHeaders">
+
+		<td class="attributes"><code>
+			 protected 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#__fixHeaders">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#608" title="Go to source code">_fixHeaders</a>( )</code>
+
+		<div class="description short">
+			
+<p>Re-evaluate what content type and encoding should be used on this entity.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Re-evaluate what content type and encoding should be used on this entity.</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="_getCache" id="__getCache">
+
+		<td class="attributes"><code>
+			 protected 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#__getCache">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#627" title="Go to source code">_getCache</a>( )</code>
+
+		<div class="description short">
+			
+<p>Get the KeyCache used in this entity.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the KeyCache used in this entity.</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="_clearCache" id="__clearCache">
+
+		<td class="attributes"><code>
+			 protected 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#__clearCache">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#635" title="Go to source code">_clearCache</a>( )</code>
+
+		<div class="description short">
+			
+<p>Empty the KeyCache for this entity.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Empty the KeyCache for this entity.</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="__destruct" id="___destruct">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___destruct">#</a>
+		<code><a href="source-class-Swift_Mime_SimpleMimeEntity.html#783" title="Go to source code">__destruct</a>( )</code>
+
+		<div class="description short">
+			
+<p>Empties it's own contents from the cache.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Empties it's own contents from the cache.</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+	<table class="summary inherited">
+	<caption>Constants inherited from <a href="class-Swift_Mime_MimeEntity.html#constants">Swift_Mime_MimeEntity</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-Swift_Mime_MimeEntity.html#LEVEL_ALTERNATIVE"><b>LEVEL_ALTERNATIVE</b></a>, 
+			<a href="class-Swift_Mime_MimeEntity.html#LEVEL_MIXED"><b>LEVEL_MIXED</b></a>, 
+			<a href="class-Swift_Mime_MimeEntity.html#LEVEL_RELATED"><b>LEVEL_RELATED</b></a>, 
+			<a href="class-Swift_Mime_MimeEntity.html#LEVEL_TOP"><b>LEVEL_TOP</b></a>
+		</code></td>
+	</tr>
+	</table>
+
+
+	<table class="summary" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="_userContentType" id="$_userContentType">
+
+		<td class="attributes"><code>
+			protected 
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Swift_Mime_SimpleMimeEntity.html#85" title="Go to source code"><var>$_userContentType</var></a>
+		</td>
+		<td class="value"><code></code></td>
+		<td class="description"><div>
+			<a href="#$_userContentType" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+</div>
+
+	<div id="footer">
+		sauers API documentation generated by <a href="http://apigen.org">ApiGen 2.7.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

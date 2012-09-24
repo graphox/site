@@ -25,40 +25,13 @@ class ActivationForm extends CFormModel
 	{
 		if(!$this->hasErrors())
 		{
-			$model = Email::model()->findByAttributes(array('key' => $this->$field));
-
-			if($model !== null)
+			$model = User::model()->findByAttributes(array(
+				// Fixes bug in Neo4Yii
+				'emailActivationKey' => str_replace('$', '\\$', $this->$field)
+			));
+			
+			if($model !== null && $model->actionEmailActivated())
 			{
-				if($model->status == Email::STATUS_BOTH)
-					$model->status = Email::STATUS_PENDING;
-					
-				elseif($model->status == Email::STATUS_PENDING)
-					$model->status = Email::STATUS_ACTIVE;
-				
-				
-				$model->key = '**';
-				$model->save(false);
-				
-				if($model->is_primary == 1)
-				{
-					$user = $model->user;
-					if($user->status == User::STATUS_BOTH)
-					{
-						Yii::app()->user->setFlash('success', 'successfully activated acount, please wait for an admin to verify too.');
-						$user->status = User::STATUS_ADMIN;
-						$user->save(false);
-						return;
-					}
-					elseif($user->status == User::STATUS_EMAIL)
-					{
-						Yii::app()->user->setFlash('success', 'successfully activated acount, you may now login.');
-						$user->status = User::STATUS_ACTIVE;
-						$user->save(false);
-						return;
-					}
-				}
-				
-				Yii::app()->user->setFlash('success', 'successfully activated email.');				
 				return;
 			}
 			

@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.7.0" />
+
+	<title>Interface Swift_CharacterStream | sauers</title>
+
+	<script type="text/javascript" src="resources/combined.js?2398159053"></script>
+	<script type="text/javascript" src="elementlist.js?3309092622"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?1567499433" />
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li><a href="package-bootstrap.html">bootstrap<span></span></a>
+						<ul>
+				<li><a href="package-bootstrap.widgets.html">widgets<span></span></a>
+						<ul>
+				<li><a href="package-bootstrap.widgets.input.html">input</a>
+						</li>
+							</ul></li></ul></li>
+				<li><a href="package-None.html">None</a>
+						</li>
+				<li><a href="package-PHP.html">PHP</a>
+						</li>
+				<li class="active"><a href="package-Swift.html">Swift<span></span></a>
+						<ul>
+				<li><a href="package-Swift.ByteStream.html">ByteStream</a>
+						</li>
+				<li class="active"><a href="package-Swift.CharacterStream.html">CharacterStream</a>
+						</li>
+				<li><a href="package-Swift.Encoder.html">Encoder</a>
+						</li>
+				<li><a href="package-Swift.Events.html">Events</a>
+						</li>
+				<li><a href="package-Swift.KeyCache.html">KeyCache</a>
+						</li>
+				<li><a href="package-Swift.Mailer.html">Mailer</a>
+						</li>
+				<li><a href="package-Swift.Mime.html">Mime</a>
+						</li>
+				<li><a href="package-Swift.Plugins.html">Plugins</a>
+						</li>
+				<li><a href="package-Swift.Transport.html">Transport</a>
+						</li>
+							</ul></li>
+				<li><a href="package-YiiDebugToolbar.html">YiiDebugToolbar</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr />
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-Swift_CharacterStream_ArrayCharacterStream.html">Swift_CharacterStream_ArrayCharacterStream</a></li>
+			</ul>
+
+			<h3>Interfaces</h3>
+			<ul>
+				<li class="active"><a href="class-Swift_CharacterStream.html">Swift_CharacterStream</a></li>
+			</ul>
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" class="text" />
+		<input type="submit" value="Search" />
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="package-Swift.CharacterStream.html" title="Summary of Swift\CharacterStream"><span>Package</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Interface Swift_CharacterStream</h1>
+
+
+	<div class="description">
+	
+<p>An abstract means of reading and writing data in terms of characters as
+opposed to bytes. Classes implementing this interface may use a subsystem which
+requires less memory than working with large strings of data.</p>
+
+	</div>
+
+
+
+
+
+	<div>
+		<h4>Direct known implementers</h4>
+			<a href="class-Swift_CharacterStream_ArrayCharacterStream.html">Swift_CharacterStream_ArrayCharacterStream</a>
+	</div>
+
+
+
+
+	<div class="info">
+		
+		
+		
+		<b>Package:</b> <a href="package-Swift.html">Swift</a>\<a href="package-Swift.CharacterStream.html">CharacterStream</a><br />
+
+				<b>Author:</b>
+				Chris Corbyn<br />
+		<b>Located at</b> <a href="source-class-Swift_CharacterStream.html#25" title="Go to source code">protected/extensions/swiftMailer/lib/classes/Swift/CharacterStream.php</a><br />
+	</div>
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="setCharacterSet" id="_setCharacterSet">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setCharacterSet">#</a>
+		<code><a href="source-class-Swift_CharacterStream.html#37" title="Go to source code">setCharacterSet</a>( <span>string <var>$charset</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Set the character set used in this CharacterStream.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set the character set used in this CharacterStream.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$charset</var></dt>
+					<dd><code>string</code></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setCharacterReaderFactory" id="_setCharacterReaderFactory">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setCharacterReaderFactory">#</a>
+		<code><a href="source-class-Swift_CharacterStream.html#43" title="Go to source code">setCharacterReaderFactory</a>( <span><code><a href="class-Swift_CharacterReaderFactory.html">Swift_CharacterReaderFactory</a></code> <var>$factory</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Set the CharacterReaderFactory for multi charset support.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set the CharacterReaderFactory for multi charset support.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$factory</var></dt>
+					<dd><code><code><a href="class-Swift_CharacterReaderFactory.html">Swift_CharacterReaderFactory</a></code></code></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="importByteStream" id="_importByteStream">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_importByteStream">#</a>
+		<code><a href="source-class-Swift_CharacterStream.html#50" title="Go to source code">importByteStream</a>( <span><code><a href="class-Swift_OutputByteStream.html">Swift_OutputByteStream</a></code> <var>$os</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Overwrite this character stream using the byte sequence in the byte
+stream.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Overwrite this character stream using the byte sequence in the byte
+stream.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$os</var></dt>
+					<dd><code><code><a href="class-Swift_OutputByteStream.html">Swift_OutputByteStream</a></code></code><br> output stream to read from</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="importString" id="_importString">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_importString">#</a>
+		<code><a href="source-class-Swift_CharacterStream.html#56" title="Go to source code">importString</a>( <span>string <var>$string</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Import a string a bytes into this CharacterStream, overwriting any existing
+data in the stream.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Import a string a bytes into this CharacterStream, overwriting any existing
+data in the stream.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$string</var></dt>
+					<dd><code>string</code></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="read" id="_read">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_read">#</a>
+		<code><a href="source-class-Swift_CharacterStream.html#63" title="Go to source code">read</a>( <span>integer <var>$length</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Read $length characters from the stream and move the internal pointer $length
+further into the stream.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Read $length characters from the stream and move the internal pointer $length
+further into the stream.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$length</var></dt>
+					<dd><code>integer</code></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="readBytes" id="_readBytes">
+
+		<td class="attributes"><code>
+			 public 
+			int[]
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_readBytes">#</a>
+		<code><a href="source-class-Swift_CharacterStream.html#71" title="Go to source code">readBytes</a>( <span>integer <var>$length</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Read $length characters from the stream and return a 1-dimensional array
+containing there octet values.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Read $length characters from the stream and return a 1-dimensional array
+containing there octet values.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$length</var></dt>
+					<dd><code>integer</code></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>int[]</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="write" id="_write">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_write">#</a>
+		<code><a href="source-class-Swift_CharacterStream.html#79" title="Go to source code">write</a>( <span>string <var>$chars</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Write $chars to the end of the stream.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Write $chars to the end of the stream.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$chars</var></dt>
+					<dd><code>string</code></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setPointer" id="_setPointer">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setPointer">#</a>
+		<code><a href="source-class-Swift_CharacterStream.html#85" title="Go to source code">setPointer</a>( <span>integer <var>$charOffset</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Move the internal pointer to $charOffset in the stream.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Move the internal pointer to $charOffset in the stream.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$charOffset</var></dt>
+					<dd><code>integer</code></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="flushContents" id="_flushContents">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_flushContents">#</a>
+		<code><a href="source-class-Swift_CharacterStream.html#91" title="Go to source code">flushContents</a>( )</code>
+
+		<div class="description short">
+			
+<p>Empty the stream and reset the internal pointer.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Empty the stream and reset the internal pointer.</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		sauers API documentation generated by <a href="http://apigen.org">ApiGen 2.7.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

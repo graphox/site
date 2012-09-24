@@ -53,6 +53,16 @@ class AsCrypto extends CComponent
 	{
 		return $this->CheckPassword($form->password, $model->password);
 	}
+	
+	/*public function checkPassword($a, $b)
+	{
+		return $this->CheckPassword($a, $b);
+	}*/
+	
+	public function generateRandomKey()
+	{
+		return $this->HashPassword($this->get_random_bytes(3));
+	}
 
 	public function init()
 	{

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.7.0" />
+
+	<title>Interface Swift_KeyCache_KeyCacheInputStream | sauers</title>
+
+	<script type="text/javascript" src="resources/combined.js?2398159053"></script>
+	<script type="text/javascript" src="elementlist.js?3309092622"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?1567499433" />
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li><a href="package-bootstrap.html">bootstrap<span></span></a>
+						<ul>
+				<li><a href="package-bootstrap.widgets.html">widgets<span></span></a>
+						<ul>
+				<li><a href="package-bootstrap.widgets.input.html">input</a>
+						</li>
+							</ul></li></ul></li>
+				<li><a href="package-None.html">None</a>
+						</li>
+				<li><a href="package-PHP.html">PHP</a>
+						</li>
+				<li class="active"><a href="package-Swift.html">Swift<span></span></a>
+						<ul>
+				<li><a href="package-Swift.ByteStream.html">ByteStream</a>
+						</li>
+				<li><a href="package-Swift.CharacterStream.html">CharacterStream</a>
+						</li>
+				<li><a href="package-Swift.Encoder.html">Encoder</a>
+						</li>
+				<li><a href="package-Swift.Events.html">Events</a>
+						</li>
+				<li class="active"><a href="package-Swift.KeyCache.html">KeyCache</a>
+						</li>
+				<li><a href="package-Swift.Mailer.html">Mailer</a>
+						</li>
+				<li><a href="package-Swift.Mime.html">Mime</a>
+						</li>
+				<li><a href="package-Swift.Plugins.html">Plugins</a>
+						</li>
+				<li><a href="package-Swift.Transport.html">Transport</a>
+						</li>
+							</ul></li>
+				<li><a href="package-YiiDebugToolbar.html">YiiDebugToolbar</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr />
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-Swift_KeyCache_ArrayKeyCache.html">Swift_KeyCache_ArrayKeyCache</a></li>
+				<li><a href="class-Swift_KeyCache_DiskKeyCache.html">Swift_KeyCache_DiskKeyCache</a></li>
+				<li><a href="class-Swift_KeyCache_NullKeyCache.html">Swift_KeyCache_NullKeyCache</a></li>
+				<li><a href="class-Swift_KeyCache_SimpleKeyCacheInputStream.html">Swift_KeyCache_SimpleKeyCacheInputStream</a></li>
+			</ul>
+
+			<h3>Interfaces</h3>
+			<ul>
+				<li><a href="class-Swift_KeyCache.html">Swift_KeyCache</a></li>
+				<li class="active"><a href="class-Swift_KeyCache_KeyCacheInputStream.html">Swift_KeyCache_KeyCacheInputStream</a></li>
+			</ul>
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" class="text" />
+		<input type="submit" value="Search" />
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="package-Swift.KeyCache.html" title="Summary of Swift\KeyCache"><span>Package</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Interface Swift_KeyCache_KeyCacheInputStream</h1>
+
+
+	<div class="description">
+	
+<p>Writes data to a KeyCache using a stream.</p>
+
+	</div>
+
+	<dl class="tree">
+		<dd style="padding-left:0px">
+<b><span>Swift_KeyCache_KeyCacheInputStream</span></b>			
+			 implements 
+				<a href="class-Swift_InputByteStream.html"><span>Swift_InputByteStream</span></a>
+			
+			
+		</dd>
+	</dl>
+
+
+
+
+	<div>
+		<h4>Direct known implementers</h4>
+			<a href="class-Swift_KeyCache_SimpleKeyCacheInputStream.html">Swift_KeyCache_SimpleKeyCacheInputStream</a>
+	</div>
+
+
+
+
+	<div class="info">
+		
+		
+		
+		<b>Package:</b> <a href="package-Swift.html">Swift</a>\<a href="package-Swift.KeyCache.html">KeyCache</a><br />
+
+				<b>Author:</b>
+				Chris Corbyn<br />
+		<b>Located at</b> <a href="source-class-Swift_KeyCache_KeyCacheInputStream.html#24" title="Go to source code">protected/extensions/swiftMailer/lib/classes/Swift/KeyCache/KeyCacheInputStream.php</a><br />
+	</div>
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="setKeyCache" id="_setKeyCache">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setKeyCache">#</a>
+		<code><a href="source-class-Swift_KeyCache_KeyCacheInputStream.html#33" title="Go to source code">setKeyCache</a>( <span><code><a href="class-Swift_KeyCache.html">Swift_KeyCache</a></code> <var>$keyCache</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Set the KeyCache to wrap.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set the KeyCache to wrap.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$keyCache</var></dt>
+					<dd><code><code><a href="class-Swift_KeyCache.html">Swift_KeyCache</a></code></code></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setNsKey" id="_setNsKey">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setNsKey">#</a>
+		<code><a href="source-class-Swift_KeyCache_KeyCacheInputStream.html#39" title="Go to source code">setNsKey</a>( <span>string <var>$nsKey</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Set the nsKey which will be written to.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set the nsKey which will be written to.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$nsKey</var></dt>
+					<dd><code>string</code></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setItemKey" id="_setItemKey">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setItemKey">#</a>
+		<code><a href="source-class-Swift_KeyCache_KeyCacheInputStream.html#45" title="Go to source code">setItemKey</a>( <span>string <var>$itemKey</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Set the itemKey which will be written to.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set the itemKey which will be written to.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$itemKey</var></dt>
+					<dd><code>string</code></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setWriteThroughStream" id="_setWriteThroughStream">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setWriteThroughStream">#</a>
+		<code><a href="source-class-Swift_KeyCache_KeyCacheInputStream.html#51" title="Go to source code">setWriteThroughStream</a>( <span><code><a href="class-Swift_InputByteStream.html">Swift_InputByteStream</a></code> <var>$is</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Specify a stream to write through for each write().</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Specify a stream to write through for each write().</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$is</var></dt>
+					<dd><code><code><a href="class-Swift_InputByteStream.html">Swift_InputByteStream</a></code></code></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="__clone" id="___clone">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___clone">#</a>
+		<code><a href="source-class-Swift_KeyCache_KeyCacheInputStream.html#57" title="Go to source code">__clone</a>( )</code>
+
+		<div class="description short">
+			
+<p>Any implementation should be cloneable, allowing the clone to access a
+separate $nsKey and $itemKey.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Any implementation should be cloneable, allowing the clone to access a
+separate $nsKey and $itemKey.</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-Swift_InputByteStream.html#methods">Swift_InputByteStream</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-Swift_InputByteStream.html#_">bind()</a>, 
+			<a href="class-Swift_InputByteStream.html#_">commit()</a>, 
+			<a href="class-Swift_InputByteStream.html#_">flushBuffers()</a>, 
+			<a href="class-Swift_InputByteStream.html#_">unbind()</a>, 
+			<a href="class-Swift_InputByteStream.html#_">write()</a>
+		</code></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		sauers API documentation generated by <a href="http://apigen.org">ApiGen 2.7.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

@@ -33,17 +33,19 @@ class LoginForm extends User
 	{
 		if($this->hasErrors())
 			return;
+
+		$q = new EGremlinScript('g.idx("User")[[modelclass:"User"]].filter{(it.username == var) || (it.email == var)}');
+		$q->setParam('var', $this->username);
+		$user = ENeo4jNode::model()->populateRecord(
+			end(User::model()->query($q)->getData())
+		);
 		
-		$criteria=new CDbCriteria;
-		$criteria->compare('emails.email', $this->username);
-		$criteria->compare('emails.status', Email::STATUS_ACTIVE);
-		$criteria->compare('username', $this->username, false, 'OR');
-		$criteria->with = array('emails');
-		$criteria->together = true;
-
-		$user = self::model()->find($criteria);
-
-		if($user !== null && Yii::app()->crypto->checkUserPassword($user, $this))
+		if(YII_DEBUG && $user === null)
+		{
+			$this->addError('username', 'DEBUG: no user found!');
+		}
+		
+		if($user !== null && Yii::app()->crypto->checkPassword($this->password, $user->password))
 		{
 			$this->_user = $user;
 			return;
@@ -59,9 +61,14 @@ class LoginForm extends User
 	{
 		if($this->hasErrors())
 			return;
-		
-		if($this->_user->status !== self::STATUS_ACTIVE)
+
+		if(!$this->_user->canLogin())
 			$this->addError('status', 'acount status is not active.');	
+	}
+	
+	public function setAttributes($values, $safeOnly = true, $checkPassword = false)
+	{
+		parent::setAttributes($values, $safeOnly, $checkPassword);
 	}
 	
 	/**

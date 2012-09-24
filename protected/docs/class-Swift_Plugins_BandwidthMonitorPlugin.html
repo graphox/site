@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.7.0" />
+
+	<title>Class Swift_Plugins_BandwidthMonitorPlugin | sauers</title>
+
+	<script type="text/javascript" src="resources/combined.js?2398159053"></script>
+	<script type="text/javascript" src="elementlist.js?3309092622"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?1567499433" />
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li><a href="package-bootstrap.html">bootstrap<span></span></a>
+						<ul>
+				<li><a href="package-bootstrap.widgets.html">widgets<span></span></a>
+						<ul>
+				<li><a href="package-bootstrap.widgets.input.html">input</a>
+						</li>
+							</ul></li></ul></li>
+				<li><a href="package-None.html">None</a>
+						</li>
+				<li><a href="package-PHP.html">PHP</a>
+						</li>
+				<li class="active"><a href="package-Swift.html">Swift<span></span></a>
+						<ul>
+				<li><a href="package-Swift.ByteStream.html">ByteStream</a>
+						</li>
+				<li><a href="package-Swift.CharacterStream.html">CharacterStream</a>
+						</li>
+				<li><a href="package-Swift.Encoder.html">Encoder</a>
+						</li>
+				<li><a href="package-Swift.Events.html">Events</a>
+						</li>
+				<li><a href="package-Swift.KeyCache.html">KeyCache</a>
+						</li>
+				<li><a href="package-Swift.Mailer.html">Mailer</a>
+						</li>
+				<li><a href="package-Swift.Mime.html">Mime</a>
+						</li>
+				<li class="active"><a href="package-Swift.Plugins.html">Plugins</a>
+						</li>
+				<li><a href="package-Swift.Transport.html">Transport</a>
+						</li>
+							</ul></li>
+				<li><a href="package-YiiDebugToolbar.html">YiiDebugToolbar</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr />
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-Swift_Plugins_AntiFloodPlugin.html">Swift_Plugins_AntiFloodPlugin</a></li>
+				<li class="active"><a href="class-Swift_Plugins_BandwidthMonitorPlugin.html">Swift_Plugins_BandwidthMonitorPlugin</a></li>
+				<li><a href="class-Swift_Plugins_DecoratorPlugin.html">Swift_Plugins_DecoratorPlugin</a></li>
+				<li><a href="class-Swift_Plugins_LoggerPlugin.html">Swift_Plugins_LoggerPlugin</a></li>
+				<li><a href="class-Swift_Plugins_PopBeforeSmtpPlugin.html">Swift_Plugins_PopBeforeSmtpPlugin</a></li>
+				<li><a href="class-Swift_Plugins_ReporterPlugin.html">Swift_Plugins_ReporterPlugin</a></li>
+				<li><a href="class-Swift_Plugins_Reporters_HitReporter.html">Swift_Plugins_Reporters_HitReporter</a></li>
+				<li><a href="class-Swift_Plugins_Reporters_HtmlReporter.html">Swift_Plugins_Reporters_HtmlReporter</a></li>
+				<li><a href="class-Swift_Plugins_ThrottlerPlugin.html">Swift_Plugins_ThrottlerPlugin</a></li>
+			</ul>
+
+			<h3>Interfaces</h3>
+			<ul>
+				<li><a href="class-Swift_Plugins_Decorator_Replacements.html">Swift_Plugins_Decorator_Replacements</a></li>
+				<li><a href="class-Swift_Plugins_Pop_Pop3Connection.html">Swift_Plugins_Pop_Pop3Connection</a></li>
+				<li><a href="class-Swift_Plugins_Reporter.html">Swift_Plugins_Reporter</a></li>
+				<li><a href="class-Swift_Plugins_Sleeper.html">Swift_Plugins_Sleeper</a></li>
+				<li><a href="class-Swift_Plugins_Timer.html">Swift_Plugins_Timer</a></li>
+			</ul>
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" class="text" />
+		<input type="submit" value="Search" />
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="package-Swift.Plugins.html" title="Summary of Swift\Plugins"><span>Package</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class Swift_Plugins_BandwidthMonitorPlugin</h1>
+
+
+	<div class="description">
+	
+<p>Reduces network flooding when sending large amounts of mail.</p>
+
+	</div>
+
+	<dl class="tree">
+		<dd style="padding-left:0px">
+<b><span>Swift_Plugins_BandwidthMonitorPlugin</span></b>			
+			 implements 
+				<a href="class-Swift_Events_SendListener.html"><span>Swift_Events_SendListener</span></a>, 
+			
+				<a href="class-Swift_Events_CommandListener.html"><span>Swift_Events_CommandListener</span></a>, 
+			
+				<a href="class-Swift_Events_ResponseListener.html"><span>Swift_Events_ResponseListener</span></a>, 
+			
+				<a href="class-Swift_InputByteStream.html"><span>Swift_InputByteStream</span></a>
+			
+			
+		</dd>
+	</dl>
+
+
+	<div>
+		<h4>Direct known subclasses</h4>
+			<a href="class-Swift_Plugins_ThrottlerPlugin.html">Swift_Plugins_ThrottlerPlugin</a>
+	</div>
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		
+		<b>Package:</b> <a href="package-Swift.html">Swift</a>\<a href="package-Swift.Plugins.html">Plugins</a><br />
+
+				<b>Author:</b>
+				Chris Corbyn<br />
+		<b>Located at</b> <a href="source-class-Swift_Plugins_BandwidthMonitorPlugin.html#29" title="Go to source code">protected/extensions/swiftMailer/lib/classes/Swift/Plugins/BandwidthMonitorPlugin.php</a><br />
+	</div>
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="beforeSendPerformed" id="_beforeSendPerformed">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_beforeSendPerformed">#</a>
+		<code><a href="source-class-Swift_Plugins_BandwidthMonitorPlugin.html#57" title="Go to source code">beforeSendPerformed</a>( <span><code><a href="class-Swift_Events_SendEvent.html">Swift_Events_SendEvent</a></code> <var>$evt</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Not used.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Not used.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$evt</var></dt>
+					<dd><code><code><a href="class-Swift_Events_SendEvent.html">Swift_Events_SendEvent</a></code></code></dd>
+				</dl></div>
+
+
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-Swift_Events_SendListener.html#_">Swift_Events_SendListener::beforeSendPerformed</a></code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="sendPerformed" id="_sendPerformed">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_sendPerformed">#</a>
+		<code><a href="source-class-Swift_Plugins_BandwidthMonitorPlugin.html#64" title="Go to source code">sendPerformed</a>( <span><code><a href="class-Swift_Events_SendEvent.html">Swift_Events_SendEvent</a></code> <var>$evt</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Invoked immediately after the Message is sent.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Invoked immediately after the Message is sent.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$evt</var></dt>
+					<dd><code><code><a href="class-Swift_Events_SendEvent.html">Swift_Events_SendEvent</a></code></code></dd>
+				</dl></div>
+
+
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-Swift_Events_SendListener.html#_">Swift_Events_SendListener::sendPerformed</a></code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="commandSent" id="_commandSent">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_commandSent">#</a>
+		<code><a href="source-class-Swift_Plugins_BandwidthMonitorPlugin.html#74" title="Go to source code">commandSent</a>( <span><code><a href="class-Swift_Events_CommandEvent.html">Swift_Events_CommandEvent</a></code> <var>$evt</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Invoked immediately following a command being sent.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Invoked immediately following a command being sent.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$evt</var></dt>
+					<dd><code><code><a href="class-Swift_Events_ResponseEvent.html">Swift_Events_ResponseEvent</a></code></code></dd>
+				</dl></div>
+
+
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-Swift_Events_CommandListener.html#_">Swift_Events_CommandListener::commandSent</a></code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="responseReceived" id="_responseReceived">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_responseReceived">#</a>
+		<code><a href="source-class-Swift_Plugins_BandwidthMonitorPlugin.html#84" title="Go to source code">responseReceived</a>( <span><code><a href="class-Swift_Events_ResponseEvent.html">Swift_Events_ResponseEvent</a></code> <var>$evt</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Invoked immediately following a response coming back.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Invoked immediately following a response coming back.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$evt</var></dt>
+					<dd><code><code><a href="class-Swift_Events_ResponseEvent.html">Swift_Events_ResponseEvent</a></code></code></dd>
+				</dl></div>
+
+
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-Swift_Events_ResponseListener.html#_">Swift_Events_ResponseListener::responseReceived</a></code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="write" id="_write">
+
+		<td class="attributes"><code>
+			 public 
+			integer
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_write">#</a>
+		<code><a href="source-class-Swift_Plugins_BandwidthMonitorPlugin.html#94" title="Go to source code">write</a>( <span>string <var>$bytes</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Called when a message is sent so that the outgoing counter can be
+increased.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Called when a message is sent so that the outgoing counter can be
+increased.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$bytes</var></dt>
+					<dd><code>string</code></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>integer</code><br />
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><code><a href="class-Swift_IoException.html">Swift_IoException</a></code></code><br />
+				</div>
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-Swift_InputByteStream.html#_">Swift_InputByteStream::write</a></code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="commit" id="_commit">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_commit">#</a>
+		<code><a href="source-class-Swift_Plugins_BandwidthMonitorPlugin.html#107" title="Go to source code">commit</a>( )</code>
+
+		<div class="description short">
+			
+<p>Not used.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Not used.</p>
+
+
+
+
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><code><a href="class-Swift_IoException.html">Swift_IoException</a></code></code><br />
+				</div>
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-Swift_InputByteStream.html#_">Swift_InputByteStream::commit</a></code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="bind" id="_bind">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_bind">#</a>
+		<code><a href="source-class-Swift_Plugins_BandwidthMonitorPlugin.html#114" title="Go to source code">bind</a>( <span><code><a href="class-Swift_InputByteStream.html">Swift_InputByteStream</a></code> <var>$is</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Attach $is to this stream. The stream acts as an observer, receiving all data
+that is written. All <code><a href="class-Swift_Plugins_BandwidthMonitorPlugin.html#_">Swift_Plugins_BandwidthMonitorPlugin::write()</a></code> and <code><a href="class-Swift_Plugins_BandwidthMonitorPlugin.html#_">Swift_Plugins_BandwidthMonitorPlugin::flushBuffers()</a></code> operations will
+be mirrored.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Attach $is to this stream. The stream acts as an observer, receiving all data
+that is written. All <code><a href="class-Swift_Plugins_BandwidthMonitorPlugin.html#_">Swift_Plugins_BandwidthMonitorPlugin::write()</a></code> and <code><a href="class-Swift_Plugins_BandwidthMonitorPlugin.html#_">Swift_Plugins_BandwidthMonitorPlugin::flushBuffers()</a></code> operations will
+be mirrored.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$is</var></dt>
+					<dd><code><code><a href="class-Swift_InputByteStream.html">Swift_InputByteStream</a></code></code></dd>
+				</dl></div>
+
+
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-Swift_InputByteStream.html#_">Swift_InputByteStream::bind</a></code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="unbind" id="_unbind">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_unbind">#</a>
+		<code><a href="source-class-Swift_Plugins_BandwidthMonitorPlugin.html#126" title="Go to source code">unbind</a>( <span><code><a href="class-Swift_InputByteStream.html">Swift_InputByteStream</a></code> <var>$is</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Remove an already bound stream. If $is is not bound, no errors will be
+raised. If the stream currently has any buffered data it will be written to $is
+before unbinding occurs.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Remove an already bound stream. If $is is not bound, no errors will be
+raised. If the stream currently has any buffered data it will be written to $is
+before unbinding occurs.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$is</var></dt>
+					<dd><code><code><a href="class-Swift_InputByteStream.html">Swift_InputByteStream</a></code></code></dd>
+				</dl></div>
+
+
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-Swift_InputByteStream.html#_">Swift_InputByteStream::unbind</a></code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="flushBuffers" id="_flushBuffers">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_flushBuffers">#</a>
+		<code><a href="source-class-Swift_Plugins_BandwidthMonitorPlugin.html#145" title="Go to source code">flushBuffers</a>( )</code>
+
+		<div class="description short">
+			
+<p>Not used.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Not used.</p>
+
+
+
+
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><code><a href="class-Swift_IoException.html">Swift_IoException</a></code></code><br />
+				</div>
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-Swift_InputByteStream.html#_">Swift_InputByteStream::flushBuffers</a></code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getBytesOut" id="_getBytesOut">
+
+		<td class="attributes"><code>
+			 public 
+			integer
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getBytesOut">#</a>
+		<code><a href="source-class-Swift_Plugins_BandwidthMonitorPlugin.html#156" title="Go to source code">getBytesOut</a>( )</code>
+
+		<div class="description short">
+			
+<p>Get the total number of bytes sent to the server.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the total number of bytes sent to the server.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>integer</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getBytesIn" id="_getBytesIn">
+
+		<td class="attributes"><code>
+			 public 
+			integer
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getBytesIn">#</a>
+		<code><a href="source-class-Swift_Plugins_BandwidthMonitorPlugin.html#165" title="Go to source code">getBytesIn</a>( )</code>
+
+		<div class="description short">
+			
+<p>Get the total number of bytes received from the server.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the total number of bytes received from the server.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>integer</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="reset" id="_reset">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_reset">#</a>
+		<code><a href="source-class-Swift_Plugins_BandwidthMonitorPlugin.html#174" title="Go to source code">reset</a>( )</code>
+
+		<div class="description short">
+			
+<p>Reset the internal counters to zero.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Reset the internal counters to zero.</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		sauers API documentation generated by <a href="http://apigen.org">ApiGen 2.7.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

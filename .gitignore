@@ -2,3 +2,5 @@
 /protected/runtime/
 /assets/
 /protected/config/
+/nbproject/private/
+*.ignore*

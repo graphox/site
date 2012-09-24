@@ -8,142 +8,111 @@ class UserController extends AdminController
 	 */
 	public $layout='//layouts/column2';
 
-	/**
-	 * @return array action filters
-	 */
 	public function filters()
 	{
 		return array(
-		#	'accessControl', // perform access control for CRUD operations
+			'simpleAccess'
 		);
 	}
-
-	/**
-	 * Specifies the access control rules.
-	 * This method is used by the 'accessControl' filter.
-	 * @return array access control rules
-	 */
-	public function accessRules()
+	
+	public function filterSimpleAccess($chain)
 	{
-		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
-				'users'=>array('*'),
-			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'updateEmail', 'changeStatus'),
-				'users'=>array('@'),
-			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete', 'deleteEmail'),
-				'users'=>array('admin'),
-			),
-			array('deny',  // deny all users
-				'users'=>array('*'),
-			),
-		);
+		if(!Yii::app()->user->isGuest && Yii::app()->user->node->hasAccess('admin.user'))
+			$chain->run();
+		else
+		{
+			if(Yii::app()->user->isGuest)
+				$this->redirect(array('/user/login'));
+			throw new CHttpException(403, 'Only admins can access the ACP.');
+		}
+			
 	}
-
 	/**
 	 * Displays a particular model.
-	 * @param integer $id the ID of the model to be displayed
+	 * @param integer $name the username of the model to be displayed
 	 */
-	public function actionView($id)
+	public function actionView($name)
 	{
 		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
-	}
-
-	/**
-	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 */
-	public function actionCreate()
-	{
-		$model=new User;
-		$model->scenario = 'admin';
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['User']))
-		{
-			$model->attributes=$_POST['User'];
-			if($model->save())
-			{
-				Yii::app()->user->setFlash('success', '<strong>User created!</strong> Successfully added user, you may now add email addresses and/or metadata.');
-				$this->redirect(array('view','id'=>$model->id));
-			}
-		}
-
-		$this->render('create',array(
-			'model'=>$model,
+			'model'=>$this->loadModel($name),
 		));
 	}
 
 	/**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
+	 * @param string $name the username of the user to be updated
 	 */
-	public function actionUpdate($id)
+	public function actionUpdate($name)
 	{
-		$model=$this->loadModel($id, array('emails', 'entity' => array( 'with' => array('metadata') )));
+		$model=$this->loadModel($name);
+		
 		$model->scenario = 'admin';
 		$this->performAjaxValidation($model);
-
-		$email_model = new Email('admin');
-		if(isset($_POST['Email']))
-		{
-			$email_model->attributes = $_POST['Email'];
-			if($email_model->validate())
-			{
-				$email_model->user_id = (int)$id;
-				if($email_model->save())
-				{
-					#reset
-					$email_model = null;
-					$email_model = new Email('admin');
-					Yii::app()->user->setFlash('success', '<strong>Email saved!</strong> the email address was saved in the database.');
-				}
-			}
-		}
 
 		if(isset($_POST['User']))
 		{
 			$model->attributes=$_POST['User'];
-			if(!isset($_POST['Email']) && $model->save())
+			if($model->update())
 			{
 				Yii::app()->user->setFlash('success', '<strong>User updated!</strong> Successfully updated user settings.');
-				$this->redirect(array('view','id'=>$model->id));
+				$this->redirect(array('view','name'=>$model->username));
 			}
 		}
 
 		$this->render('update',array(
 			'model'=>$model,
-			'email_model' => $email_model
 		));
 	}
 
-	/**
-	 * Deletes a particular model.
-	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-	 * @param integer $id the ID of the model to be deleted
-	 */
-	public function actionDelete($id)
+	public function actions()
 	{
-		if(Yii::app()->request->isPostRequest)
-		{
-			// we only allow deletion via POST request
-			$this->loadModel($id)->delete();
+		return array(
+			'delete' => array(
+				'class' => 'application.components.ActionVerifyUserAction',
+				'onRun' => function(&$it)
+				{
+					$it->controller->loadModel($_GET['name'])->delete();
+				},
+				'shortDescr' => 'Are you shure you want to delete the user?',
+				'longDescr' => 'deleting is permanent. All posts will loose the creator. Perhaps you ment banning the user?',
+				'returnUrl' => array('/admin/user'),
+		
+			),
 
-			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-			if(!isset($_GET['ajax']))
-				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-		}
-		else
-			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+			'activate' => array(
+				'class' => 'application.components.ActionVerifyUserAction',
+				'onRun' => function(&$it)
+				{
+					$it->controller->loadModel($_GET['name'])->actionAdminActivate();
+				},
+				'shortDescr' => 'Are you shure you want to activate the user?',
+				'longDescr' => 'this will enable the user to login when he activate(s)(d) his email adress too.',
+				'returnUrl' => array('/admin/user'),
+			),
+
+			'emailActivate' => array(
+				'class' => 'application.components.ActionVerifyUserAction',
+				'onRun' => function(&$it)
+				{
+					$it->controller->loadModel($_GET['name'])->actionEmailActivated();
+				},
+				'shortDescr' => 'Are you shure you want to <strong>email</strong> activate the user?',
+				'longDescr' => 'The user won\'t have to activate it\'s email address anymore!',
+				'returnUrl' => array('/admin/user'),
+			),
+						
+			'ban' => array(
+				'class' => 'application.components.ActionVerifyUserAction',
+				'onRun' => function(&$it)
+				{
+					$it->controller->loadModel($_GET['name'])->actionBan();
+				},
+				'shortDescr' => 'Are you shure you want to ban the user?',
+				'longDescr' => 'The user won\'t be able to login anymore.',
+				'returnUrl' => array('/admin/user'),
+			),
+		);
 	}
 
 	/**
@@ -151,124 +120,35 @@ class UserController extends AdminController
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('User');
+		$dataProvider=new CArrayDataProvider(
+				User::model()->findAll()
+		);
+		
+		$inactiveDataProvider = new CArrayDataProvider(
+				User::model()->findAllByQuery('
+					g.idx("User")[[modelclass:"User"]].filter{(it.isAdminActivated == false)}
+			')
+		);
+		
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
+			'notActivatedProvider' => $inactiveDataProvider
 		));
-	}
-
-	/**
-	 * Manages all models.
-	 */
-	public function actionAdmin()
-	{
-		$model=new User('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['User']))
-			$model->attributes=$_GET['User'];
-
-		$this->render('admin',array(
-			'model'=>$model,
-		));
-	}
-	
-	/**
-	 *	Deletes an email adress
-	 */
-	public function actionDeleteEmail($id)
-	{
-		if(Yii::app()->request->isPostRequest)
-		{
-			$email = Email::model()->findByPk($id);
-	
-			if($email === null)
-				throw new CHttpException(404,'Could not find that email address.');
-				
-			$user_id = $email->user_id;
-			$email->delete();
-
-			if(!Yii::app()->request->isAjaxRequest)
-				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('update', 'id' => $user_id));
-			else
-				echo 'Successfully deleted email address.';
-		}
-		else
-			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
-	}
-	
-	/**
-	 * Updates an email address
-	 */
-	
-	public function actionUpdateEmail($id)
-	{
-		$model = Email::model()->findByPk($id);
-		$model->scenario = 'admin';
-	
-		if($model === null)
-			throw new CHttpException(404,'Could not find that email address.');
-
-		if(isset($_POST['ajax']) && $_POST['ajax']==='email-update-form')
-		{
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}	
-
-		if(isset($_POST['Email']))
-		{
-			$model->attributes = $_POST['Email'];
-			
-			if($model->save())
-			{
-				if(!Yii::app()->request->isAjaxRequest)
-					$this->redirect(array('view', 'id'=>$model->user_id, '#' => 'email-'.(int)$model->id));
-				else
-				{
-					echo '<p>note, refresh the page to see the changed data</p>';
-					echo '<p>Successfully saved email</p>';
-				}
-				
-				Yii::app()->end();
-			}
-		}
-		
-		$form = new CActiveForm;
-		echo $form->errorSumarry($model);
-	}
-
-	/**
-	 *	Changes the user status
-	 */
-	public function actionChangeStatus($id)
-	{
-		$model = $this->loadModel($id);
-		$model->scenario = 'statusUpdate';
-		
-		if(isset($_POST['User']))
-		{
-			$model->attributes = $_POST['User'];
-			
-			if($model->save() && $model->sendStatusMail())
-			{
-				Yii::app()->user->setFlash('success', 'Successfully updated user status!');
-				$this->redirect(array('update', 'id' => $id, '#' => '/status'));
-			}
-		}
-
-		Yii::app()->user->setFlash('error', 'Could not update user status!');
-		$this->redirect(array('update', 'id' => $id, '#' => '/status'));
 	}
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
-	 * @param integer the ID of the model to be loaded
+	 * @param string name the username of the user to load
+	 * @return User
 	 */
-	public function loadModel($id, $with = array())
+	public function loadModel($name)
 	{
-		$model=User::model()->with($with)->findByPk($id);
+		$model=User::model()->findByAttributes(array('username' => $name));
+		
 		if($model===null)
-			throw new CHttpException(404,'The requested page does not exist.');
+			throw new CHttpException(404,'Invalid user.');
+		
 		return $model;
 	}
 

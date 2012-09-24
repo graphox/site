@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.7.0" />
+	<meta name="robots" content="noindex" />
+
+	<title>File protected/extensions/swiftMailer/lib/classes/Swift/Encoder/QpEncoder.php | sauers</title>
+
+	<script type="text/javascript" src="resources/combined.js?2398159053"></script>
+	<script type="text/javascript" src="elementlist.js?3309092622"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?1567499433" />
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li><a href="package-bootstrap.html">bootstrap<span></span></a>
+						<ul>
+				<li><a href="package-bootstrap.widgets.html">widgets<span></span></a>
+						<ul>
+				<li><a href="package-bootstrap.widgets.input.html">input</a>
+						</li>
+							</ul></li></ul></li>
+				<li><a href="package-None.html">None</a>
+						</li>
+				<li><a href="package-PHP.html">PHP</a>
+						</li>
+				<li class="active"><a href="package-Swift.html">Swift<span></span></a>
+						<ul>
+				<li><a href="package-Swift.ByteStream.html">ByteStream</a>
+						</li>
+				<li><a href="package-Swift.CharacterStream.html">CharacterStream</a>
+						</li>
+				<li class="active"><a href="package-Swift.Encoder.html">Encoder</a>
+						</li>
+				<li><a href="package-Swift.Events.html">Events</a>
+						</li>
+				<li><a href="package-Swift.KeyCache.html">KeyCache</a>
+						</li>
+				<li><a href="package-Swift.Mailer.html">Mailer</a>
+						</li>
+				<li><a href="package-Swift.Mime.html">Mime</a>
+						</li>
+				<li><a href="package-Swift.Plugins.html">Plugins</a>
+						</li>
+				<li><a href="package-Swift.Transport.html">Transport</a>
+						</li>
+							</ul></li>
+				<li><a href="package-YiiDebugToolbar.html">YiiDebugToolbar</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr />
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-Swift_CharacterReader_GenericFixedWidthReader.html">Swift_CharacterReader_GenericFixedWidthReader</a></li>
+				<li><a href="class-Swift_CharacterReader_UsAsciiReader.html">Swift_CharacterReader_UsAsciiReader</a></li>
+				<li><a href="class-Swift_CharacterReader_Utf8Reader.html">Swift_CharacterReader_Utf8Reader</a></li>
+				<li><a href="class-Swift_CharacterReaderFactory_SimpleCharacterReaderFactory.html">Swift_CharacterReaderFactory_SimpleCharacterReaderFactory</a></li>
+				<li><a href="class-Swift_Encoder_Base64Encoder.html">Swift_Encoder_Base64Encoder</a></li>
+				<li class="active"><a href="class-Swift_Encoder_QpEncoder.html">Swift_Encoder_QpEncoder</a></li>
+				<li><a href="class-Swift_Encoder_Rfc2231Encoder.html">Swift_Encoder_Rfc2231Encoder</a></li>
+				<li><a href="class-Swift_Encoding.html">Swift_Encoding</a></li>
+			</ul>
+
+			<h3>Interfaces</h3>
+			<ul>
+				<li><a href="class-Swift_CharacterReader.html">Swift_CharacterReader</a></li>
+				<li><a href="class-Swift_CharacterReaderFactory.html">Swift_CharacterReaderFactory</a></li>
+				<li><a href="class-Swift_Encoder.html">Swift_Encoder</a></li>
+			</ul>
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" class="text" />
+		<input type="submit" value="Search" />
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="package-Swift.Encoder.html" title="Summary of Swift\Encoder"><span>Package</span></a>
+			</li>
+			<li>
+				<a href="class-Swift_Encoder_QpEncoder.html" title="Summary of Swift_Encoder_QpEncoder"><span>Class</span></a>
+			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<pre><code><a href="#1" id="1" class="l">  1: </a><span class="xlang">&lt;?php</span>
+<a href="#2" id="2" class="l">  2: </a>
+<a href="#3" id="3" class="l">  3: </a><span class="php-comment">/*
+</span><a href="#4" id="4" class="l">  4: </a><span class="php-comment"> The Quoted Printable encoder in Swift Mailer.
+</span><a href="#5" id="5" class="l">  5: </a><span class="php-comment">
+</span><a href="#6" id="6" class="l">  6: </a><span class="php-comment"> This program is free software: you can redistribute it and/or modify
+</span><a href="#7" id="7" class="l">  7: </a><span class="php-comment"> it under the terms of the GNU General Public License as published by
+</span><a href="#8" id="8" class="l">  8: </a><span class="php-comment"> the Free Software Foundation, either version 3 of the License, or
+</span><a href="#9" id="9" class="l">  9: </a><span class="php-comment"> (at your option) any later version.
+</span><a href="#10" id="10" class="l"> 10: </a><span class="php-comment">
+</span><a href="#11" id="11" class="l"> 11: </a><span class="php-comment"> This program is distributed in the hope that it will be useful,
+</span><a href="#12" id="12" class="l"> 12: </a><span class="php-comment"> but WITHOUT ANY WARRANTY; without even the implied warranty of
+</span><a href="#13" id="13" class="l"> 13: </a><span class="php-comment"> MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+</span><a href="#14" id="14" class="l"> 14: </a><span class="php-comment"> GNU General Public License for more details.
+</span><a href="#15" id="15" class="l"> 15: </a><span class="php-comment">
+</span><a href="#16" id="16" class="l"> 16: </a><span class="php-comment"> You should have received a copy of the GNU General Public License
+</span><a href="#17" id="17" class="l"> 17: </a><span class="php-comment"> along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+</span><a href="#18" id="18" class="l"> 18: </a><span class="php-comment">
+</span><a href="#19" id="19" class="l"> 19: </a><span class="php-comment"> */</span>
+<a href="#20" id="20" class="l"> 20: </a>
+<a href="#21" id="21" class="l"> 21: </a><span class="php-comment">//@require 'Swift/Encoder.php';</span>
+<a href="#22" id="22" class="l"> 22: </a><span class="php-comment">//@require 'Swift/CharacterStream.php';</span>
+<a href="#23" id="23" class="l"> 23: </a>
+<a href="#24" id="24" class="l"> 24: </a><span class="php-comment">/**
+</span><a href="#25" id="25" class="l"> 25: </a><span class="php-comment"> * Handles Quoted Printable (QP) Encoding in Swift Mailer.
+</span><a href="#26" id="26" class="l"> 26: </a><span class="php-comment"> * Possibly the most accurate RFC 2045 QP implementation found in PHP.
+</span><a href="#27" id="27" class="l"> 27: </a><span class="php-comment"> * @package Swift
+</span><a href="#28" id="28" class="l"> 28: </a><span class="php-comment"> * @subpackage Encoder
+</span><a href="#29" id="29" class="l"> 29: </a><span class="php-comment"> * @author Chris Corbyn
+</span><a href="#30" id="30" class="l"> 30: </a><span class="php-comment"> */</span>
+<a href="#31" id="31" class="l"> 31: </a><span class="php-keyword1">class</span> Swift_Encoder_QpEncoder <span class="php-keyword1">implements</span> Swift_Encoder
+<a href="#32" id="32" class="l"> 32: </a>{
+<a href="#33" id="33" class="l"> 33: </a>
+<a href="#34" id="34" class="l"> 34: </a>  <span class="php-comment">/**
+</span><a href="#35" id="35" class="l"> 35: </a><span class="php-comment">   * The CharacterStream used for reading characters (as opposed to bytes).
+</span><a href="#36" id="36" class="l"> 36: </a><span class="php-comment">   * @var Swift_CharacterStream
+</span><a href="#37" id="37" class="l"> 37: </a><span class="php-comment">   * @access protected
+</span><a href="#38" id="38" class="l"> 38: </a><span class="php-comment">   */</span>
+<a href="#39" id="39" class="l"> 39: </a>  <span class="php-keyword1">protected</span> <span class="php-var">$_charStream</span>;
+<a href="#40" id="40" class="l"> 40: </a>
+<a href="#41" id="41" class="l"> 41: </a>  <span class="php-comment">/**
+</span><a href="#42" id="42" class="l"> 42: </a><span class="php-comment">   * A filter used if input should be canonicalized.
+</span><a href="#43" id="43" class="l"> 43: </a><span class="php-comment">   * @var Swift_StreamFilter
+</span><a href="#44" id="44" class="l"> 44: </a><span class="php-comment">   * @access protected
+</span><a href="#45" id="45" class="l"> 45: </a><span class="php-comment">   */</span>
+<a href="#46" id="46" class="l"> 46: </a>  <span class="php-keyword1">protected</span> <span class="php-var">$_filter</span>;
+<a href="#47" id="47" class="l"> 47: </a>
+<a href="#48" id="48" class="l"> 48: </a>  <span class="php-comment">/**
+</span><a href="#49" id="49" class="l"> 49: </a><span class="php-comment">   * Pre-computed QP for HUGE optmization.
+</span><a href="#50" id="50" class="l"> 50: </a><span class="php-comment">   * @var string[]
+</span><a href="#51" id="51" class="l"> 51: </a><span class="php-comment">   * @access protected
+</span><a href="#52" id="52" class="l"> 52: </a><span class="php-comment">   */</span>
+<a href="#53" id="53" class="l"> 53: </a>  <span class="php-keyword1">protected</span> <span class="php-keyword1">static</span> <span class="php-var">$_qpMap</span> = <span class="php-keyword1">array</span>(
+<a href="#54" id="54" class="l"> 54: </a>    <span class="php-num">0</span>   =&gt; <span class="php-quote">'=00'</span>, <span class="php-num">1</span>   =&gt; <span class="php-quote">'=01'</span>, <span class="php-num">2</span>   =&gt; <span class="php-quote">'=02'</span>, <span class="php-num">3</span>   =&gt; <span class="php-quote">'=03'</span>, <span class="php-num">4</span>   =&gt; <span class="php-quote">'=04'</span>,
+<a href="#55" id="55" class="l"> 55: </a>    <span class="php-num">5</span>   =&gt; <span class="php-quote">'=05'</span>, <span class="php-num">6</span>   =&gt; <span class="php-quote">'=06'</span>, <span class="php-num">7</span>   =&gt; <span class="php-quote">'=07'</span>, <span class="php-num">8</span>   =&gt; <span class="php-quote">'=08'</span>, <span class="php-num">9</span>   =&gt; <span class="php-quote">'=09'</span>,
+<a href="#56" id="56" class="l"> 56: </a>    <span class="php-num">10</span>  =&gt; <span class="php-quote">'=0A'</span>, <span class="php-num">11</span>  =&gt; <span class="php-quote">'=0B'</span>, <span class="php-num">12</span>  =&gt; <span class="php-quote">'=0C'</span>, <span class="php-num">13</span>  =&gt; <span class="php-quote">'=0D'</span>, <span class="php-num">14</span>  =&gt; <span class="php-quote">'=0E'</span>,
+<a href="#57" id="57" class="l"> 57: </a>    <span class="php-num">15</span>  =&gt; <span class="php-quote">'=0F'</span>, <span class="php-num">16</span>  =&gt; <span class="php-quote">'=10'</span>, <span class="php-num">17</span>  =&gt; <span class="php-quote">'=11'</span>, <span class="php-num">18</span>  =&gt; <span class="php-quote">'=12'</span>, <span class="php-num">19</span>  =&gt; <span class="php-quote">'=13'</span>,
+<a href="#58" id="58" class="l"> 58: </a>    <span class="php-num">20</span>  =&gt; <span class="php-quote">'=14'</span>, <span class="php-num">21</span>  =&gt; <span class="php-quote">'=15'</span>, <span class="php-num">22</span>  =&gt; <span class="php-quote">'=16'</span>, <span class="php-num">23</span>  =&gt; <span class="php-quote">'=17'</span>, <span class="php-num">24</span>  =&gt; <span class="php-quote">'=18'</span>,
+<a href="#59" id="59" class="l"> 59: </a>    <span class="php-num">25</span>  =&gt; <span class="php-quote">'=19'</span>, <span class="php-num">26</span>  =&gt; <span class="php-quote">'=1A'</span>, <span class="php-num">27</span>  =&gt; <span class="php-quote">'=1B'</span>, <span class="php-num">28</span>  =&gt; <span class="php-quote">'=1C'</span>, <span class="php-num">29</span>  =&gt; <span class="php-quote">'=1D'</span>,
+<a href="#60" id="60" class="l"> 60: </a>    <span class="php-num">30</span>  =&gt; <span class="php-quote">'=1E'</span>, <span class="php-num">31</span>  =&gt; <span class="php-quote">'=1F'</span>, <span class="php-num">32</span>  =&gt; <span class="php-quote">'=20'</span>, <span class="php-num">33</span>  =&gt; <span class="php-quote">'=21'</span>, <span class="php-num">34</span>  =&gt; <span class="php-quote">'=22'</span>,
+<a href="#61" id="61" class="l"> 61: </a>    <span class="php-num">35</span>  =&gt; <span class="php-quote">'=23'</span>, <span class="php-num">36</span>  =&gt; <span class="php-quote">'=24'</span>, <span class="php-num">37</span>  =&gt; <span class="php-quote">'=25'</span>, <span class="php-num">38</span>  =&gt; <span class="php-quote">'=26'</span>, <span class="php-num">39</span>  =&gt; <span class="php-quote">'=27'</span>,
+<a href="#62" id="62" class="l"> 62: </a>    <span class="php-num">40</span>  =&gt; <span class="php-quote">'=28'</span>, <span class="php-num">41</span>  =&gt; <span class="php-quote">'=29'</span>, <span class="php-num">42</span>  =&gt; <span class="php-quote">'=2A'</span>, <span class="php-num">43</span>  =&gt; <span class="php-quote">'=2B'</span>, <span class="php-num">44</span>  =&gt; <span class="php-quote">'=2C'</span>,
+<a href="#63" id="63" class="l"> 63: </a>    <span class="php-num">45</span>  =&gt; <span class="php-quote">'=2D'</span>, <span class="php-num">46</span>  =&gt; <span class="php-quote">'=2E'</span>, <span class="php-num">47</span>  =&gt; <span class="php-quote">'=2F'</span>, <span class="php-num">48</span>  =&gt; <span class="php-quote">'=30'</span>, <span class="php-num">49</span>  =&gt; <span class="php-quote">'=31'</span>,
+<a href="#64" id="64" class="l"> 64: </a>    <span class="php-num">50</span>  =&gt; <span class="php-quote">'=32'</span>, <span class="php-num">51</span>  =&gt; <span class="php-quote">'=33'</span>, <span class="php-num">52</span>  =&gt; <span class="php-quote">'=34'</span>, <span class="php-num">53</span>  =&gt; <span class="php-quote">'=35'</span>, <span class="php-num">54</span>  =&gt; <span class="php-quote">'=36'</span>,
+<a href="#65" id="65" class="l"> 65: </a>    <span class="php-num">55</span>  =&gt; <span class="php-quote">'=37'</span>, <span class="php-num">56</span>  =&gt; <span class="php-quote">'=38'</span>, <span class="php-num">57</span>  =&gt; <span class="php-quote">'=39'</span>, <span class="php-num">58</span>  =&gt; <span class="php-quote">'=3A'</span>, <span class="php-num">59</span>  =&gt; <span class="php-quote">'=3B'</span>,
+<a href="#66" id="66" class="l"> 66: </a>    <span class="php-num">60</span>  =&gt; <span class="php-quote">'=3C'</span>, <span class="php-num">61</span>  =&gt; <span class="php-quote">'=3D'</span>, <span class="php-num">62</span>  =&gt; <span class="php-quote">'=3E'</span>, <span class="php-num">63</span>  =&gt; <span class="php-quote">'=3F'</span>, <span class="php-num">64</span>  =&gt; <span class="php-quote">'=40'</span>,
+<a href="#67" id="67" class="l"> 67: </a>    <span class="php-num">65</span>  =&gt; <span class="php-quote">'=41'</span>, <span class="php-num">66</span>  =&gt; <span class="php-quote">'=42'</span>, <span class="php-num">67</span>  =&gt; <span class="php-quote">'=43'</span>, <span class="php-num">68</span>  =&gt; <span class="php-quote">'=44'</span>, <span class="php-num">69</span>  =&gt; <span class="php-quote">'=45'</span>,
+<a href="#68" id="68" class="l"> 68: </a>    <span class="php-num">70</span>  =&gt; <span class="php-quote">'=46'</span>, <span class="php-num">71</span>  =&gt; <span class="php-quote">'=47'</span>, <span class="php-num">72</span>  =&gt; <span class="php-quote">'=48'</span>, <span class="php-num">73</span>  =&gt; <span class="php-quote">'=49'</span>, <span class="php-num">74</span>  =&gt; <span class="php-quote">'=4A'</span>,
+<a href="#69" id="69" class="l"> 69: </a>    <span class="php-num">75</span>  =&gt; <span class="php-quote">'=4B'</span>, <span class="php-num">76</span>  =&gt; <span class="php-quote">'=4C'</span>, <span class="php-num">77</span>  =&gt; <span class="php-quote">'=4D'</span>, <span class="php-num">78</span>  =&gt; <span class="php-quote">'=4E'</span>, <span class="php-num">79</span>  =&gt; <span class="php-quote">'=4F'</span>,
+<a href="#70" id="70" class="l"> 70: </a>    <span class="php-num">80</span>  =&gt; <span class="php-quote">'=50'</span>, <span class="php-num">81</span>  =&gt; <span class="php-quote">'=51'</span>, <span class="php-num">82</span>  =&gt; <span class="php-quote">'=52'</span>, <span class="php-num">83</span>  =&gt; <span class="php-quote">'=53'</span>, <span class="php-num">84</span>  =&gt; <span class="php-quote">'=54'</span>,
+<a href="#71" id="71" class="l"> 71: </a>    <span class="php-num">85</span>  =&gt; <span class="php-quote">'=55'</span>, <span class="php-num">86</span>  =&gt; <span class="php-quote">'=56'</span>, <span class="php-num">87</span>  =&gt; <span class="php-quote">'=57'</span>, <span class="php-num">88</span>  =&gt; <span class="php-quote">'=58'</span>, <span class="php-num">89</span>  =&gt; <span class="php-quote">'=59'</span>,
+<a href="#72" id="72" class="l"> 72: </a>    <span class="php-num">90</span>  =&gt; <span class="php-quote">'=5A'</span>, <span class="php-num">91</span>  =&gt; <span class="php-quote">'=5B'</span>, <span class="php-num">92</span>  =&gt; <span class="php-quote">'=5C'</span>, <span class="php-num">93</span>  =&gt; <span class="php-quote">'=5D'</span>, <span class="php-num">94</span>  =&gt; <span class="php-quote">'=5E'</span>,
+<a href="#73" id="73" class="l"> 73: </a>    <span class="php-num">95</span>  =&gt; <span class="php-quote">'=5F'</span>, <span class="php-num">96</span>  =&gt; <span class="php-quote">'=60'</span>, <span class="php-num">97</span>  =&gt; <span class="php-quote">'=61'</span>, <span class="php-num">98</span>  =&gt; <span class="php-quote">'=62'</span>, <span class="php-num">99</span>  =&gt; <span class="php-quote">'=63'</span>,
+<a href="#74" id="74" class="l"> 74: </a>    <span class="php-num">100</span> =&gt; <span class="php-quote">'=64'</span>, <span class="php-num">101</span> =&gt; <span class="php-quote">'=65'</span>, <span class="php-num">102</span> =&gt; <span class="php-quote">'=66'</span>, <span class="php-num">103</span> =&gt; <span class="php-quote">'=67'</span>, <span class="php-num">104</span> =&gt; <span class="php-quote">'=68'</span>,
+<a href="#75" id="75" class="l"> 75: </a>    <span class="php-num">105</span> =&gt; <span class="php-quote">'=69'</span>, <span class="php-num">106</span> =&gt; <span class="php-quote">'=6A'</span>, <span class="php-num">107</span> =&gt; <span class="php-quote">'=6B'</span>, <span class="php-num">108</span> =&gt; <span class="php-quote">'=6C'</span>, <span class="php-num">109</span> =&gt; <span class="php-quote">'=6D'</span>,
+<a href="#76" id="76" class="l"> 76: </a>    <span class="php-num">110</span> =&gt; <span class="php-quote">'=6E'</span>, <span class="php-num">111</span> =&gt; <span class="php-quote">'=6F'</span>, <span class="php-num">112</span> =&gt; <span class="php-quote">'=70'</span>, <span class="php-num">113</span> =&gt; <span class="php-quote">'=71'</span>, <span class="php-num">114</span> =&gt; <span class="php-quote">'=72'</span>,
+<a href="#77" id="77" class="l"> 77: </a>    <span class="php-num">115</span> =&gt; <span class="php-quote">'=73'</span>, <span class="php-num">116</span> =&gt; <span class="php-quote">'=74'</span>, <span class="php-num">117</span> =&gt; <span class="php-quote">'=75'</span>, <span class="php-num">118</span> =&gt; <span class="php-quote">'=76'</span>, <span class="php-num">119</span> =&gt; <span class="php-quote">'=77'</span>,
+<a href="#78" id="78" class="l"> 78: </a>    <span class="php-num">120</span> =&gt; <span class="php-quote">'=78'</span>, <span class="php-num">121</span> =&gt; <span class="php-quote">'=79'</span>, <span class="php-num">122</span> =&gt; <span class="php-quote">'=7A'</span>, <span class="php-num">123</span> =&gt; <span class="php-quote">'=7B'</span>, <span class="php-num">124</span> =&gt; <span class="php-quote">'=7C'</span>,
+<a href="#79" id="79" class="l"> 79: </a>    <span class="php-num">125</span> =&gt; <span class="php-quote">'=7D'</span>, <span class="php-num">126</span> =&gt; <span class="php-quote">'=7E'</span>, <span class="php-num">127</span> =&gt; <span class="php-quote">'=7F'</span>, <span class="php-num">128</span> =&gt; <span class="php-quote">'=80'</span>, <span class="php-num">129</span> =&gt; <span class="php-quote">'=81'</span>,
+<a href="#80" id="80" class="l"> 80: </a>    <span class="php-num">130</span> =&gt; <span class="php-quote">'=82'</span>, <span class="php-num">131</span> =&gt; <span class="php-quote">'=83'</span>, <span class="php-num">132</span> =&gt; <span class="php-quote">'=84'</span>, <span class="php-num">133</span> =&gt; <span class="php-quote">'=85'</span>, <span class="php-num">134</span> =&gt; <span class="php-quote">'=86'</span>,
+<a href="#81" id="81" class="l"> 81: </a>    <span class="php-num">135</span> =&gt; <span class="php-quote">'=87'</span>, <span class="php-num">136</span> =&gt; <span class="php-quote">'=88'</span>, <span class="php-num">137</span> =&gt; <span class="php-quote">'=89'</span>, <span class="php-num">138</span> =&gt; <span class="php-quote">'=8A'</span>, <span class="php-num">139</span> =&gt; <span class="php-quote">'=8B'</span>,
+<a href="#82" id="82" class="l"> 82: </a>    <span class="php-num">140</span> =&gt; <span class="php-quote">'=8C'</span>, <span class="php-num">141</span> =&gt; <span class="php-quote">'=8D'</span>, <span class="php-num">142</span> =&gt; <span class="php-quote">'=8E'</span>, <span class="php-num">143</span> =&gt; <span class="php-quote">'=8F'</span>, <span class="php-num">144</span> =&gt; <span class="php-quote">'=90'</span>,
+<a href="#83" id="83" class="l"> 83: </a>    <span class="php-num">145</span> =&gt; <span class="php-quote">'=91'</span>, <span class="php-num">146</span> =&gt; <span class="php-quote">'=92'</span>, <span class="php-num">147</span> =&gt; <span class="php-quote">'=93'</span>, <span class="php-num">148</span> =&gt; <span class="php-quote">'=94'</span>, <span class="php-num">149</span> =&gt; <span class="php-quote">'=95'</span>,
+<a href="#84" id="84" class="l"> 84: </a>    <span class="php-num">150</span> =&gt; <span class="php-quote">'=96'</span>, <span class="php-num">151</span> =&gt; <span class="php-quote">'=97'</span>, <span class="php-num">152</span> =&gt; <span class="php-quote">'=98'</span>, <span class="php-num">153</span> =&gt; <span class="php-quote">'=99'</span>, <span class="php-num">154</span> =&gt; <span class="php-quote">'=9A'</span>,
+<a href="#85" id="85" class="l"> 85: </a>    <span class="php-num">155</span> =&gt; <span class="php-quote">'=9B'</span>, <span class="php-num">156</span> =&gt; <span class="php-quote">'=9C'</span>, <span class="php-num">157</span> =&gt; <span class="php-quote">'=9D'</span>, <span class="php-num">158</span> =&gt; <span class="php-quote">'=9E'</span>, <span class="php-num">159</span> =&gt; <span class="php-quote">'=9F'</span>,
+<a href="#86" id="86" class="l"> 86: </a>    <span class="php-num">160</span> =&gt; <span class="php-quote">'=A0'</span>, <span class="php-num">161</span> =&gt; <span class="php-quote">'=A1'</span>, <span class="php-num">162</span> =&gt; <span class="php-quote">'=A2'</span>, <span class="php-num">163</span> =&gt; <span class="php-quote">'=A3'</span>, <span class="php-num">164</span> =&gt; <span class="php-quote">'=A4'</span>,
+<a href="#87" id="87" class="l"> 87: </a>    <span class="php-num">165</span> =&gt; <span class="php-quote">'=A5'</span>, <span class="php-num">166</span> =&gt; <span class="php-quote">'=A6'</span>, <span class="php-num">167</span> =&gt; <span class="php-quote">'=A7'</span>, <span class="php-num">168</span> =&gt; <span class="php-quote">'=A8'</span>, <span class="php-num">169</span> =&gt; <span class="php-quote">'=A9'</span>,
+<a href="#88" id="88" class="l"> 88: </a>    <span class="php-num">170</span> =&gt; <span class="php-quote">'=AA'</span>, <span class="php-num">171</span> =&gt; <span class="php-quote">'=AB'</span>, <span class="php-num">172</span> =&gt; <span class="php-quote">'=AC'</span>, <span class="php-num">173</span> =&gt; <span class="php-quote">'=AD'</span>, <span class="php-num">174</span> =&gt; <span class="php-quote">'=AE'</span>,
+<a href="#89" id="89" class="l"> 89: </a>    <span class="php-num">175</span> =&gt; <span class="php-quote">'=AF'</span>, <span class="php-num">176</span> =&gt; <span class="php-quote">'=B0'</span>, <span class="php-num">177</span> =&gt; <span class="php-quote">'=B1'</span>, <span class="php-num">178</span> =&gt; <span class="php-quote">'=B2'</span>, <span class="php-num">179</span> =&gt; <span class="php-quote">'=B3'</span>,
+<a href="#90" id="90" class="l"> 90: </a>    <span class="php-num">180</span> =&gt; <span class="php-quote">'=B4'</span>, <span class="php-num">181</span> =&gt; <span class="php-quote">'=B5'</span>, <span class="php-num">182</span> =&gt; <span class="php-quote">'=B6'</span>, <span class="php-num">183</span> =&gt; <span class="php-quote">'=B7'</span>, <span class="php-num">184</span> =&gt; <span class="php-quote">'=B8'</span>,
+<a href="#91" id="91" class="l"> 91: </a>    <span class="php-num">185</span> =&gt; <span class="php-quote">'=B9'</span>, <span class="php-num">186</span> =&gt; <span class="php-quote">'=BA'</span>, <span class="php-num">187</span> =&gt; <span class="php-quote">'=BB'</span>, <span class="php-num">188</span> =&gt; <span class="php-quote">'=BC'</span>, <span class="php-num">189</span> =&gt; <span class="php-quote">'=BD'</span>,
+<a href="#92" id="92" class="l"> 92: </a>    <span class="php-num">190</span> =&gt; <span class="php-quote">'=BE'</span>, <span class="php-num">191</span> =&gt; <span class="php-quote">'=BF'</span>, <span class="php-num">192</span> =&gt; <span class="php-quote">'=C0'</span>, <span class="php-num">193</span> =&gt; <span class="php-quote">'=C1'</span>, <span class="php-num">194</span> =&gt; <span class="php-quote">'=C2'</span>,
+<a href="#93" id="93" class="l"> 93: </a>    <span class="php-num">195</span> =&gt; <span class="php-quote">'=C3'</span>, <span class="php-num">196</span> =&gt; <span class="php-quote">'=C4'</span>, <span class="php-num">197</span> =&gt; <span class="php-quote">'=C5'</span>, <span class="php-num">198</span> =&gt; <span class="php-quote">'=C6'</span>, <span class="php-num">199</span> =&gt; <span class="php-quote">'=C7'</span>,
+<a href="#94" id="94" class="l"> 94: </a>    <span class="php-num">200</span> =&gt; <span class="php-quote">'=C8'</span>, <span class="php-num">201</span> =&gt; <span class="php-quote">'=C9'</span>, <span class="php-num">202</span> =&gt; <span class="php-quote">'=CA'</span>, <span class="php-num">203</span> =&gt; <span class="php-quote">'=CB'</span>, <span class="php-num">204</span> =&gt; <span class="php-quote">'=CC'</span>,
+<a href="#95" id="95" class="l"> 95: </a>    <span class="php-num">205</span> =&gt; <span class="php-quote">'=CD'</span>, <span class="php-num">206</span> =&gt; <span class="php-quote">'=CE'</span>, <span class="php-num">207</span> =&gt; <span class="php-quote">'=CF'</span>, <span class="php-num">208</span> =&gt; <span class="php-quote">'=D0'</span>, <span class="php-num">209</span> =&gt; <span class="php-quote">'=D1'</span>,
+<a href="#96" id="96" class="l"> 96: </a>    <span class="php-num">210</span> =&gt; <span class="php-quote">'=D2'</span>, <span class="php-num">211</span> =&gt; <span class="php-quote">'=D3'</span>, <span class="php-num">212</span> =&gt; <span class="php-quote">'=D4'</span>, <span class="php-num">213</span> =&gt; <span class="php-quote">'=D5'</span>, <span class="php-num">214</span> =&gt; <span class="php-quote">'=D6'</span>,
+<a href="#97" id="97" class="l"> 97: </a>    <span class="php-num">215</span> =&gt; <span class="php-quote">'=D7'</span>, <span class="php-num">216</span> =&gt; <span class="php-quote">'=D8'</span>, <span class="php-num">217</span> =&gt; <span class="php-quote">'=D9'</span>, <span class="php-num">218</span> =&gt; <span class="php-quote">'=DA'</span>, <span class="php-num">219</span> =&gt; <span class="php-quote">'=DB'</span>,
+<a href="#98" id="98" class="l"> 98: </a>    <span class="php-num">220</span> =&gt; <span class="php-quote">'=DC'</span>, <span class="php-num">221</span> =&gt; <span class="php-quote">'=DD'</span>, <span class="php-num">222</span> =&gt; <span class="php-quote">'=DE'</span>, <span class="php-num">223</span> =&gt; <span class="php-quote">'=DF'</span>, <span class="php-num">224</span> =&gt; <span class="php-quote">'=E0'</span>,
+<a href="#99" id="99" class="l"> 99: </a>    <span class="php-num">225</span> =&gt; <span class="php-quote">'=E1'</span>, <span class="php-num">226</span> =&gt; <span class="php-quote">'=E2'</span>, <span class="php-num">227</span> =&gt; <span class="php-quote">'=E3'</span>, <span class="php-num">228</span> =&gt; <span class="php-quote">'=E4'</span>, <span class="php-num">229</span> =&gt; <span class="php-quote">'=E5'</span>,
+<a href="#100" id="100" class="l">100: </a>    <span class="php-num">230</span> =&gt; <span class="php-quote">'=E6'</span>, <span class="php-num">231</span> =&gt; <span class="php-quote">'=E7'</span>, <span class="php-num">232</span> =&gt; <span class="php-quote">'=E8'</span>, <span class="php-num">233</span> =&gt; <span class="php-quote">'=E9'</span>, <span class="php-num">234</span> =&gt; <span class="php-quote">'=EA'</span>,
+<a href="#101" id="101" class="l">101: </a>    <span class="php-num">235</span> =&gt; <span class="php-quote">'=EB'</span>, <span class="php-num">236</span> =&gt; <span class="php-quote">'=EC'</span>, <span class="php-num">237</span> =&gt; <span class="php-quote">'=ED'</span>, <span class="php-num">238</span> =&gt; <span class="php-quote">'=EE'</span>, <span class="php-num">239</span> =&gt; <span class="php-quote">'=EF'</span>,
+<a href="#102" id="102" class="l">102: </a>    <span class="php-num">240</span> =&gt; <span class="php-quote">'=F0'</span>, <span class="php-num">241</span> =&gt; <span class="php-quote">'=F1'</span>, <span class="php-num">242</span> =&gt; <span class="php-quote">'=F2'</span>, <span class="php-num">243</span> =&gt; <span class="php-quote">'=F3'</span>, <span class="php-num">244</span> =&gt; <span class="php-quote">'=F4'</span>,
+<a href="#103" id="103" class="l">103: </a>    <span class="php-num">245</span> =&gt; <span class="php-quote">'=F5'</span>, <span class="php-num">246</span> =&gt; <span class="php-quote">'=F6'</span>, <span class="php-num">247</span> =&gt; <span class="php-quote">'=F7'</span>, <span class="php-num">248</span> =&gt; <span class="php-quote">'=F8'</span>, <span class="php-num">249</span> =&gt; <span class="php-quote">'=F9'</span>,
+<a href="#104" id="104" class="l">104: </a>    <span class="php-num">250</span> =&gt; <span class="php-quote">'=FA'</span>, <span class="php-num">251</span> =&gt; <span class="php-quote">'=FB'</span>, <span class="php-num">252</span> =&gt; <span class="php-quote">'=FC'</span>, <span class="php-num">253</span> =&gt; <span class="php-quote">'=FD'</span>, <span class="php-num">254</span> =&gt; <span class="php-quote">'=FE'</span>,
+<a href="#105" id="105" class="l">105: </a>    <span class="php-num">255</span> =&gt; <span class="php-quote">'=FF'</span>
+<a href="#106" id="106" class="l">106: </a>    );
+<a href="#107" id="107" class="l">107: </a>
+<a href="#108" id="108" class="l">108: </a>  <span class="php-comment">/**
+</span><a href="#109" id="109" class="l">109: </a><span class="php-comment">   * A map of non-encoded ascii characters.
+</span><a href="#110" id="110" class="l">110: </a><span class="php-comment">   * @var string[]
+</span><a href="#111" id="111" class="l">111: </a><span class="php-comment">   * @access protected
+</span><a href="#112" id="112" class="l">112: </a><span class="php-comment">   */</span>
+<a href="#113" id="113" class="l">113: </a>  <span class="php-keyword1">protected</span> <span class="php-keyword1">static</span> <span class="php-var">$_safeMap</span> = <span class="php-keyword1">array</span>();
+<a href="#114" id="114" class="l">114: </a>
+<a href="#115" id="115" class="l">115: </a>  <span class="php-comment">/**
+</span><a href="#116" id="116" class="l">116: </a><span class="php-comment">   * Creates a new QpEncoder for the given CharacterStream.
+</span><a href="#117" id="117" class="l">117: </a><span class="php-comment">   * @param Swift_CharacterStream $charStream to use for reading characters
+</span><a href="#118" id="118" class="l">118: </a><span class="php-comment">   * @param Swift_StreamFilter $filter if input should be canonicalized
+</span><a href="#119" id="119" class="l">119: </a><span class="php-comment">   */</span>
+<a href="#120" id="120" class="l">120: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> __construct(Swift_CharacterStream <span class="php-var">$charStream</span>,
+<a href="#121" id="121" class="l">121: </a>    Swift_StreamFilter <span class="php-var">$filter</span> = <span class="php-keyword1">null</span>)
+<a href="#122" id="122" class="l">122: </a>  {
+<a href="#123" id="123" class="l">123: </a>    <span class="php-var">$this</span>-&gt;_charStream = <span class="php-var">$charStream</span>;
+<a href="#124" id="124" class="l">124: </a>    <span class="php-keyword1">if</span> (<span class="php-keyword1">empty</span>(self::<span class="php-var">$_safeMap</span>))
+<a href="#125" id="125" class="l">125: </a>    {
+<a href="#126" id="126" class="l">126: </a>      <span class="php-keyword1">foreach</span> (<span class="php-keyword2">array_merge</span>(
+<a href="#127" id="127" class="l">127: </a>        <span class="php-keyword1">array</span>(<span class="php-num">0x09</span>, <span class="php-num">0x20</span>), <span class="php-keyword2">range</span>(<span class="php-num">0x21</span>, <span class="php-num">0x3C</span>), <span class="php-keyword2">range</span>(<span class="php-num">0x3E</span>, <span class="php-num">0x7E</span>)) <span class="php-keyword1">as</span> <span class="php-var">$byte</span>)
+<a href="#128" id="128" class="l">128: </a>      {
+<a href="#129" id="129" class="l">129: </a>        self::<span class="php-var">$_safeMap</span>[<span class="php-var">$byte</span>] = <span class="php-keyword2">chr</span>(<span class="php-var">$byte</span>);
+<a href="#130" id="130" class="l">130: </a>      }
+<a href="#131" id="131" class="l">131: </a>    }
+<a href="#132" id="132" class="l">132: </a>    <span class="php-var">$this</span>-&gt;_filter = <span class="php-var">$filter</span>;
+<a href="#133" id="133" class="l">133: </a>  }
+<a href="#134" id="134" class="l">134: </a>
+<a href="#135" id="135" class="l">135: </a>  <span class="php-comment">/**
+</span><a href="#136" id="136" class="l">136: </a><span class="php-comment">   * Takes an unencoded string and produces a QP encoded string from it.
+</span><a href="#137" id="137" class="l">137: </a><span class="php-comment">   * QP encoded strings have a maximum line length of 76 characters.
+</span><a href="#138" id="138" class="l">138: </a><span class="php-comment">   * If the first line needs to be shorter, indicate the difference with
+</span><a href="#139" id="139" class="l">139: </a><span class="php-comment">   * $firstLineOffset.
+</span><a href="#140" id="140" class="l">140: </a><span class="php-comment">   * @param string $string to encode
+</span><a href="#141" id="141" class="l">141: </a><span class="php-comment">   * @param int $firstLineOffset, optional
+</span><a href="#142" id="142" class="l">142: </a><span class="php-comment">   * @param int $maxLineLength, optional, 0 indicates the default of 76 chars
+</span><a href="#143" id="143" class="l">143: </a><span class="php-comment">   * @return string
+</span><a href="#144" id="144" class="l">144: </a><span class="php-comment">   */</span>
+<a href="#145" id="145" class="l">145: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> encodeString(<span class="php-var">$string</span>, <span class="php-var">$firstLineOffset</span> = <span class="php-num">0</span>,
+<a href="#146" id="146" class="l">146: </a>    <span class="php-var">$maxLineLength</span> = <span class="php-num">0</span>)
+<a href="#147" id="147" class="l">147: </a>  {
+<a href="#148" id="148" class="l">148: </a>    <span class="php-keyword1">if</span> (<span class="php-var">$maxLineLength</span> &gt; <span class="php-num">76</span> || <span class="php-var">$maxLineLength</span> &lt;= <span class="php-num">0</span>)
+<a href="#149" id="149" class="l">149: </a>    {
+<a href="#150" id="150" class="l">150: </a>      <span class="php-var">$maxLineLength</span> = <span class="php-num">76</span>;
+<a href="#151" id="151" class="l">151: </a>    }
+<a href="#152" id="152" class="l">152: </a>
+<a href="#153" id="153" class="l">153: </a>    <span class="php-var">$thisLineLength</span> = <span class="php-var">$maxLineLength</span> - <span class="php-var">$firstLineOffset</span>;
+<a href="#154" id="154" class="l">154: </a>
+<a href="#155" id="155" class="l">155: </a>    <span class="php-var">$lines</span> = <span class="php-keyword1">array</span>();
+<a href="#156" id="156" class="l">156: </a>    <span class="php-var">$lNo</span> = <span class="php-num">0</span>;
+<a href="#157" id="157" class="l">157: </a>    <span class="php-var">$lines</span>[<span class="php-var">$lNo</span>] = <span class="php-quote">''</span>;
+<a href="#158" id="158" class="l">158: </a>    <span class="php-var">$currentLine</span> =&amp; <span class="php-var">$lines</span>[<span class="php-var">$lNo</span>++];
+<a href="#159" id="159" class="l">159: </a>    <span class="php-var">$size</span>=<span class="php-var">$lineLen</span>=<span class="php-num">0</span>;
+<a href="#160" id="160" class="l">160: </a>
+<a href="#161" id="161" class="l">161: </a>    <span class="php-var">$this</span>-&gt;_charStream-&gt;flushContents();
+<a href="#162" id="162" class="l">162: </a>    <span class="php-var">$this</span>-&gt;_charStream-&gt;importString(<span class="php-var">$string</span>);
+<a href="#163" id="163" class="l">163: </a>
+<a href="#164" id="164" class="l">164: </a>    <span class="php-comment">//Fetching more than 4 chars at one is slower, as is fetching fewer bytes</span>
+<a href="#165" id="165" class="l">165: </a>    <span class="php-comment">// Conveniently 4 chars is the UTF-8 safe number since UTF-8 has up to 6</span>
+<a href="#166" id="166" class="l">166: </a>    <span class="php-comment">// bytes per char and (6 * 4 * 3 = 72 chars per line) * =NN is 3 bytes</span>
+<a href="#167" id="167" class="l">167: </a>    <span class="php-keyword1">while</span> (<span class="php-keyword1">false</span> !== <span class="php-var">$bytes</span> = <span class="php-var">$this</span>-&gt;_nextSequence())
+<a href="#168" id="168" class="l">168: </a>    {
+<a href="#169" id="169" class="l">169: </a>      <span class="php-comment">//If we're filtering the input</span>
+<a href="#170" id="170" class="l">170: </a>      <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$this</span>-&gt;_filter))
+<a href="#171" id="171" class="l">171: </a>      {
+<a href="#172" id="172" class="l">172: </a>        <span class="php-comment">//If we can't filter because we need more bytes</span>
+<a href="#173" id="173" class="l">173: </a>        <span class="php-keyword1">while</span> (<span class="php-var">$this</span>-&gt;_filter-&gt;shouldBuffer(<span class="php-var">$bytes</span>))
+<a href="#174" id="174" class="l">174: </a>        {
+<a href="#175" id="175" class="l">175: </a>          <span class="php-comment">//Then collect bytes into the buffer</span>
+<a href="#176" id="176" class="l">176: </a>          <span class="php-keyword1">if</span> (<span class="php-keyword1">false</span> === <span class="php-var">$moreBytes</span> = <span class="php-var">$this</span>-&gt;_nextSequence(<span class="php-num">1</span>))
+<a href="#177" id="177" class="l">177: </a>          {
+<a href="#178" id="178" class="l">178: </a>            <span class="php-keyword1">break</span>;
+<a href="#179" id="179" class="l">179: </a>          }
+<a href="#180" id="180" class="l">180: </a>
+<a href="#181" id="181" class="l">181: </a>          <span class="php-keyword1">foreach</span> (<span class="php-var">$moreBytes</span> <span class="php-keyword1">as</span> <span class="php-var">$b</span>)
+<a href="#182" id="182" class="l">182: </a>          {
+<a href="#183" id="183" class="l">183: </a>            <span class="php-var">$bytes</span>[] = <span class="php-var">$b</span>;
+<a href="#184" id="184" class="l">184: </a>          }
+<a href="#185" id="185" class="l">185: </a>        }
+<a href="#186" id="186" class="l">186: </a>        <span class="php-comment">//And filter them</span>
+<a href="#187" id="187" class="l">187: </a>        <span class="php-var">$bytes</span> = <span class="php-var">$this</span>-&gt;_filter-&gt;filter(<span class="php-var">$bytes</span>);
+<a href="#188" id="188" class="l">188: </a>      }
+<a href="#189" id="189" class="l">189: </a>
+<a href="#190" id="190" class="l">190: </a>      <span class="php-var">$enc</span> = <span class="php-var">$this</span>-&gt;_encodeByteSequence(<span class="php-var">$bytes</span>, <span class="php-var">$size</span>);
+<a href="#191" id="191" class="l">191: </a>      <span class="php-keyword1">if</span> (<span class="php-var">$currentLine</span> &amp;&amp; <span class="php-var">$lineLen</span>+<span class="php-var">$size</span> &gt;= <span class="php-var">$thisLineLength</span>)
+<a href="#192" id="192" class="l">192: </a>      {
+<a href="#193" id="193" class="l">193: </a>        <span class="php-var">$lines</span>[<span class="php-var">$lNo</span>] = <span class="php-quote">''</span>;
+<a href="#194" id="194" class="l">194: </a>        <span class="php-var">$currentLine</span> =&amp; <span class="php-var">$lines</span>[<span class="php-var">$lNo</span>++];
+<a href="#195" id="195" class="l">195: </a>        <span class="php-var">$thisLineLength</span> = <span class="php-var">$maxLineLength</span>;
+<a href="#196" id="196" class="l">196: </a>        <span class="php-var">$lineLen</span>=<span class="php-num">0</span>;
+<a href="#197" id="197" class="l">197: </a>      }
+<a href="#198" id="198" class="l">198: </a>      <span class="php-var">$lineLen</span>+=<span class="php-var">$size</span>;
+<a href="#199" id="199" class="l">199: </a>      <span class="php-var">$currentLine</span> .= <span class="php-var">$enc</span>;
+<a href="#200" id="200" class="l">200: </a>    }
+<a href="#201" id="201" class="l">201: </a>
+<a href="#202" id="202" class="l">202: </a>    <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;_standardize(<span class="php-keyword2">implode</span>(<span class="php-quote">&quot;=\r\n&quot;</span>, <span class="php-var">$lines</span>));
+<a href="#203" id="203" class="l">203: </a>  }
+<a href="#204" id="204" class="l">204: </a>
+<a href="#205" id="205" class="l">205: </a>  <span class="php-comment">/**
+</span><a href="#206" id="206" class="l">206: </a><span class="php-comment">   * Updates the charset used.
+</span><a href="#207" id="207" class="l">207: </a><span class="php-comment">   * @param string $charset
+</span><a href="#208" id="208" class="l">208: </a><span class="php-comment">   */</span>
+<a href="#209" id="209" class="l">209: </a>  <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> charsetChanged(<span class="php-var">$charset</span>)
+<a href="#210" id="210" class="l">210: </a>  {
+<a href="#211" id="211" class="l">211: </a>    <span class="php-var">$this</span>-&gt;_charStream-&gt;setCharacterSet(<span class="php-var">$charset</span>);
+<a href="#212" id="212" class="l">212: </a>  }
+<a href="#213" id="213" class="l">213: </a>
+<a href="#214" id="214" class="l">214: </a>  <span class="php-comment">// -- Protected methods</span>
+<a href="#215" id="215" class="l">215: </a>
+<a href="#216" id="216" class="l">216: </a>  <span class="php-comment">/**
+</span><a href="#217" id="217" class="l">217: </a><span class="php-comment">   * Encode the given byte array into a verbatim QP form.
+</span><a href="#218" id="218" class="l">218: </a><span class="php-comment">   * @param int[] $bytes
+</span><a href="#219" id="219" class="l">219: </a><span class="php-comment">   * @return string
+</span><a href="#220" id="220" class="l">220: </a><span class="php-comment">   * @access protected
+</span><a href="#221" id="221" class="l">221: </a><span class="php-comment">   */</span>
+<a href="#222" id="222" class="l">222: </a>  <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> _encodeByteSequence(<span class="php-keyword1">array</span> <span class="php-var">$bytes</span>, &amp;<span class="php-var">$size</span>)
+<a href="#223" id="223" class="l">223: </a>  {
+<a href="#224" id="224" class="l">224: </a>    <span class="php-var">$ret</span> = <span class="php-quote">''</span>;
+<a href="#225" id="225" class="l">225: </a>    <span class="php-var">$size</span>=<span class="php-num">0</span>;
+<a href="#226" id="226" class="l">226: </a>    <span class="php-keyword1">foreach</span> (<span class="php-var">$bytes</span> <span class="php-keyword1">as</span> <span class="php-var">$b</span>)
+<a href="#227" id="227" class="l">227: </a>    {
+<a href="#228" id="228" class="l">228: </a>      <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(self::<span class="php-var">$_safeMap</span>[<span class="php-var">$b</span>]))
+<a href="#229" id="229" class="l">229: </a>      {
+<a href="#230" id="230" class="l">230: </a>        <span class="php-var">$ret</span> .= self::<span class="php-var">$_safeMap</span>[<span class="php-var">$b</span>];
+<a href="#231" id="231" class="l">231: </a>        ++<span class="php-var">$size</span>;
+<a href="#232" id="232" class="l">232: </a>      }
+<a href="#233" id="233" class="l">233: </a>      <span class="php-keyword1">else</span>
+<a href="#234" id="234" class="l">234: </a>      {
+<a href="#235" id="235" class="l">235: </a>        <span class="php-var">$ret</span> .= self::<span class="php-var">$_qpMap</span>[<span class="php-var">$b</span>];
+<a href="#236" id="236" class="l">236: </a>        <span class="php-var">$size</span>+=<span class="php-num">3</span>;
+<a href="#237" id="237" class="l">237: </a>      }
+<a href="#238" id="238" class="l">238: </a>    }
+<a href="#239" id="239" class="l">239: </a>    <span class="php-keyword1">return</span> <span class="php-var">$ret</span>;
+<a href="#240" id="240" class="l">240: </a>  }
+<a href="#241" id="241" class="l">241: </a>
+<a href="#242" id="242" class="l">242: </a>  <span class="php-comment">/**
+</span><a href="#243" id="243" class="l">243: </a><span class="php-comment">   * Get the next sequence of bytes to read from the char stream.
+</span><a href="#244" id="244" class="l">244: </a><span class="php-comment">   * @param int $size number of bytes to read
+</span><a href="#245" id="245" class="l">245: </a><span class="php-comment">   * @return int[]
+</span><a href="#246" id="246" class="l">246: </a><span class="php-comment">   * @access protected
+</span><a href="#247" id="247" class="l">247: </a><span class="php-comment">   */</span>
+<a href="#248" id="248" class="l">248: </a>  <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> _nextSequence(<span class="php-var">$size</span> = <span class="php-num">4</span>)
+<a href="#249" id="249" class="l">249: </a>  {
+<a href="#250" id="250" class="l">250: </a>    <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;_charStream-&gt;readBytes(<span class="php-var">$size</span>);
+<a href="#251" id="251" class="l">251: </a>  }
+<a href="#252" id="252" class="l">252: </a>
+<a href="#253" id="253" class="l">253: </a>  <span class="php-comment">/**
+</span><a href="#254" id="254" class="l">254: </a><span class="php-comment">   * Make sure CRLF is correct and HT/SPACE are in valid places.
+</span><a href="#255" id="255" class="l">255: </a><span class="php-comment">   * @param string $string
+</span><a href="#256" id="256" class="l">256: </a><span class="php-comment">   * @return string
+</span><a href="#257" id="257" class="l">257: </a><span class="php-comment">   * @access protected
+</span><a href="#258" id="258" class="l">258: </a><span class="php-comment">   */</span>
+<a href="#259" id="259" class="l">259: </a>  <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> _standardize(<span class="php-var">$string</span>)
+<a href="#260" id="260" class="l">260: </a>  {
+<a href="#261" id="261" class="l">261: </a>    <span class="php-var">$string</span> = <span class="php-keyword2">str_replace</span>(<span class="php-keyword1">array</span>(<span class="php-quote">&quot;\t=0D=0A&quot;</span>, <span class="php-quote">&quot; =0D=0A&quot;</span>, <span class="php-quote">&quot;=0D=0A&quot;</span>),
+<a href="#262" id="262" class="l">262: </a>      <span class="php-keyword1">array</span>(<span class="php-quote">&quot;=09\r\n&quot;</span>, <span class="php-quote">&quot;=20\r\n&quot;</span>, <span class="php-quote">&quot;\r\n&quot;</span>), <span class="php-var">$string</span>
+<a href="#263" id="263" class="l">263: </a>      );
+<a href="#264" id="264" class="l">264: </a>    <span class="php-keyword1">switch</span> (<span class="php-var">$end</span> = <span class="php-keyword2">ord</span>(<span class="php-keyword2">substr</span>(<span class="php-var">$string</span>, -<span class="php-num">1</span>)))
+<a href="#265" id="265" class="l">265: </a>    {
+<a href="#266" id="266" class="l">266: </a>      <span class="php-keyword1">case</span> <span class="php-num">0x09</span>:
+<a href="#267" id="267" class="l">267: </a>      <span class="php-keyword1">case</span> <span class="php-num">0x20</span>:
+<a href="#268" id="268" class="l">268: </a>        <span class="php-var">$string</span> = <span class="php-keyword2">substr_replace</span>(<span class="php-var">$string</span>, self::<span class="php-var">$_qpMap</span>[<span class="php-var">$end</span>], -<span class="php-num">1</span>);
+<a href="#269" id="269" class="l">269: </a>    }
+<a href="#270" id="270" class="l">270: </a>    <span class="php-keyword1">return</span> <span class="php-var">$string</span>;
+<a href="#271" id="271" class="l">271: </a>  }
+<a href="#272" id="272" class="l">272: </a>
+<a href="#273" id="273" class="l">273: </a>}
+<a href="#274" id="274" class="l">274: </a></code></pre>
+
+	<div id="footer">
+		sauers API documentation generated by <a href="http://apigen.org">ApiGen 2.7.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

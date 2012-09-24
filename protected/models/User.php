@@ -1,34 +1,29 @@
 <?php
 
 /**
- * This is the model class for table "user".
+ * This is the model class for "User" nodes.
  *
  * The followings are the available columns in table 'user':
- * @property string $id
- * @property string $entity_id
+ * @property int $id
  * @property string $username
  * @property string $password
- * @property string $status
- * @property string $registered_date
- * @property string $activated_date
- * @property string $last_login
+ * @property string $email
  *
- * The followings are the available model relations:
- * @property Email[] $emails
- * @property Sessions[] $sessions
- * @property Entity $entity
+ * @property int $lastLoggedIn
+ * @property string $lastLoggedInHost
+ * 
+ * @property bool $isEmailActivated
+ * @property string $emailActivationKey
+ * 
+ * @property bool $isAdminActivated
+ *
+ * @property bool $isBanned
+ * @property string $bannedReason the reason why the user is banned
+ * 
+ * @property string $registeredHost
  */
-class User extends CActiveRecord
+class User extends ENeo4jNode
 {
-	const STATUS_BANNED = 'banned';
-	const STATUS_ACTIVE = 'active';
-	const STATUS_EMAIL = 'email';
-	const STATUS_ADMIN = 'admin';
-	const STATUS_BOTH = 'both';
-
-	public $_entity;
-	public $access;
-	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -38,56 +33,257 @@ class User extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	public function properties()
+    {
+        return CMap::mergeArray(parent::properties(),array(
+            'username'			=>	array('type' => 'string'),
+            'password'			=>	array('type' => 'string'),
+            'email'				=>	array('type' => 'string'),
+			
+			'lastLoggedIn'		=>	array('type' => 'integer'),
+			'lastLoggedInHost'	=>	array('type' => 'string'),
+			
+			'isEmailActivated'	=>	array('type' => 'boolean'),
+			'emailActivationKey'=>	array('type' => 'string'),
+			
+			'isAdminActivated'	=>	array('type' => 'boolean'),
+					
+			'isBanned'			=>	array('type' => 'boolean'),
+			'bannedReason'		=>	array('type' => 'string'),
+			
+			'registeredHost'	=>	array('type' => 'string'),
+			'registeredDate'	=>	array('type' => 'integer'),
+			
+			//Profile
+			'content'			=>	array('type' => 'string'),
+			'source'			=>	array('type' => 'string'),
+			
+			'firstName'			=>	array('type' => 'string'),
+			'lastName'			=>	array('type' => 'string'),
+			'publicEmail'		=>	array('type' => 'boolean'),
+			'publicName'		=>	array('type' => 'boolean'),
+			
+			'country'			=>	array('type' => 'string'),
+			'city'				=>	array('type' => 'string'),
+			
+			'homepage'			=>	array('type' => 'string[]'),
+			
+			'canComment'		=>	array('type' => 'boolean'),
+			
+			//should be removed in the future
+			'isAdmin'			=>	array('type' => 'boolean'),
+        ));
+    }
 	
 	/**
-	 *	initializes the entity
+	 * Makes a friend request to an user.
+	 * @todo add a message to the user.
+	 * @param User $friend
+	 * @return bool whether the relation was successfully added.
 	 */
-	public function init()
+	public function makeFriendRequest(User $friend)
 	{
-		parent::init();
-		$this->_entity = new Entity;
+		return $this->addRelationshipTo($friend, '_FRIEND_');
+	}
+	
+	/**
+	 * Add an user as friend.
+	 * @param User $friend
+	 * @return boolean.
+	 */
+	public function addFriend(User $friend)
+	{
+		return $friend->addRelationshipTo($this, '_FRIEND_')
+				&& $this->addRelationshipTo($friend, '_FRIEND_');
+	}
+
+
+	/**
+	 * Updates the last time logged in
+	 * @param bool $save call ->save() after setting the time.
+	 */
+	public function updateLastLoggedIn($save = true)
+	{
+		$this->lastLoggedIn = time();
+		$this->lastLoggedInHost = Yii::app()->user->hostName;
+		
+		if($save)
+			$this->update();
 	}
 
 	/**
-	 * @return string the associated database table name
+	 * Sends an email when the email is activated.
 	 */
-	public function tableName()
+	public function actionEmailActivated()
 	{
-		return '{{user}}';
+		if($this->sendStatusMail('Successfully activated your email address.', '//mail/email'))
+		{
+			$this->isEmailActivated = true;
+			$this->emailActivationKey = null;
+			if($this->update())
+			{
+				return true;
+			}
+		}
+		
+		return false;
 	}
-
+	
 	/**
+	 * Sends an email after banning the user.
+	 * @param string $reason the reason to ban the user, optional
+	 * @return whether the email was successfully sent and the user was banned
+	 */
+	public function actionBan($reason = 'No reason was provided.')
+	{
+		if($this->sendStatusMail('You were banned.', '//mail/banned', array('reason' => $reason)))
+		{
+			$this->isBanned = true;
+			$this->bannedReason = $reason;
+			if($this->update())
+				return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Send an email after marking the user as admin activated.
+	 * @return boolean whether the user was successfully activated.
+	 */
+	public function actionAdminActivate()
+	{
+		if($this->sendStatusMail('An admin finally activated your account.', '//mail/admin'))
+		{
+			$this->isAdminActivated = true;
+			if($this->update())
+				return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Sends an email with the activation key after the user is marked as activated.
+	 * @return boolean whether the email was successfully saved and the user saved.
+	 */
+	public function actionRegistered()
+	{
+		$this->emailActivationKey = Yii::app()->crypto->generateRandomKey();
+		if($this->sendStatusMail('Successfully registered, please activate your account.', '//mail/registered') && $this->update())
+			return true;
+		
+		return false;
+	}
+	
+	/**
+	 * @return boolean whether the user is banned.
+	 */
+	public function isBanned()
+	{
+		return $this->isBanned;
+	}
+	
+	/**
+	 * @return boolean whether the user has activated it's email address.
+	 */
+	public function isEmailActivated()
+	{
+		return $this->isEmailActivated;
+	}
+	
+	/**
+	 * @return boolean whether the user has been activated by an admin.
+	 */
+	
+	public function isAdminActivated()
+	{
+		return $this->isAdminActivated;
+	}
+	
+	/**
+	 * @return boolean whether the user is able to login.
+	 */
+	public function canLogin()
+	{
+		return $this->isAdminActivated && $this->isEmailActivated;
+	}
+		
+	private function sendStatusMail($title, $partial, $attr = array())
+	{
+		$message = new AsEmailMessage;
+		$message->subject = $title;
+		$message->html_body = Yii::app()->controller->renderPartial(
+			$partial,
+			CMap::mergeArray(
+				array(
+					'model' => $this
+				),
+				$attr
+			),
+			true
+		);
+		$message->body = strip_tags($message->html_body);
+		$message->to = $this->email;
+		
+		return Yii::app()->mailer->send($message);
+	}
+	
+	public function traversals()
+	{
+		return array(
+			'friends'			=>	array(self::HAS_MANY,self::NODE,'out("_FRIEND_")'),
+            'friendsOfFriends'	=>	array(self::HAS_MANY,self::NODE,'out("_FRIEND_").out("_FRIEND_")'),
+        );
+	}
+	
+	/**
+	 * @todo only allow alphanumeric name
 	 * @return array validation rules for model attributes.
 	 */
 	public function rules()
 	{
-
 		return array(
-			array('username, password, access', 'required', 'on' => 'insert,update'),
+			//Basic rules
+			array('username, password', 'required', 'on' => 'insert,update'),
 			array('username', 'length', 'max'=>45, 'on' => 'insert,update'),
 
-			array('username, access', 'required', 'on' => 'admin'),
+			array('username', 'ENeo4jValidatorUnique', 'on' => 'insert,update,admin'),
+			
+			//admin 
+			array('username', 'required', 'on' => 'admin'),
 			array('username', 'length', 'max'=>45, 'on' => 'admin'),
+			array('email', 'email', 'on' => 'admin'),
+						
+			array('isAdmin', 'in', 'range' => array(0, 1), 'on' => 'admin'),
 			
-			array('username', 'unique', 'on' => 'insert,update,admin'),
-			
-			array('access', 'application.components.validators.AsInArrayValidator', 'data' => $this->_entity->accessOptions, 'on' => 'insert,update,admin'),
-			array('status', 'application.components.validators.AsInArrayValidator', 'data' => $this->statusOptions, 'on' => 'statusUpdate'),
-			
-			array('password', 'encodePassword', 'on' => 'admin'),
-
-			array('id, entity_id, username, password, status, registered_date, activated_date, last_login', 'safe', 'on'=>'search'),
+			//Profile Rules
+			array('source, firstName, lastName, publicEmail, publicName, country, city, homepage, canComment', 'safe', 'on' => 'profile'),
+			array('canComment, publicName, publicEmail', 'in', 'range' => array(0, 1), 'on' => 'profile')
 		);
 	}
 	
 	/**
-	 * Checks if the password field received input and encrypts it
+	 * Encodes the password
 	 */
-	public function encodePassword($field)
+	public function encodePassword()
 	{
-		if(isset($this->$field) && trim($this->$field) !== '')
+		$this->password = Yii::app()->crypto->encodePassword($this->password);
+	}
+	
+	/**
+	 * @todo Find nicer way of encoding password on set.
+	 * @param type $values
+	 * @param type $safeOnly
+	 * @param type $checkPassword
+	 */
+	public function setAttributes($values, $safeOnly = true, $checkPassword = true)
+	{
+		parent::setAttributes($values, $safeOnly);
+		
+		if($checkPassword && isset($values['password']) && $this->scenario !== 'admin' && $this->scenario !== 'profile')
 		{
-			$this->$field = Yii::app()->crypto->encodePassword($this->$field);
+			$this->encodePassword();
 		}
 	}
 
@@ -103,147 +299,54 @@ class User extends CActiveRecord
 			'entity' => array(self::BELONGS_TO, 'Entity', 'entity_id'),
 		);
 	}
-
-	/**
-	 * @return array an array containing the available status options
-	 */
-	public function getStatusOptions()
+	
+	protected function afterValidate()
 	{
-		return array(
-			self::STATUS_BANNED	=> Yii::t('user', self::STATUS_BANNED),
-			self::STATUS_ACTIVE	=> Yii::t('user', self::STATUS_ACTIVE),
-			self::STATUS_EMAIL	=> Yii::t('user', self::STATUS_EMAIL),
-			self::STATUS_ADMIN	=> Yii::t('user', self::STATUS_ADMIN),
-			self::STATUS_BOTH	=> Yii::t('user', self::STATUS_BOTH),
-		);
+		if(!empty($this->source))
+			$this->content = Yii::app()->contentMarkup->safeTransform($this->source);
+		parent::afterValidate();
 	}
 	
 	public function beforeSave()
 	{
-		if($this->isNewRecord)
+		if($this->isNewResource)
 		{
-			$this->_entity->type = Entity::TYPE_USER;
-			if(!$this->_entity->save(false))
-				throw new CException('Could not save user entity!');
-			
-			$this->registered_date = new CDbExpression('NOW()');
-			$this->entity_id = $this->_entity->id;
+			$this->registeredDate = time();
+			$this->registeredHost = Yii::app()->user->hostName;
 		}
 		
 		return parent::beforeSave();
 	}
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
+	public function init()
 	{
-		return array(
-			'id' => 'ID',
-			'entity_id' => 'Entity',
-			'username' => 'Username',
-			'password' => 'Password',
-			'status' => 'Status',
-			'registered_date' => 'Registered Date',
-			'activated_date' => 'Activated Date',
-			'last_login' => 'Last Login',
-		);
+		parent::init();
+		/** makes shure all forms like RegisterForm still keep the correct class */
+		$modelclassfield=$this->getModelClassField();
+		$this->$modelclassfield = __CLASS__;
+	}
+	
+	public function getDisplayName()
+	{
+		return $this->publicName ? $this->firstName.' '.$this->lastName.'('.$this->username.')' : $this->username;
+	}
+	
+	public function delete()
+	{
+		throw new CException('Not implemented!');
 	}
 	
 	/**
-	 * Sends a mail to users becouse their status has changed
+	 * @todo: use role based permissions
 	 */
-	public function sendStatusMail()
+	
+	public function isAdmin()
 	{
-		$mailer = Yii::app()->mailer;
-		$controller = Yii::app()->controller;
-		$content = '';
-		$title = 'Your status has changed to: '.$this->status;
-		
-		switch($this->status)
-		{
-			#send an email to the user
-			case 'banned':
-				$content = $controller->renderPartial('//mail/banned', array('model' => $this), true);
-				break;
-			
-			#send an email to the user
-			case 'active':
-				$content = $controller->renderPartial('//mail/active', array('model' => $this), true);
-				break;
-			
-			#send an email to both the user and the admin
-			case 'both':
-				$adminContent = $controller->renderPartial('//mail/admin', array('model' => $this), true);			
-				
-				#mail
-				
-				$content = $controller->renderPartial('//mail/both', array('model' => $this), true);
-			
-			#send an email to the user
-			case 'email':
-				$content = $controller->renderPartial('//mail/email', array('model' => $this), true);
-
-			#send an email to the user			
-			case 'admin':
-				$content = $controller->renderPartial('//mail/admin', array('model' => $this), true);
-			
-			break;
-		}
-		$message = new AsEmailMessage;
-		$message->subject = $title;
-		$message->body = $content;
-		
-		return $mailer->send($message);
+		return $this->isAdmin;
 	}
 	
-	/**
-	 * @return Email the primary email address object of the model
-	 */
-	public function getPrimaryEmail()
+	public function hasAccess($node)
 	{
-		foreach($this->emails as $email)
-			if($email->is_primary === 1)
-				return $email;
-		
-		throw new CException('User does not have a primary email!');
-	}
-	
-	/*private $_entity_id;
-	protected function beforeDelete()
-	{
-		$_entity_id = $this->entity_id
-	}*/
-	
-	protected function afterDelete()
-	{
-		$this->entity->status = 'deleted';
-		$this->entity->save();
-	}
-	
-
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
-		$criteria=new CDbCriteria;
-
-		$criteria->compare('id',$this->id,true);
-		$criteria->compare('entity_id',$this->entity_id,true);
-		$criteria->compare('username',$this->username,true);
-		$criteria->compare('password',$this->password,true);
-		$criteria->compare('status',$this->status,true);
-		$criteria->compare('registered_date',$this->registered_date,true);
-		$criteria->compare('activated_date',$this->activated_date,true);
-		$criteria->compare('last_login',$this->last_login,true);
-
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
+		return $this->isAdmin();
 	}
 }

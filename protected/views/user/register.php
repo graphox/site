@@ -22,17 +22,10 @@ $this->pagetitle = Yii::app()->name . ' - register';
 		<?=$form->textFieldRow($model, 'username', array('class'=>'span3')); ?>
 		<?php $model->password = ''; ?>
 		<?=$form->passwordFieldRow($model, 'password', array('class'=>'span3')); ?>
-		<?php $model->retype_password = ''; ?>
-		<?=$form->passwordFieldRow($model, 'retype_password', array('class'=>'span3')); ?>
+		<?php $model->retypePassword = ''; ?>
+		<?=$form->passwordFieldRow($model, 'retypePassword', array('class'=>'span3')); ?>
 		
 		<?=$form->textFieldRow($model, 'email', array('class'=>'span3')); ?>
-		<sub>You can ad more addresses later</sub>
-		
-		<h4>Access options</h4>
-		<p>
-			Select the visibility of your profile
-		</p>
-		<?=$form->dropDownListRow($model, 'access', $model->_entity->accessOptions)?>
 	
 		<div class="form-actions">
 			<?php $this->widget('bootstrap.widgets.BootButton', array('buttonType'=>'submit', 'icon' => 'ok', 'label'=>'Register')); ?>
