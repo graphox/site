@@ -84,33 +84,4 @@
 </nav>
 <?php endif; ?>
 
-<?php if(false && $model->canComment /*&& $model->can('comment.view')*/): ?>
-	<h2>Comments: <span class="count"><?=count($model->comments)?></span></h2>
-	<div class="comments">
-		<?php foreach($model->comments as $comment): ?>
-			<div class="comment row">
-				<div class="span2">
-					Name
-					image
-					like
-					everywhere
-					else
-					on
-					the
-					site
-					<?php /* @todo widget */ ?>
-					
-				</div>
-				
-				<div>
-					<?=$comment->content?>
-				</div>
-			</div>
-		<?php endforeach; ?>
-	</div>
-	
-	<?php if(/*$model->can('comment.add')*/Yii::app()->user->isLoggedIn): ?>
-		<?php #$this->widget('application.components.commentFormWidget', array('parentEntity' => $model)); ?>
-	<?php endif; ?>
-
-<?php endif; ?>
+<?php $this->widget('application\components\widgets\CommentWidget', array('parent' => $model)); ?>

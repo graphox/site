@@ -18,7 +18,7 @@
  * @property bool $publish
  * @property string $routeName
  */
-class Blog extends ENeo4jNode
+class Blog extends ENeo4jNode implements ICommentable
 {
 		/**
 	 * @return Blogentity returns class
@@ -58,6 +58,15 @@ class Blog extends ENeo4jNode
 
 			array('routeName, publish', 'safe', 'on' => 'admin'),
 			array('publish', 'in', 'range' => array(0, 1), 'on' => 'admin'),
+		);
+	}
+
+	public function behaviors()
+	{
+		return array(
+			'Commentable' => array(
+				'class' => 'application.components.Commentable'
+			)
 		);
 	}
 	

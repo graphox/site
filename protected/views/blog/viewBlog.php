@@ -22,3 +22,5 @@ $this->widget('zii.widgets.CListView', array(
     ),
 ));
 ?>
+
+<?php $this->widget('application\components\widgets\CommentWidget', array('parent' => $model)); ?>

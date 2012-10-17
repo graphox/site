@@ -56,7 +56,8 @@
 					)),*/
 					(!Yii::app()->user->isGuest && Yii::app()->user->node->hasAccess('admin.user')) ?
 						array('label'=>'Admin', 'url'=>array('/admin'), 'items'=>array(
-							array('label'=>'user', 'url' => array('/admin/user'))
+							array('label'=>'user', 'url' => array('/admin/user')),
+							array('label'=>'page', 'url' => array('/admin/page')),
 						),
 						
 					) : '---',

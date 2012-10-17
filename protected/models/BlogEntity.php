@@ -1,6 +1,6 @@
 <?php
 
-class BlogEntity extends ENeo4jNode
+class BlogEntity extends ENeo4jNode implements ICommentable
 {
 	/**
 	 * @return Blogentity returns class
@@ -9,7 +9,7 @@ class BlogEntity extends ENeo4jNode
         return parent::model($className);
     }
 	
-    public function properties()
+	public function properties()
     {
         return CMap::mergeArray(parent::properties(),array(
             'title'		=>	array('type'=>'string'),
@@ -35,6 +35,16 @@ class BlogEntity extends ENeo4jNode
 	public function init()
 	{
 		parent::init();
+		
+	}
+	
+	public function behaviors()
+	{
+		return array(
+			'Commentable' => array(
+				'class' => 'application.components.Commentable'
+			)
+		);
 	}
 	
 	protected function afterFind()

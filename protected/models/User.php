@@ -22,7 +22,7 @@
  * 
  * @property string $registeredHost
  */
-class User extends ENeo4jNode
+class User extends ENeo4jNode implements ICommentable
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -71,10 +71,19 @@ class User extends ENeo4jNode
 			
 			'canComment'		=>	array('type' => 'boolean'),
 			
-			//should be removed in the future
+			//should be removed in the future and replaced by rbacl
 			'isAdmin'			=>	array('type' => 'boolean'),
         ));
     }
+	
+	public function behaviors()
+	{
+		return array(
+			'Commentable' => array(
+				'class' => 'application.components.Commentable'
+			)
+		);
+	}
 	
 	/**
 	 * Makes a friend request to an user.
@@ -348,5 +357,12 @@ class User extends ENeo4jNode
 	public function hasAccess($node)
 	{
 		return $this->isAdmin();
+	}
+	
+	public function getBadges()
+	{
+		return array(
+			(object)array('type' => 'info', 'label' => 'cool!')
+		);
 	}
 }

@@ -1,3 +1,6 @@
 [submodule "protected/extensions/yii-debug-toolbar"]
 	path = protected/extensions/yii-debug-toolbar
 	url = git://github.com/malyshev/yii-debug-toolbar.git
+[submodule "protected/components/sauerphpquery"]
+	path = protected/components/sauerphpquery
+	url = https://github.com/killme/SauerPHPQuery

@@ -33,15 +33,29 @@
 	<?php $this->widget('bootstrap.widgets.BootDetailView', array(
 		'data'=>$model,
 		'attributes'=>array(
-			array('label'=>'Date Created', 'value' => Yii::app()->dateFormatter->formatDateTime($model->registeredDate)),
-			array('name' => 'country', 'label' => 'Country'),
-			array('name' => 'city', 'label' => 'City'),
+			'registeredDate:datetime',
+			'country',
+			'city',
 			
-			($model->publicEmail) ? array('name' => 'email', 'label' => 'email') : array('label' => 'email', 'value' => 'Not Public.'),
-			($model->publicName) ? array('name' => 'name', 'label' => 'name', 'value' => $model->firstName.' '.$model->lastName) : array('label' => 'name', 'value' => 'Not Public.'),
+			($model->publicEmail)
+				? 'email:email'
+				: array(
+					'label' => Yii::t('as.models.user', 'Email'),
+					'value' => Yii::t('as.models.user', 'Email address is not public.')
+				),
 			
-			array('name' => 'homepage', 'label' => 'Homepage'),
-			array('name'=>'canComment', 'label'=>'can be commented on'),
+			($model->publicName)
+				? array(
+					'label' => Yii::t('as.models.user', 'Name'),
+					'value' => $model->firstName.' '.$model->lastName
+				)
+				: array(
+					'label' => Yii::t('as.models.user', 'Name'),
+					'value' => Yii::t('as.models.user', 'Name address is not public.')
+				),
+			
+			'homepage:url',
+			'canComment:boolean',
 		),
 	)); ?>
 	
@@ -73,33 +87,4 @@
 
 </article>
 
-<?php if(false && $model->canComment /**&& $model->can('comment.view')*/): ?>
-	<h2>Comments: <span class="count"><?=count($model->comments)?></span></h2>
-	<div class="comments">
-		<?php foreach($model->comments as $comment): ?>
-			<div class="comment row">
-				<div class="span2">
-					Name
-					image
-					like
-					everywhere
-					else
-					on
-					the
-					site
-					<?php /* @todo widget */ ?>
-					<?php $this->widget('application.components.ratingWidget', array('parent' => $comment->entity)) ?>
-				</div>
-				
-				<div class="span3">
-					<?=$comment->content?>
-				</div>
-			</div>
-		<?php endforeach; ?>
-	</div>
-	
-	<?php if(!Yii::app()->user->isGuest /*$model->can('comment.add')*/): ?>
-		<?php $this->widget('application.components.commentFormWidget', array('parentEntity' => $model)); ?>
-	<?php endif; ?>
-
-<?php endif; ?>
+<?php $this->widget('application\components\widgets\CommentWidget', array('parent' => $model)); ?>

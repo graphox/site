@@ -1,17 +1,26 @@
 <?php
-/** @var CommentEntity $model */
-/** @var BootActiveForm $form */
-$form = $this->beginWidget('bootstrap.widgets.BootActiveForm', array(
-    'id'=>'inlineForm',
-    'type'=>'inline',
-    'htmlOptions'=>array('class'=>'well'),
-	'action' => array('/comment/add'),
-)); ?>
+$form = $this->beginWidget('bootstrap.widgets.BootActiveForm',array( 
+	'id'=>'comment-form', 
+	'enableAjaxValidation'=>true,
+	'action' => array('/comment/create', 'id' => $parentId)
+));
+				
+	echo '<p class="help-block">Fields with <span class="required">*</span> are required.</p>';
 
-<?=$form->errorSummary($model)?>
- 
-<?=$form->textAreaRow($model, 'source', array('class'=>'span7', 'rows'=>5))?>
-<?=CHtml::hiddenfield(get_class($model).'[parent_id]', $model->parent_id)?>
-<?php $this->widget('bootstrap.widgets.BootButton', array('buttonType'=>'submit', 'icon'=>'arrow-right', 'label'=>'Create comment.')); ?>
- 
-<?php $this->endWidget(); ?>
+	echo $form->errorSummary($model);
+
+	echo $form->textFieldRow($model,'title', array('class'=>'span5'));
+	echo $form->textAreaRow($model,	'contentSource', array('class'=>'span8'));
+
+	if(isset($returnUrl))
+		echo \CHtml::hiddenField('returnUrl', $returnUrl);
+
+	echo '<div class="form-actions">';
+		$this->widget('bootstrap.widgets.BootButton', array( 
+			'buttonType'=>'submit', 
+			'type'=>'primary', 
+			'label'=>'Create comment.', 
+		));
+	echo '</div>';
+	
+$this->endWidget();

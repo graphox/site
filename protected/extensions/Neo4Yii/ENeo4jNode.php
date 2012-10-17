@@ -468,7 +468,11 @@ class ENeo4jNode extends ENeo4jPropertyContainer
             'ext.Neo4Yii.ENeo4jNode'
         );
 
-        $relationship = new $type;
+		if(is_string($type))
+			$relationship = new $type;
+		elseif(!is_object($type))
+			throw new ENeo4jException('Invalid type');
+		
         if (!$relationship instanceof ENeo4jRelationship)
             throw new ENeo4jException(
                 'Class is not an instance of ENeo4jRelationship', 500
