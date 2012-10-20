@@ -61,14 +61,22 @@
 	
 	<h2>Blogs</h2>
 	<?php
-		$blogs = $model->outRelationships('BLOG_OWNER_');
+		$blogs = $model->outRelationships('_BLOG_OWNER_');
 	?>
 	
 	<?php if(count($blogs) > 0): ?>
 	<ul>
 		<?php foreach($blogs as $blog): ?>
 		<?php /** @var $blog Blog */ ?>
-		<li><?=$blog->name?></li>
+		<li>
+			<?=CHtml::link(
+				CHtml::encode($blog->endNode->name),
+				array(
+					'blog/viewBlog',
+					 'name' => $blog->endNode->name
+				));
+			?>
+		</li>
 		<?php endforeach; ?>
 	</ul>
 	
