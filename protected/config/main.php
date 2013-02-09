@@ -3,13 +3,17 @@
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 
+//Yii::setPathOfAlias('Graphox', dirname(__DIR__).DIRECTORY_SEPARATOR.'lib'.DIRECTORY_SEPARATOR.'Graphox');
+
+//Yii::setPathOfAlias('Everyman', dirname(__DIR__).DIRECTORY_SEPARATOR.'extensions'.DIRECTORY_SEPARATOR.'Neo4Php'.DIRECTORY_SEPARATOR.'lib'.DIRECTORY_SEPARATOR.'Everyman');
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'Sauers',
+	'name'=>'Graphox',
+	'theme'=>'sauers',
 	//'theme' => 'main',
-	'defaultController' => 'blog',
+	'defaultController' => 'site',
 
 	// preloading 'log' component
 	'preload'=>array(
@@ -22,10 +26,17 @@ return array(
 		'application.models.*',
 		'application.models.forms.*',
 		'application.components.*',
-        'application.extensions.EActiveResource.*',
-        'application.extensions.Neo4Yii.*',
-
+		'application.components.Neo4j.*',
+        //'application.extensions.EActiveResource.*',
+        //'application.extensions.Neo4Yii.*',
+		
+		'ext.eoauth.*',
+        'ext.eoauth.lib.*',
+        'ext.lightopenid.*',
+        'ext.eauth.*',
+        'ext.eauth.services.*'
 	),
+
 
 	'modules'=>array(
 		// uncomment the following to enable the Gii tool
@@ -40,11 +51,43 @@ return array(
 		        'bootstrap.gii', // since 0.9.1
 		    ),
 		),
+		
+		'forum'=>array(
+			'class'=>'application.modules.yii-forum.YiiForumModule',
+		),
+		
+		'blog',
+		
+		'page',
+		'admin' => array(
+			'class' => 'Graphox\Modules\Admin\AdminModule',
+		),
+		
+		'user' => array(
+			'class' => 'Graphox\Modules\User\UserModule',
+			'popup' => true, // Use the popup window instead of redirecting.
+            'services' => array( // You can change the providers and their classes.
+
+            ),
+		),
+		'analytics',
+		'site'
+		
+		
+	    //'api'=>array(
+		//    'allowMasterConnection' => true,
+		//	'salt' => 'abc',
+		//),
 		//*/
 	),
 
 	// application components
 	'components'=>array(
+		'request'=>array(
+            'enableCsrfValidation'=>true,
+			'enableCookieValidation'=>true,
+        ),
+		
 		'bootstrap'=>array(
 		    'class'=>'ext.bootstrap.components.Bootstrap', // assuming you extracted bootstrap under extensions
 		),
@@ -54,29 +97,61 @@ return array(
 			'allowAutoLogin'=>true,
 			'loginUrl' => array('/user/login'),
 		),
+		
+		'less' => array(
+			'class' => 'ext.less.ELessCompiler'
+		),
 		// uncomment the following to enable URLs in path-format
 		//*
 		'urlManager'=>array(
 			'urlFormat'=>'path',
+			'showScriptName'=>false,
 			'rules'=>array(
+				//user profiles
 				'user/profile/<name:\w+>/<subaction:\w+>' => 'user/profile',
 				'user/profile/<name:\w+>' => 'user/profile',
 				
 				//blogs and blogposts
-				'blog/<action:(create|index|)>' => 'blog/<action>',
-				'blog/<name:\w+>' => 'blog/viewBlog',
-				'blog/<name:\w+>/<action:(settings)>' => 'blog/<action>',
-				'blog/<name:\w+>/<action:(view|update|delete)>/<id:\d+>-<title:(\w|[-])+>' => 'blog/<action>Post',
-				'blog/<name:\w+>/<action:(create)>' => 'blog/<action>Post',
-				
+				/*'blog/<action:(create|index|)>' => 'blog/default/<action>',
+				'blog/<name:\w+>' => 'blog/default/viewBlog',
+				'blog/<name:\w+>/<action:(settings)>' => 'blog/default/<action>',
+				'blog/<name:\w+>/<action:(view|update|delete)>/<id:\d+>-<title:(\w|[-])+>' => 'blog/default/<action>Post',
+				'blog/<name:\w+>/<action:(create)>' => 'blog/default/<action>Post',
+				*/
 				'admin/user/<name:\w+>/<action:(view|update|delete)>' => 'admin/user/<action>',
+				'admin/page/<action:(create)>' => 'admin/page/<action>',
+				'admin/page/<name:\w+>/<action:(view|update|delete)>' => 'page/<action>',
+				
+				//pages
+				'page/<name:\w+>' => 'page/view',
+				
+				//comments
+				'comment/create/<parentId:\d+>' => 'comment/create',
+				
+				//uploads
+				'file/raw/<name:([a-zA-Z0-9.-]+)>' => 'file/raw',
+				'file/<download:download>/<name:([a-zA-Z0-9.-]+)>' => 'file/raw',
+				'file/<thumb:thumb>/<name:([a-zA-Z0-9.-]+)>' => 'file/raw',
 				
 				'<controller:\w+>/<id:\d+>/<title:(\w| )+>' => '<controller>/view',
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
+				
+				//slow
+				//array(
+				//	'class' => 'application\components\CustomRoutes'
+				//),
 			),
 			
+		),
+		
+		'phpThumb'=>array(
+				'class'=>'ext.EPhpThumb.EPhpThumb',
+		),
+		
+		'cache' => array(
+			'class' => 'CApcCache'
 		),
 		//*/
 		/*
@@ -103,7 +178,7 @@ return array(
 		
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
-            'errorAction'=>'site/error',
+            #'errorAction'=>'site/error',
         ),
         
         'contentMarkup' => array(
@@ -161,18 +236,36 @@ return array(
 		),
 		
 		'neo4j'=>array(
-			'class'=>'ENeo4jGraphService',
+			'class'=>'\\Graphox\\Neo4j\\EntityManager',
 			'host'=>'localhost',
 			'port'=>'7474',
-			'db'=>'db/data',
-			'queryCacheID'=>'cache',
+			'proxyDir' => 'application.runtime.proxy',
 		),
-
+		
+		'class' => array(
+			'class' => 'ext.dashboard.AsDashboard',
+			'widgets' => array(
+				
+			)
+		),
+		
+		'site' => array(
+			'class' => 'site.models.Site',
+		),
+		
+		        'loid' => array(
+            'class' => 'ext.lightopenid.loid',
+        ),
 	),
 
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		'adminEmail'=>'webmaster@example.com',
+		
+		'fileUpload' => array(
+			'allowedExtensions' => array("jpg", "png", "zip", "gz", "7z", "ogg", "wpt", "ogz", "bak", "cfg", "txt", "gif", "mov", "avi", 'dmo'),
+			'sizeLimit'	=> 10 * 1024 * 1024 * 1024, // 10 GB
+		)
 	),
 );
