@@ -9,7 +9,8 @@ return CMap::mergeArray(
 			),
 			//* uncomment the following to provide test database connection
 			'db'=>array(
-				'connectionString'=>'sqlite:memory',
+				'class' => 'system.db.CDbConnection',
+				'connectionString'=>'sqlite::memory:',
 			),
 			//*/
 		),

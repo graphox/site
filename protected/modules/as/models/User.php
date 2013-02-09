@@ -6,49 +6,37 @@
  * The followings are the available columns in table 'user':
  * @property integer $id
  * @property string $username
- * @property string $ingame_password
  * @property string $email
- * @property string $hashing_method
- * @property string $web_password
- * @property string $salt
- * @property integer $status
+ * @property integer $display_group_id
+ * @property string $password
+ * @property string $ingame_password
+ * @property string $status
  *
  * The followings are the available model relations:
- * @property AclGroupUser[] $aclGroupUsers
- * @property ClanMembers[] $clanMembers
- * @property CommentVotes[] $commentVotes
- * @property ExternalUser[] $externalUsers
- * @property ForumMessage[] $forumMessages
- * @property Friends[] $friends
- * @property Friends[] $friends1
- * @property Images[] $images
- * @property Names[] $names
- * @property OnlinePlayer[] $onlinePlayers
- * @property PageComments[] $pageComments
- * @property Pages[] $pages
- * @property PmDirectory[] $pmDirectories
- * @property PmMessage[] $pmMessages
- * @property PmMessage[] $pmMessages1
- * @property Profile[] $profiles
+ * @property Content[] $contents
+ * @property Content[] $contents1
+ * @property GroupUser[] $groupUsers
+ * @property Group $displayGroup
  */
-class User extends CActiveRecord
+class User extends AsActiveRecord
 {
-	const BANNED = 0;
-	const ACTIVE = 1;
-	const NOT_ACTIVATED = 2;
+	public $web_password;
+	public $remember_me;
 	
-	const OAUTH_ACCOUNT = 3;
-	const INACTIVE = 3;
-
-	const STATUS_BANNED = 0;
-	const STATUS_ACTIVE = 1;
-	const STATUS_NOT_ACTIVATED = 2;
+	/**
+	 * possible values for $status
+	 */
+	const STATUS_BANNED = 'banned';	
+	const STATUS_ACTIVE = 'active';
+	const STATUS_PENDING = 'pending';
+	const STATUS_OAUTH = 'oauth';
 	
-	const STATUS_OAUTH_ACCOUNT = 3;
-	const STATUS_INACTIVE = 3;
+	/**
+	 * @var user
+	 * the user in the db, used in the login proccess
+	 */
+	private $_user;
 	
-	public $retype_password;
-
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -75,13 +63,101 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('username, ingame_password, email, hashing_method, web_password, salt, status', 'required'),
-			array('status', 'numerical', 'integerOnly'=>true),
-			array('username, ingame_password, email, hashing_method, web_password, salt', 'length', 'max'=>50),
+			array('username, email, salt, ingame_password, status', 'required', 'on' => 'insert,update'),
+			array('display_group_id', 'numerical', 'integerOnly'=>true, 'on' => 'insert,update'),
+			array('username', 'length', 'max'=>10, 'on' => 'insert,update'),
+			array('email', 'length', 'max'=>50, 'on' => 'insert,update'),
+			array('status', 'validateStatus', 'on' => 'insert, update'),
+			
+			array('web_password', 'safe', 'on' => 'insert,update'),
+			array('password', 'unsafe', 'on' => 'insert,update'),
+
+			array('username, password', 'safe', 'on' => 'login'),
+			array('username, password', 'required', 'on' => 'login'),
+			
+			array('password', 'validateAccount', 'on' => 'login'),
+			array('status', 'validateLoginStatus', 'on' => 'login'),
+			
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, username, email, hashing_method, status', 'safe', 'on'=>'search'),
+			array('id, username, email, display_group_id, password, salt, ingame_password', 'safe', 'on'=>'search'),
 		);
+	}
+	
+	/**
+	 * Validate the username/email - password combination
+	 */
+	public function validateAccount()
+	{
+		if($this->hasErrors())
+			return;
+		
+		$criteria=new CDbCriteria;
+		$criteria->compare('email',$this->email);
+		$criteria->compare('username', $this->username, false, 'OR');
+
+		$user = self::model()->find($criteria);
+
+		if($user !== null && Yii::app()->crypto->checkUserPassword($user, $this))
+		{
+			$this->_user = $user;
+			return;
+		}
+		
+		$this->addError('username', 'username/email or password incorrect');
+	}
+	
+	/**
+	 * Validate the status of the account on login
+	 */
+	public function validateLoginStatus()
+	{
+		if($this->hasErrors())
+			return;
+		
+		if($this->_user->status !== self::STATUS_ACTIVE)
+			$this->addError('status', 'acount status is not active');	
+	}
+	
+	/**
+	 * put the user in the session
+	 */
+	public function login()
+	{
+		$userIdentity = new AsUserIdentity($this->_user->id);
+		$userIdentity->setState('email', $this->_user->email);
+		$userIdentity->setState('username', $this->_user->username);
+		$userIdentity->setState('is_external', $this->_user->status === self::STATUS_OAUTH);
+		
+		if($this->remember_me === true)
+			Yii::app()->user->login($userIdentity,3600*24*7); #7 days
+			
+		else
+			Yii::app()->user->login($userIdentity);
+	}
+
+	/**
+	 * @var statusAttributes
+	 * an array containing all the possible status attributtes
+	 * @readonly
+	 */
+	public function getStatusAttributes()
+	{
+		return array(
+		 	self::STATUS_BANNED =>	self::STATUS_BANNED,
+			self::STATUS_ACTIVE	=>	self::STATUS_ACTIVE,
+			self::STATUS_PENDING=>	self::STATUS_PENDING,
+			self::STATUS_OAUTH	=>	self::STATUS_OAUTH,
+		);
+	}
+
+	/**
+	 * Validate status attribute
+	 */
+	public function validateStatus()
+	{
+		if(!isset($this->statusAttributes[$this->status]))
+			$this->addError('status', 'Invalid status');
 	}
 
 	/**
@@ -92,23 +168,11 @@ class User extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'aclGroupUsers' => array(self::HAS_MANY, 'AclGroupUser', 'user_id'),
-			'aclGroups'=>array(self::MANY_MANY, 'AclGroup', 'acl_group_user(user_id, group_id)'),		
-			'clanMembers' => array(self::HAS_MANY, 'ClanMembers', 'user_id'),
-			'commentVotes' => array(self::HAS_MANY, 'CommentVotes', 'user_id'),
-			'externalUsers' => array(self::HAS_MANY, 'ExternalUser', 'user_id'),
-			'forumMessages' => array(self::HAS_MANY, 'ForumMessage', 'user_id'),
-			'people_that_have_you_as_friends' => array(self::HAS_MANY, 'Friends', 'friend_id'),
-			'friends' => array(self::HAS_MANY, 'Friends', 'owner_id'),
-			'images' => array(self::HAS_MANY, 'Images', 'owned_by'),
-			'names' => array(self::HAS_MANY, 'Names', 'user_id'),
-			'onlinePlayers' => array(self::HAS_MANY, 'OnlinePlayer', 'user_id'),
-			'pageComments' => array(self::HAS_MANY, 'PageComments', 'user_id'),
-			'pages' => array(self::HAS_MANY, 'Pages', 'editor_id'),
-			'pmDirectories' => array(self::HAS_MANY, 'PmDirectory', 'user_id'),
-			'pmMessages' => array(self::HAS_MANY, 'PmMessage', 'sender_id'),
-			'pmMessages1' => array(self::HAS_MANY, 'PmMessage', 'receiver_id'),
-			'profile' => array(self::HAS_ONE, 'Profile', 'user_id'),
+			'contents' => array(self::HAS_MANY, 'Content', 'updater_id'),
+			'contents1' => array(self::HAS_MANY, 'Content', 'creator_id'),
+			'groupUsers' => array(self::HAS_MANY, 'GroupUser', 'user_id'),
+			'displayGroup' => array(self::BELONGS_TO, 'Group', 'display_group_id'),
+			'groups' => array(self::MANY_MANY, 'Group', 'group_user(group_id,user_id)')
 		);
 	}
 
@@ -120,19 +184,23 @@ class User extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'username' => 'Username',
-			'ingame_password' => 'Ingame Password',
 			'email' => 'Email',
-			'hashing_method' => 'Hashing Method',
-			'web_password' => 'Web Password',
-			'salt' => 'Salt',
-			'status' => 'Status',
+			'display_group_id' => 'Display Group',
+			'password' => 'Password',
+			'ingame_password' => 'Ingame Password',
+			'status' => 'User status'
 		);
 	}
 	
-	public function primaryKey()
+	/**
+	 * hashes a string to a password with salt
+	 */
+	public function setHashedPassword($value)
 	{
-		return 'id';
+		$this->password = $value;
+		Yii::app()->crypto->setUserPassword($this);
 	}
+	
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
@@ -140,52 +208,21 @@ class User extends CActiveRecord
 	 */
 	public function search()
 	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('username',$this->username);
-		$criteria->compare('email',$this->email);
-		$criteria->compare('status',$this->status);
+		$criteria->compare('username',$this->username,true);
+		$criteria->compare('email',$this->email,true);
+		$criteria->compare('display_group_id',$this->display_group_id);
+		$criteria->compare('password',$this->password,true);
+		$criteria->compare('salt',$this->salt,true);
+		$criteria->compare('ingame_password',$this->ingame_password,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
-	/*
-	public function behaviors()
-	{
-		return array(
-			"statusName" => array(
-				"class" => "as.components.StateMachine",
-				"states" => array(
-					array(
-						"class" => "UserPendingState",
-						"name" => "pending",
-					),
-					array(
-						"class" => "UserActiveState",
-						"name" => "active",
-					),
-					/ * //TODO: fix double include -> class already defined
-					array(
-						"class" => "UserInActiveState",
-						"name" => "inactive",
-					),
-					
-					array(
-						"class" => "UserBannedState",
-						"name" => "banned",
-					),* /
-					
-					array(
-						"class" => "UserOauthState",
-						"name" => "oauth_user",
-					),
-				),
-				"defaultStateName" => "pending",
-				"stateName" => null#UserStatus::getName($this->status),
-			)
-		);
-	}*/
-
 }
