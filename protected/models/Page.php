@@ -16,7 +16,7 @@
  * @proprty array $creators
  * @property array $updaters
  */
-class Page extends ENeo4jNode
+class Page extends Neo4jNode
 {
 		/**
 	 * @return Blogentity returns class

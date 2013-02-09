@@ -3,6 +3,8 @@
 class RegisterForm extends User
 {
 	public $retypePassword = '';
+	
+
 
 	public function rules()
 	{
@@ -15,8 +17,8 @@ class RegisterForm extends User
 				'message' => Yii::t('as.user.register', "Retype Password is incorrect.")),
 			array('email', 'email'),
 			
-			array('email', 'NeoUnique'),
-			array('username', 'NeoUnique'),
+			array('email', 'ENeo4jValidatorUnique'),
+			array('username', 'ENeo4jValidatorUnique'),
 		);
 		
 		/* Captcha

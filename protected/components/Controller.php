@@ -28,4 +28,21 @@ class Controller extends CController
 		else
 			return parent::render($view, $vars, $return);
 	}
+	
+	public function beforeAction($action)
+	{
+		$normalizedUrl = CHtml::normalizeUrl(
+			array_merge(
+				array("/".$this->route),
+				$_GET
+			)
+		);
+		
+        if (Yii::app()->request->url != $normalizedUrl && strpos($normalizedUrl, Yii::app()->errorHandler->errorAction) === false)
+		{
+            //$this->redirect($normalizedUrl, true, 301);
+        }
+ 
+        return parent::beforeAction($action);
+    }
 }

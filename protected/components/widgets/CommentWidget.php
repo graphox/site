@@ -6,12 +6,12 @@ use \Yii;
 class CommentWidget extends \CWidget
 {
 	/**
-	 * @property \ENeo4jNode $parent parent model
-	 * @property \ENeo4jNode $_parent parent model
+	 * @property Neo4jNode $parent parent model
+	 * @property Neo4jNode $_parent parent model
 	 */
 	private $_parent;
 	
-	public function setParent(\ENeo4jNode $parent)
+	public function setParent($parent)
 	{
 		if(!$parent instanceof \ICommentable)
 			throw new CException('Model class '.get_class($parent).' is not ICommentable.');
@@ -33,17 +33,33 @@ class CommentWidget extends \CWidget
 				echo '<div class="well">You are not authorized to view comments.</div>';
 			else
 			{
-				if(count($this->parent->comments) < 1)
+				//Speed up comments
+				/**
+				 * @todo remove this when with is implemented in Node class
+				 */
+				$id = $this->parent->getClassName().'.comments.'.$this->parent->id;
+				if(($comments = Yii::app()->cache->get($id)) === false)
 				{
-					Yii::app()->user->setFlash('noComments', 'Be the first one to comment!');
-					$this->controller->widget ('bootstrap.widgets.BootAlert', array(
-						'keys' => array('noComments'),
-						'template' => '<div class="alert alert-block alert-info{class}"><a class="close" data-dismiss="alert">&times;</a>{message}</div>',
-					));
+					$comments = $this->parent->comments;
+					$last = $this->parent->lastComment;
+					Yii::app()->cache->set($id, $comments, 30);
 				}
 				
-				foreach($this->parent->comments as $comment)
-					$this->controller->renderPartial ('/comment/view', array('comment' => $comment));
+					if(count($comments) < 1)
+					{
+						/**
+						 * @todo add bootstrap widget for first one to comment.
+						 */
+						Yii::app()->user->setFlash('noComments', 'Be the first one to comment!');
+						$this->controller->widget ('bootstrap.widgets.TbAlert', array(
+							'alerts' => array('noComments' => array('htmlOptions' => array('class' => 'alert-info'))),
+						));
+					}
+
+					foreach($comments as $comment)
+						$this->controller->renderPartial ('/comment/view', array('comment' => $comment));
+				
+								
 				
 				if($this->parent->canComment())
 				{

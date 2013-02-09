@@ -8,10 +8,14 @@ class _FRIEND_ extends ENeo4jRelationship
     public function properties()
     {
         return CMap::mergeArray(parent::properties(),array(
-            'accepted'	=>	array('type'=>'boolean'),
 			'created'	=>	array('type'=>'int'),
         ));
     }
+	
+	public function getAccepted()
+	{
+		$this->getStartNode()->isFriend($this->getEndNode());
+	}
 
     public function rules()
     {

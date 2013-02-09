@@ -1,0 +1,32 @@
+{
+    "name": "graphox/yii-site",
+    "authors": [
+        {
+            "name": "Bram (killme)"
+        }
+    ],
+    
+	"autoload": {
+        "psr-0": {
+			"Doctrine\\OrientDB\\Proxy"	: "runtime/proxy",
+			"Graphox"	: "lib"
+        },
+		"classmap": [
+			"extensions/bootstrap",
+			"extensions/yii-debug-toolbar",
+			"vendor/yiisoft/yii/framework",
+			"components"
+			
+		]
+    },
+    
+    "require": {
+		"guzzle/guzzle" : "dev-master",
+		"guzzle/plugin-oauth" : "dev-master",
+		"gregwar/image": "dev-master",
+		"hirevoice/neo4jphp-ogm":"dev-master",
+		"everyman/neo4jphp":"dev-master",
+		"yiisoft/yii": "dev-master"
+    }
+    
+}

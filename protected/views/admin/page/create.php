@@ -18,7 +18,7 @@ $this->menu=array(
 <h1>Create new user.</h1>
 
 <div class="form">
-	<?php $form=$this->beginWidget('bootstrap.widgets.BootActiveForm', array(
+	<?php $form=$this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 		'id'=>'user-form',
 		'enableAjaxValidation'=>true,
 	)); ?>
@@ -27,11 +27,11 @@ $this->menu=array(
 	
 		<p class="note">Fields with <span class="required">*</span> are required.</p>
 
-		<?=$form->textFieldRow($model, 'name', array('class'=>'span3')); ?>
-		<?=$form->textAreaRow($model, 'contentSource', array('class'=>'span3')); ?>
+		<?=$form->textFieldRow($model, 'name', array('class'=>'span5')); ?>
+		<?php echo $form->markdownEditorRow($model,'contentSource'); ?>
 	
 		<div class="form-actions">
-			<?php $this->widget('bootstrap.widgets.BootButton', array('type' => 'primary', 'buttonType'=>'submit', 'icon' => 'ok', 'label'=>'Create Page')); ?>
+			<?php $this->widget('bootstrap.widgets.TbButton', array('type' => 'primary', 'buttonType'=>'submit', 'icon' => 'ok', 'label'=>'Create Page')); ?>
 		</div>
 	<?php $this->endWidget(); ?>
 </div>

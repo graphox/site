@@ -14,12 +14,14 @@ $this->menu=array(
 ?>
 
 <h1>View page <?=CHtml::encode($model->name); ?></h1>
-<?php $this->widget('bootstrap.widgets.BootDetailView', array(
+<div class="well">
+	<?=$model->content?>
+</div>
+<?php $this->widget('bootstrap.widgets.TbDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
-		'id',
+		'id:number',
 		'name',
-		'content',
 		'contentSource',
 		'routeName',
 	),
@@ -27,12 +29,11 @@ $this->menu=array(
 
 <h2>Admin actions</h2>
 <nav>
-	   <?php $this->widget('bootstrap.widgets.BootButtonGroup', array(
+	   <?php $this->widget('bootstrap.widgets.TbButtonGroup', array(
 			'type'=>'primary',
 			'buttons'=>array(
-				array('label'=>'Update', 'url'=>array('/admin/page/update', 'name' => $model->routeName))
-				
+				array('label'=>'Update', 'url'=>array('/admin/page/update', 'name' => $model->routeName)),
+				array('label'=>'View in action', 'url'=>array('/'.$model->routeName))
 			),
 		)); ?>
-	
 </nav>

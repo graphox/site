@@ -38,7 +38,14 @@ class Commentable extends CModelBehavior
 	
 	public function addComment(\application\models\Comment $comment)
 	{
-		return $this->owner->addRelationshipTo($comment, $this->owner->commentRelationName());
+		$comment = $this->owner->addRelationshipTo($comment, $this->owner->commentRelationName());
+		if($comment)
+		{
+			$owner->lastComment = $comment;
+			return $owner->save(false);
+		}
+		
+		return false;
 	}
 	
 	/**
@@ -55,17 +62,16 @@ class Commentable extends CModelBehavior
 		{
 			
 			
-			$q = new EGremlinScript(
+			$q = new \Everyman\Neo4j\Gremlin\Query(Yii::app()->neo4j,
 				'posts = [];'.
 				'g.v('.(int)$this->owner->id.').out(\''.$this->owner->commentRelationName().'\').aggregate(posts).iterate();'.
 				'g.v('.(int)$this->owner->id.').out(\''.$this->owner->commentRelationName().'\').out(\''.$this->owner->commentRelationName().'\').aggregate(posts).iterate();'.
 				'return posts.unique().sort{(it.createdTime)}'
 			);
 
-			$comments = \application\models\Comment::model()->populateRecords(
-				ENeo4jNode::model()->query($q)->getData()
-			);
+			$comments = \application\models\Comment::model()->findAllByQuery($q);
 		}
+		//throw new Exception("gettin commentz");
 		
 		return $comments;
 	}

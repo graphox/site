@@ -1,5 +1,5 @@
 <?php /** @var TbActiveForm $form */
-$form = $this->beginWidget('bootstrap.widgets.BootActiveForm', array(
+$form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     'id'=>'horizontalForm',
     'type'=>'horizontal',
 )); ?>
@@ -8,7 +8,7 @@ $form = $this->beginWidget('bootstrap.widgets.BootActiveForm', array(
 <p><?=$it->longDescr?></p>
 
 <div class="form-actions">
-    <?php $this->widget('bootstrap.widgets.BootButton', array('buttonType'=>'submit', 'type'=>'primary', 'label'=>'yes i am!')); ?>
+    <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType'=>'submit', 'type'=>'primary', 'label'=>'yes i am!')); ?>
 </div>
  
 <?php $this->endWidget(); ?>

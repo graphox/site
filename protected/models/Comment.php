@@ -17,7 +17,7 @@ namespace application\models;
  * @proprty \User $creator
  * @property array $voters
  */
-class Comment extends \ENeo4jNode implements \ICommentable
+class Comment extends \Neo4jNode implements \ICommentable
 {
 	/**
 	 * @return Comment returns class

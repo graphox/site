@@ -1,6 +1,6 @@
 <?php
 
-class BlogEntity extends ENeo4jNode implements ICommentable
+class BlogEntity extends Neo4jNode implements ICommentable
 {
 	/**
 	 * @return Blogentity returns class
@@ -130,18 +130,18 @@ class BlogEntity extends ENeo4jNode implements ICommentable
 	 * Find the latest posts that are published,
 	 * used for the homepage
 	 * @todo sort in query
+	 * @todo make t ->published()->recent()
 	 * @return array BlogEntity models
 	 */
 	public function findRecentPublished()
 	{
-		$arr = self::model()->findAllByQuery('
-			g.idx("Blog")[[modelclass:"Blog"]].filter{(it.publish == true)}.out("_BLOG_HAS_POST_")
-		');
-		
-		usort($arr, function($a, $b) {
-			return is_numeric($a) && is_numeric($b) && $a->createdDate > $b->createdDate;
-		});
-		
+		$m = self::model();
+		$m->criteria
+			->compare('publish', true)
+			->followRelation('_BLOG_HAS_POST_')
+			->sort('createdDate');
+		$arr = $m->queryAll($m->criteria);
+				
 		return $arr;
 	}
 	

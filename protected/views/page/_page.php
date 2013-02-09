@@ -21,7 +21,7 @@
 	
 	<summary>More info:</summary>
 			
-	<?php $this->widget('bootstrap.widgets.BootDetailView', array(
+	<?php $this->widget('bootstrap.widgets.TbDetailView', array(
 		'data'=>$data,
 		'attributes'=>array(
 			array('name'=>'created_date', 'label'=>'Date Created'),

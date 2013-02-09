@@ -21,7 +21,7 @@
 			<h5><?=CHtml::link(CHtml::encode($comment->creator->displayName), array('/user/profile', 'name' => $comment->creator->username))?></h5>
 			<?php if(isset($comment->creator->badges) && is_array($comment->creator->badges)): ?>
 				<?php foreach($comment->creator->badges as $badge): ?>
-					<?php $this->widget('bootstrap.widgets.BootBadge', array(
+					<?php $this->widget('bootstrap.widgets.TbBadge', array(
 						'htmlOptions' => array('class' => 'smallBadge'),
 						'type'=>$badge->type,
 						'label'=>$badge->label,

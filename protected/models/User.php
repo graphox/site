@@ -22,7 +22,7 @@
  * 
  * @property string $registeredHost
  */
-class User extends ENeo4jNode implements ICommentable
+class User extends Stream implements ICommentable
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -40,6 +40,8 @@ class User extends ENeo4jNode implements ICommentable
             'username'			=>	array('type' => 'string'),
             'password'			=>	array('type' => 'string'),
             'email'				=>	array('type' => 'string'),
+			
+			'avatarUrl'			=>	array('type' => 'string'),
 			
 			'lastLoggedIn'		=>	array('type' => 'integer'),
 			'lastLoggedInHost'	=>	array('type' => 'string'),
@@ -59,8 +61,8 @@ class User extends ENeo4jNode implements ICommentable
 			'content'			=>	array('type' => 'string'),
 			'source'			=>	array('type' => 'string'),
 			
-			'firstName'			=>	array('type' => 'string'),
-			'lastName'			=>	array('type' => 'string'),
+			'name'				=>	array('type' => 'string'),
+
 			'publicEmail'		=>	array('type' => 'boolean'),
 			'publicName'		=>	array('type' => 'boolean'),
 			
@@ -71,8 +73,12 @@ class User extends ENeo4jNode implements ICommentable
 			
 			'canComment'		=>	array('type' => 'boolean'),
 			
+			'signature'			=>	array('type' => 'string'),
+			
 			//should be removed in the future and replaced by rbacl
 			'isAdmin'			=>	array('type' => 'boolean'),
+			
+			'lastComment'		=>	array('type' => 'integer'),
         ));
     }
 	
@@ -106,8 +112,31 @@ class User extends ENeo4jNode implements ICommentable
 		return $friend->addRelationshipTo($this, '_FRIEND_')
 				&& $this->addRelationshipTo($friend, '_FRIEND_');
 	}
-
-
+	
+	/**
+	 * Detects if an user is a friend
+	 * @param User $user or default NULL, when  Null the current logged in user is used.
+	 * @return boolean
+	 */
+	public function isFriend($user = NULL)
+	{
+		if($user === NULL)
+		{
+			if(Yii::app()->user->isGuest)
+				return false;
+				
+			$user = Yii::app()->user->node;
+		}
+		
+		$friends = $this->getRelationships ('_FIREND_');
+		
+		$i = 0;
+		foreach($friends as $friendRelation)
+			if($friendRelation->endNode->id == $user->id || $friendRelation->startNode->id == $user->id)
+				$i++;
+		
+		return $i > 0;		
+	}
 	/**
 	 * Updates the last time logged in
 	 * @param bool $save call ->save() after setting the time.
@@ -166,7 +195,7 @@ class User extends ENeo4jNode implements ICommentable
 		if($this->sendStatusMail('An admin finally activated your account.', '//mail/admin'))
 		{
 			$this->isAdminActivated = true;
-			if($this->update())
+			if($this->isNewRecord() || $this->update())
 				return true;
 		}
 		return false;
@@ -179,7 +208,7 @@ class User extends ENeo4jNode implements ICommentable
 	public function actionRegistered()
 	{
 		$this->emailActivationKey = Yii::app()->crypto->generateRandomKey();
-		if($this->sendStatusMail('Successfully registered, please activate your account.', '//mail/registered') && $this->update())
+		if($this->sendStatusMail('Successfully registered, please activate your account.', '//mail/registered') && ($this->isNewRecord() || $this->update()))
 			return true;
 		
 		return false;
@@ -243,7 +272,45 @@ class User extends ENeo4jNode implements ICommentable
 		return array(
 			'friends'			=>	array(self::HAS_MANY,self::NODE,'out("_FRIEND_")'),
             'friendsOfFriends'	=>	array(self::HAS_MANY,self::NODE,'out("_FRIEND_").out("_FRIEND_")'),
+			
+			'creator'		=>	array(self::HAS_MANY,self::NODE,'out("_CREATOR_")'),
         );
+	}
+	
+	public function getAttachments()
+	{
+		$a = array_filter(
+			$this->creator,
+			function($row)
+			{
+				return is_a($row, 'File');
+			}
+		);
+		
+		usort($a, function($a, $b)
+		{
+			return $a->createdDate > $b->createdDate;
+		});
+		
+		return $a;
+	}
+	
+	public function getBlogs()
+	{
+		$a = array_filter(
+			$this->creator,
+			function($row)
+			{
+				return is_a($row, 'Blog');
+			}
+		);
+		
+		usort($a, function($a, $b)
+		{
+			return $a->createdDate > $b->createdDate;
+		});
+		
+		return $a;
 	}
 	
 	/**
@@ -257,7 +324,7 @@ class User extends ENeo4jNode implements ICommentable
 			array('username, password', 'required', 'on' => 'insert,update'),
 			array('username', 'length', 'max'=>45, 'on' => 'insert,update'),
 
-			array('username', 'ENeo4jValidatorUnique', 'on' => 'insert,update,admin'),
+			array('username', 'Neo4jValidatorUnique', 'on' => 'insert,update,admin'),
 			
 			//admin 
 			array('username', 'required', 'on' => 'admin'),
@@ -296,19 +363,6 @@ class User extends ENeo4jNode implements ICommentable
 		}
 	}
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-
-		return array(
-			'emails' => array(self::HAS_MANY, 'Email', 'user_id'),
-			'sessions' => array(self::HAS_MANY, 'Sessions', 'user_id'),
-			'entity' => array(self::BELONGS_TO, 'Entity', 'entity_id'),
-		);
-	}
-	
 	protected function afterValidate()
 	{
 		if(!empty($this->source))
@@ -327,14 +381,6 @@ class User extends ENeo4jNode implements ICommentable
 		return parent::beforeSave();
 	}
 
-	public function init()
-	{
-		parent::init();
-		/** makes shure all forms like RegisterForm still keep the correct class */
-		$modelclassfield=$this->getModelClassField();
-		$this->$modelclassfield = __CLASS__;
-	}
-	
 	public function getDisplayName()
 	{
 		return $this->publicName ? $this->firstName.' '.$this->lastName.'('.$this->username.')' : $this->username;
@@ -364,5 +410,19 @@ class User extends ENeo4jNode implements ICommentable
 		return array(
 			(object)array('type' => 'info', 'label' => 'cool!')
 		);
+	}
+	
+	public function getUrl()
+	{
+		return array('/user/profile', 'name' => $this->username);
+	}
+	
+	public function findByUsernameOrEmail($in)
+	{
+		$crit = clone $this->getCriteria();
+		$crit->match('username', $in);
+		$crit->match('email', $in, '||');
+		
+		return $this->query($crit);
 	}
 }

@@ -26,7 +26,7 @@
 		<?=CHtml::activeHiddenField($model, 'parentId')?>
 		<?=CHtml::activeHiddenField($model, 'vote')?>
 
-		<?php $this->widget('bootstrap.widgets.BootButtonGroup', array(
+		<?php $this->widget('bootstrap.widgets.TbButtonGroup', array(
 			'toggle' => 'radio',
 			'buttons'=>array(
 				array('label'=>'Like ('.$total.')', 'htmlOptions' => array('onClick' => 'js:jQuery(jQuery("#'.$form->id.' input")[1]).val(1);jQuery("#'.$form->id.'").submit()')),

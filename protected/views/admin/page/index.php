@@ -7,7 +7,7 @@ $this->breadcrumbs=array(
 ?>
 <h1>Pages</h1>
 <?=CHtml::link('Create page', array('/admin/page/create'))?>
-<?php $this->widget('bootstrap.widgets.BootGridView', array(
+<?php $this->widget('bootstrap.widgets.TbGridView', array(
     'type'=>'striped bordered condensed',
     'dataProvider'=>$dataProvider,
     'template'=>"{items}",
@@ -16,7 +16,7 @@ $this->breadcrumbs=array(
         array('name'=>'name', 'header'=>'name'),
         array('name'=>'contentSource', 'header'=>'source'),
         array(
-            'class'=>'bootstrap.widgets.BootButtonColumn',
+            'class'=>'bootstrap.widgets.TbButtonColumn',
             'htmlOptions'=>array('style'=>'width: 50px'),
 			'viewButtonUrl' => 'Yii::app()->controller->createUrl("/admin/page/view", array("name"=>$data->routeName))',
 			'updateButtonUrl'=>'Yii::app()->controller->createUrl("/admin/page/update",array("name"=>$data->routeName))',

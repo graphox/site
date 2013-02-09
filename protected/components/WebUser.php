@@ -2,24 +2,6 @@
 
 class WebUser extends CWebUser
 {
-	public function getNode()
-	{
-		static $node;
-		
-		if(!isset($node))
-		{
-			$node = User::model()->findById($this->id);
-		}
-		
-		if($node->id !== $this->id)
-		{
-			unset ($node);
-			return $this->getNode();
-		}
-		
-		return $node;
-	}
-	
 	/**
 	 * @return string the ip of the user browsing the page.
 	 */
@@ -34,5 +16,15 @@ class WebUser extends CWebUser
 	public function getHostName()
 	{
 		return gethostbyname($this->ip);
+	}
+	
+	public function getIsAdmin()
+	{
+		return $this->hasState('isAdmin') && $this->getState('isAdmin');
+	}
+	
+	public function getUsername()
+	{
+		return $this->hasState('username') ? $this->getState('username') : 'unnamed';
 	}
 }

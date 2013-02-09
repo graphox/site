@@ -5,7 +5,7 @@
  *
  * @author killme
  */
-class _BLOG_OWNER_ extends ENeo4jRelationship
+class _BLOG_OWNER_ extends Neo4jRelation
 {
 	/**
 	 * @return _BLOG_OWNER_ returns class

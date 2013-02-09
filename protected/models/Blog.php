@@ -18,12 +18,13 @@
  * @property bool $publish
  * @property string $routeName
  */
-class Blog extends ENeo4jNode implements ICommentable
+class Blog extends Node implements ICommentable
 {
 		/**
 	 * @return Blogentity returns class
 	 */
-	public static function model($className = __CLASS__) {
+	public static function model($className = __CLASS__)
+	{
         return parent::model($className);
     }
 	
@@ -41,6 +42,7 @@ class Blog extends ENeo4jNode implements ICommentable
 			'tags'				=>	array('type'=>'string[]'),
 			'publish'			=>	array('type'=>'boolean'),
 			'routeName'			=>	array('type'=>'string'),
+			'lastComment'		=> array('type'	=> 'int'),
         ));
     }
 	
@@ -54,7 +56,7 @@ class Blog extends ENeo4jNode implements ICommentable
 			array('name, descriptionSource', 'required'),
 			
 			array('name', 'length', 'max'=>100),
-			array('name', 'ENeo4jValidatorUnique'),
+			array('name', 'Neo4jValidatorUnique'),
 
 			array('routeName, publish', 'safe', 'on' => 'admin'),
 			array('publish', 'in', 'range' => array(0, 1), 'on' => 'admin'),
@@ -68,6 +70,13 @@ class Blog extends ENeo4jNode implements ICommentable
 				'class' => 'application.components.Commentable'
 			)
 		);
+	}
+	
+	public function attributeLabels()
+	{
+		return CMap::mergeArray(parent::attributeLabels(), array(
+			'descriptionSource' => Yii::t('models.blog', 'Description')
+		));
 	}
 	
 	/**
@@ -219,9 +228,9 @@ class Blog extends ENeo4jNode implements ICommentable
 	public function traversals()
     {
         return array(
-            'owners'		=>	array(self::HAS_MANY, self::NODE, 'in("_BLOG_OWNER_")'),
-			'ownerRelations'=>	array(self::HAS_MANY, self::RELATIONSHIP, 'inE("_BLOG_OWNER_")'),
-			'posts'			=>	array(self::HAS_MANY, self::NODE, 'out("_BLOG_HAS_POST_").filter{(it.modelclass == "BlogEntity")}'),
+            'owners'		=>	array(self::HAS_MANY, 'User',			'relation' => '.out("_BLOG_OWNER_")'),
+			'ownerRelations'=>	array(self::HAS_MANY, '_BLOG_OWNER_',	'relation' => 'inE("_BLOG_OWNER_")'),
+			'posts'			=>	array(self::HAS_MANY, 'BlogEntity',		'relation' => 'out("_BLOG_HAS_POST_")'),
         );
     }
 	

@@ -5,7 +5,7 @@
  *
  * @author killme
  */
-class _CREATOR_ extends ENeo4jRelationship
+class _CREATOR_ extends Neo4jRelationship
 {
 	/**
 	 * @return _CREATOR_ returns class
