@@ -154,9 +154,13 @@ class AsEmail extends CModel
 		);
 	}
 	
-	public function __construct($defaults = array())
+	public function __construct($defaults = NULL)
 	{
 		$this->attributes = $defaults;
+		
+		if($defaults === NULL)
+			$this->attributes = Yii::app()->mailer->defaultAttributes;
+		
 		#note:	no parent function to call
 	}
 	

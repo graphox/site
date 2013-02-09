@@ -5,19 +5,16 @@
  *
  * The followings are the available columns in table 'acl_object':
  * @property integer $id
- * @property integer $parent_id
  * @property string $name
+ * @property integer $default_value
  *
  * The followings are the available model relations:
- * @property AclObject $parent
- * @property AclObject[] $aclObjects
- * @property AclPrivilege[] $aclPrivileges
- * @property Forum[] $forums
- * @property ForumTopic[] $forumTopics
- * @property MenuItem[] $menuItems
- * @property Pages[] $pages
+ * @property AclAction[] $aclActions
+ * @property Content[] $contents
+ * @property Group[] $groups
+ * @property Markup[] $markups
  */
-class AclObject extends CActiveRecord
+class AclObject extends AsActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -45,12 +42,12 @@ class AclObject extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name', 'required'),
-			array('parent_id', 'numerical', 'integerOnly'=>true),
+			array('name, default_value', 'required'),
+			array('default_value', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, parent_id, name', 'safe', 'on'=>'search'),
+			array('id, name, default_value', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -62,13 +59,10 @@ class AclObject extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'parent' => array(self::BELONGS_TO, 'AclObject', 'parent_id'),
-			'aclObjects' => array(self::HAS_MANY, 'AclObject', 'parent_id'),
-			'aclPrivileges' => array(self::HAS_MANY, 'AclPrivilege', 'object_id'),
-			'forums' => array(self::HAS_MANY, 'Forum', 'acl_object_id'),
-			'forumTopics' => array(self::HAS_MANY, 'ForumTopic', 'acl_object_id'),
-			'menuItems' => array(self::HAS_MANY, 'MenuItem', 'acl_object_id'),
-			'pages' => array(self::HAS_MANY, 'Pages', 'acl_object_id'),
+			'aclActions' => array(self::HAS_MANY, 'AclAction', 'acl_object_id'),
+			'contents' => array(self::HAS_MANY, 'Content', 'acl_object_id'),
+			'groups' => array(self::HAS_MANY, 'Group', 'acl_object_id'),
+			'markups' => array(self::HAS_MANY, 'Markup', 'acl_object_id'),
 		);
 	}
 
@@ -79,8 +73,8 @@ class AclObject extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'parent_id' => 'Parent',
 			'name' => 'Name',
+			'default_value' => 'Default Value',
 		);
 	}
 
@@ -96,8 +90,8 @@ class AclObject extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('parent_id',$this->parent_id);
 		$criteria->compare('name',$this->name,true);
+		$criteria->compare('default_value',$this->default_value);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
