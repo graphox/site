@@ -6,3 +6,5 @@
 *.ignore*
 /protected/vendor/
 /protected/composer.lock
+/docs
+/protected/config
