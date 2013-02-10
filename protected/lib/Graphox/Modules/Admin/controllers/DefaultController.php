@@ -25,6 +25,15 @@ function checkCaptchaSupport()
 		
 class DefaultController extends \Controller
 {
+	
+	public $layout='//layouts/column2';
+	
+	public $menu = array(
+		array('label'=> 'Home', 'url'=>array('index')),
+		array('label'=> 'Info', 'url'=>array('info')),
+		array('label'=> 'Requirements', 'url'=>array('requirements')),
+	);
+
 	public function actionIndex()
 	{
 		//$users = \Graphox\Modules\User\User::model()->findAll();
