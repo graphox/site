@@ -62,6 +62,10 @@ return array(
 		'admin' => array(
 			'class' => 'Graphox\Modules\Admin\AdminModule',
 		),
+
+		'server' => array(
+			'class' => 'Graphox\Modules\Server\ServerModule',
+		),
 		
 		'user' => array(
 			'class' => 'Graphox\Modules\User\UserModule',

@@ -26,7 +26,8 @@
 		"gregwar/image": "dev-master",
 		"hirevoice/neo4jphp-ogm":"dev-master",
 		"everyman/neo4jphp":"dev-master",
-		"yiisoft/yii": "dev-master"
+		"yiisoft/yii": "dev-master",
+		"graphox/sauerbraten-query" : "dev-master"
     },
     
     "config": {
