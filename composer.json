@@ -27,6 +27,9 @@
 		"hirevoice/neo4jphp-ogm":"dev-master",
 		"everyman/neo4jphp":"dev-master",
 		"yiisoft/yii": "dev-master"
-    }
+    },
     
+    "config": {
+    	"vendor-dir" : "protected/vendor
+    }
 }
