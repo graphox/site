@@ -25,6 +25,16 @@ function checkCaptchaSupport()
 		
 class DefaultController extends \Controller
 {
+	
+	public $layout='//layouts/column2';
+	
+	public $menu = array(
+		array('label'=> 'Home', 'url'=>array('index')),
+		array('label'=> 'Info', 'url'=>array('info')),
+		array('label'=> 'Requirements', 'url'=>array('requirements')),
+		array('label'=> 'Settings', 'url'=>array('settings')),
+	);
+
 	public function actionIndex()
 	{
 		//$users = \Graphox\Modules\User\User::model()->findAll();
@@ -106,5 +116,23 @@ class DefaultController extends \Controller
 		);
 		
 		$this->render('requirements', array('requirements' => $requirements));
+	}
+	
+	public function actionSettings()
+	{
+		$form = new \Graphox\Modules\Admin\Forms\EditConfig();
+		
+		if(isset($_POST[get_class($form)]))
+		{
+			$form->attributes = $_POST[get_class($form)];
+			
+			if($form->save())
+			{
+				$this->render('success');
+				return;
+			}
+		}
+		
+		$this->render('settings', array('form' => $form));
 	}
 }
