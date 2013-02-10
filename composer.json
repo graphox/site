@@ -9,13 +9,13 @@
 	"autoload": {
         "psr-0": {
 			"Doctrine\\OrientDB\\Proxy"	: "runtime/proxy",
-			"Graphox"	: "lib"
+			"Graphox"	: "protected/lib"
         },
 		"classmap": [
-			"extensions/bootstrap",
-			"extensions/yii-debug-toolbar",
-			"vendor/yiisoft/yii/framework",
-			"components"
+			"protected/extensions/bootstrap",
+			"protected/extensions/yii-debug-toolbar",
+			"protected/vendor/yiisoft/yii/framework",
+			"protected/components"
 			
 		]
     },
@@ -30,6 +30,6 @@
     },
     
     "config": {
-    	"vendor-dir" : "protected/vendor
+    	"vendor-dir" : "protected/vendor"
     }
 }

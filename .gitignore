@@ -5,6 +5,6 @@
 /nbproject/private/
 *.ignore*
 /protected/vendor/
-/protected/composer.lock
+/composer.lock
 /docs
 /protected/config
