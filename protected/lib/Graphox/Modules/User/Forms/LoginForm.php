@@ -1,6 +1,11 @@
 <?php
 
-class LoginForm extends CFormModel
+namespace Graphox\Modules\User\Forms;
+
+use \Yii;
+use \CHtml;
+
+class LoginForm extends \CFormModel
 {
 	/**
 	 * @var User
@@ -19,7 +24,6 @@ class LoginForm extends CFormModel
 			array('rememberMe', 'boolean'),
 			
 			array('password', 'validateAccount'),
-			array('status', 'validateLoginStatus'),	
 		);
 	}
 
@@ -82,20 +86,20 @@ class LoginForm extends CFormModel
 		if($this->hasErrors())
 			return;
 
-		$user = User::model()->findByUsernameOrEmail($this->username);
+		$userRepository = Yii::app()->neo4j->getRepository('\Graphox\Modules\User\User');
+		/**
+		 * @var \Graphox\Modules\User\User
+		 */
+		$user = $userRepository->findOneByUserName($this->username);
 		
-		if(YII_DEBUG && $user === null)
+		if($user !== null && Yii::app()->crypto->checkPassword($this->password, $user->getPassword()))
 		{
-			$this->addError('username', 'DEBUG: no user found!');
-		}
-		elseif(YII_DEBUG)
-		{
-//			var_dump($user);
-			var_dump(Yii::app()->crypto->checkPassword($this->password, $user->password));
-		}
-		
-		if($user !== null && true )//Yii::app()->crypto->checkPassword($this->password, $user->password))
-		{
+			if(!$user->isActivated())
+			{
+				$this->addError ('username', Yii::t('user.login', 'The user is not activated, please check your email for the activation key.'));
+				return;
+			}				
+			
 			$this->user = $user;
 			return;
 		}
@@ -104,23 +108,11 @@ class LoginForm extends CFormModel
 	}
 	
 	/**
-	 * Validate the status of the account on login
-	 */
-	public function validateLoginStatus()
-	{
-		if($this->hasErrors())
-			return;
-
-		if(!$this->user->canLogin())
-			$this->addError('status', 'acount status is not active.');	
-	}
-	
-		/**
 	 * put the user in the session
 	 */
 	public function login()
 	{
-		$userIdentity = new UserIdentity($this->user);
+		$userIdentity = new \Graphox\Modules\User\UserIdentity($this->user);
 		
 		if($this->rememberMe === true)
 			Yii::app()->user->login($userIdentity, $user->getRememberUserTime()); #7 days

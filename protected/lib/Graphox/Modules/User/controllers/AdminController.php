@@ -1,6 +1,10 @@
 <?php
 
-class AdminController extends AsAdminController
+namespace User\Controllers;
+
+use \Yii;
+
+class AdminController extends \AsAdminController
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -11,7 +15,7 @@ class AdminController extends AsAdminController
 	public function filters()
 	{
 		return array(
-			'simpleAccess'
+		//	'simpleAccess'
 		);
 	}
 	
@@ -120,19 +124,25 @@ class AdminController extends AsAdminController
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CArrayDataProvider(
-				User::model()->findAll()
+		$dataProvider=new \CArrayDataProvider(
+				Yii::app()->neo4j->getRepository('\Graphox\Modules\User\User')->findAll()->toArray()
 		);
 		
-		$inactiveDataProvider = new CArrayDataProvider(
-				User::model()->findAllByAttributes(array(
-					'isAdminActivated' => false
-				))
+		$emailDataProvider=new \CArrayDataProvider(
+				Yii::app()->neo4j->getRepository('\Graphox\Modules\User\Email')->findAll()->toArray()
+		);
+
+		$inactiveDataProvider = new \CArrayDataProvider(
+			$data =	Yii::app()->neo4j->getRepository('\Graphox\Modules\User\Email')->findBy(array(
+				'isActivated' => (int)false,
+				'isPrimary' => (int)true,
+			))->toArray()
 		);
 		
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
-			'notActivatedProvider' => $inactiveDataProvider
+			'notActivatedProvider' => $inactiveDataProvider,
+			'emailDataProvider'=> $emailDataProvider
 		));
 	}
 

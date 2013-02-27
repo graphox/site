@@ -7,6 +7,8 @@ use \CHtml;
 
 class RegisterForm extends \CFormModel
 {
+	public $mailFrom = 'account@localhost';
+	
 	public $username;
 	public $password;
 	public $passwordRepeat;
@@ -38,7 +40,7 @@ class RegisterForm extends \CFormModel
 	public function getFormConfig()
 	{
 		return array(
-			'title' => 'Login',
+			'title' => Yii::t('user.register', 'Register'),
 			'showErrorSummary' => true,
 			'action' => array( '/user/auth/register' ),
 			'elements' => array(
@@ -100,6 +102,78 @@ class RegisterForm extends \CFormModel
 				)
 			),
 		);
+	}
+	
+	private function getModule()
+	{
+		return Yii::app()->getModule('user');
+	}
+	
+	public function save($validate = true)
+	{
+		if(!$validate || $this->validate())
+		{
+			$message = new \Graphox\Mail\Message(
+				\Yii::t(
+					'user.register',
+					'{username} please activate your account',
+					array(
+						'{username}' => ucfirst($this->username)
+					)
+				)
+			);
+			
+			$message->setFrom($this->mailFrom);
+			$message->setTo(array($this->email => $this->username));
+
+			$key = '';
+			do
+			{
+				$key = md5(uniqid().$key);
+			}
+			while(Yii::app()->neo4j->getRepository('\Graphox\Modules\User\Email')->findOne(array('activationKey' => $key)));
+
+			$message->setBody(
+				Yii::app()->controller->renderInternal(
+					dirname(__DIR__).'/views/mail/register.txt.php',
+					array(
+						'user' => $this,
+						'activationKey' => $key
+					),
+					true
+				)
+			);
+			//$message->addPart(Yii::app()->controller->renderInternal(dirname(__DIR__).'/views/mail/register.txt.php', array('user' => $this, 'activationKey' => $key), true), 'text/html');
+			
+			if(!Yii::app()->mailer->sendMessage($message))
+			{
+				Yii::log('Could not send activation email to: '.$this->email.' '.$key, 'error', 'as.user');
+				$this->addError('username', 'Could not send activation email, please contact an admin');
+				return false;
+			}
+			
+			$email = new \Graphox\Modules\User\Email;
+			$email->setActivationKey($key);
+			$email->setEmail($this->email);
+			$email->setIsPrimary(true);
+			$email->setIsActivated(false);
+			
+			$user = new \Graphox\Modules\User\User;
+			$user->addEmail($email);
+			$user->setFullName($this->name);
+			$user->setUsername($this->username);
+			
+			$user->setPassword(Yii::app()->crypto->encodePassword($this->password));
+			
+			Yii::app()->neo4j->persist($email);
+			Yii::app()->neo4j->persist($user);
+			Yii::app()->neo4j->flush();
+					
+			Yii::log('Registered account: '.$this->username.' key: '.$key, 'info', 'as.user');
+			return true;
+		}
+		
+		return false;
 	}
 }
 

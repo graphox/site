@@ -1,6 +1,8 @@
 <?php
 
-class UserIdentity extends CUserIdentity
+namespace Graphox\Modules\User;
+
+class UserIdentity extends \CUserIdentity
 {
 	protected $_id;
 	protected $_isAdmin;
@@ -11,10 +13,10 @@ class UserIdentity extends CUserIdentity
 	 */
 	public function __construct($user)
 	{
-		$this->_id = $user->id;
+		$this->_id = $user->getId();
 		$this->_isAdmin = $user->isAdmin();
 		$this->setState('isAdmin', $user->isAdmin());
-		$this->setState('username', $user->username);
+		$this->setState('username', $user->getUsername());
 	}
 	
 	public function getId()

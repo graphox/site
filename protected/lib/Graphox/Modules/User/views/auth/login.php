@@ -5,9 +5,11 @@ $this->breadcrumbs=array(
 
 <div class="span4" >
 <?php
-	$this->widget('user.widgets.LoginWidget', array('form' => $form));
+	$this->widget('\Graphox\Modules\User\Widgets\LoginWidget', array('form' => $form));
 ?>
 </div>
+
+<?php /*
 <div class="span4">
 	<div  class="kbox" >
 		<fieldset>
@@ -26,4 +28,4 @@ $this->breadcrumbs=array(
 		?>
 	</div>
 	<?php endif; ?>
-</div>
+</div>*/ ?>

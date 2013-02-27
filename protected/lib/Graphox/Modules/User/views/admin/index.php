@@ -47,3 +47,10 @@ $this->breadcrumbs=array(
         ),
     ),
 )); ?>
+
+<h2>User's emails</h2>
+<?php $this->widget('bootstrap.widgets.TbGridView', array(
+    'type'=>'striped bordered condensed',
+    'dataProvider'=>$emailDataProvider,
+    'template'=>"{items}",
+)); ?>

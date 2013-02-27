@@ -1,5 +1,6 @@
 <?php
 
+$cfg = require (__DIR__.'/cfg.php');
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 
@@ -10,8 +11,8 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'Graphox',
-	'theme'=>'sauers',
+	'name'		=> isset($cfg['site.name']) ? $cfg['site.name'] : 'Unnamed site',
+	'theme'		=> isset($cfg['site.theme']) ? $cfg['site.theme'] : 'sauers',
 	//'theme' => 'main',
 	'defaultController' => 'site',
 
@@ -186,29 +187,34 @@ return array(
         ),
         
 		'crypto' => array(
-        	'class' => 'application.components.AsCrypto',
+        	'class' => 'Graphox\Crypto',
         ),
 		
 		'user'=>array(
 			'class' => 'application.components.WebUser',
         ),
-
+		
+		'timeline'=>array(
+			'class' => 'Spy\Timeline\ServiceLocator'
+		),
 		
         'mailer' => array(
-        	'class' => 'application.components.AsMailer',
+        	'class' => '\Graphox\Mail\Mailer',
         	
-        	'type' => 'smtp',
-        	'host' => 'localhost',
-        	'port' => 25,
-        	
-        	'username' => '',
-        	'password' => '',
-        	
-        	'defaultAttributes' => array(
+			'transport' => array(
+				'type' => 'smtp',
+				'host' => 'localhost',
+				'port' => 25,
+
+				'username' => '',
+				'password' => '',
+        	),
+			
+        	/*'defaultAttributes' => array(
         		'from' => 'noreply@localhost.local',
         	),
         	
-        	'sendmailPath' => '',
+        	'sendmailPath' => '',*/
         ),
         
 		'log'=>array(

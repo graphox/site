@@ -4,6 +4,9 @@ namespace Graphox\Modules\User;
 
 class UserModule extends \CWebModule
 {
+	public	$requireAdminActivation = true;
+	public	$requireEmailActivation = true;
+	
 	private $services;
 	private $popup;
 	

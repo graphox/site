@@ -26,6 +26,12 @@ class User
 	 */
 	protected $userName;
 
+	/**
+	 * Password of the user
+	 * @OGM\Property
+	 */
+	protected $password;
+	
     /**
 	 * The full name of the user
      * @OGM\Property
@@ -102,6 +108,16 @@ class User
 		return $this->fullName;
 	}
 	
+	public function setPassword($password)
+	{
+		$this->password = $password;
+	}
+	
+	public function getPassword()
+	{
+		return $this->password;
+	}
+	
 	public function getEmails()
 	{
 		return $this->emails;
@@ -119,10 +135,10 @@ class User
 	
 	public function getPrimaryEmail()
 	{
-		return $this->emails->filter(function($mail)
+		return $this->getEmails()->filter(function($mail)
 		{
 			return $mail->isPrimary();
-		});
+		})->first();
 	}
 	
 	public function addFollow(User $user)
@@ -142,5 +158,15 @@ class User
 	public function getFollows()
 	{
 		return $this->follows;
+	}
+	
+	public function isActivated()
+	{
+		return $this->getPrimaryEmail()->isActivated();
+	}
+	
+	public function isAdmin()
+	{
+		return true;
 	}
 }

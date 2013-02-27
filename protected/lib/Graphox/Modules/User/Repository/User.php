@@ -2,6 +2,7 @@
 
 namespace Graphox\Modules\User\Repository;
 use HireVoice\Neo4j\Repository as BaseRepository;
+use \Yii;
 
 class User extends BaseRepository
 {
