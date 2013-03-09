@@ -4,6 +4,13 @@ php:
   - 5.3
 before_script:
    - composer install --prefer-dist
+   - composer show -s
+   - composer show -i
+   - composer show -p
+   - rm protected/vendor/yiisoft/yii/framework/yiilite.php
+   - composer dump-autoload
+   - cat protected/vendor/composer/autoload_classmap.php
+   - cat protected/vendor/composer/autoload_namespacesgit st.php
 script: phpunit -c protected/tests/phpunit.xml  protected/tests/
 notifications:
   irc: "irc.gamesurge.net#graphox"
