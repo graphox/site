@@ -1,6 +1,6 @@
 <?php
 
-require_once ('protected/vendor/autoload.php');
+require_once (__DIR__.'/vendor/autoload.php');
 /**
  * Yii hacks
  */

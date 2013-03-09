@@ -14,9 +14,7 @@
 		"classmap": [
 			"protected/extensions/bootstrap",
 			"protected/extensions/yii-debug-toolbar",
-			"protected/vendor/yiisoft/yii/framework",
-			"protected/components"
-			
+			"protected/vendor/yiisoft/yii/framework"
 		]
     },
     

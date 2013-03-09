@@ -3,7 +3,6 @@
 $config = CMap::mergeArray(
 	require(dirname(__FILE__).'/main.php'),
 	array(
-		'preload' => array('log'),
 		'components'=>array(
 			/*'fixture'=>array(
 				'class'=>'system.test.CDbFixtureManager',
@@ -17,6 +16,9 @@ $config = CMap::mergeArray(
 	)
 );
 
-$config['preload'] = array('log');
+$config['preload'] = array();
+unset($config['theme']);
+unset($config['defaultController']);
+//unset($config['l']);
 
 return $config;
