@@ -5,3 +5,5 @@ php:
 before_script:
    - composer install --prefer-dist
 script: phpunit -c protected/tests/phpunit.xml  protected/tests/
+notifications:
+  irc: "irc.gamesurge.net#graphox"
