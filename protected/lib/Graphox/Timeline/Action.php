@@ -29,44 +29,14 @@ class Action implements IAction
 	 */
 	protected $next;
 	
-	/**
-	 * {@inheritdoc}
-	 */
-	public function setCreatedDate(\DateTime $date)
+	public function getId()
 	{
-		$this->createdDate = $date;
+		return $this->id;
 	}
 	
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getCreatedDate()
+	public function setId($id)
 	{
-		return $date;
-	}
-	
-	/**
-	 * {@inheritdoc}
-	 */
-	public function setIsPublished($value)
-	{
-		$this->isPublished = (bool)$value;
-	}
-	
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getIsPublished()
-	{
-		return $this->isPublished;
-	}
-	
-	/**
-	 * {@inheritdoc}
-	 */
-	public function isPublished()
-	{
-		return $this->getIsPublished();
+		$this->id = (int)$id;
 	}
 	
 	public function setVerb(Verb $verb)
@@ -77,6 +47,16 @@ class Action implements IAction
 	public function getVerb()
 	{
 		return $this->verb;
+	}
+	
+	public function getNext()
+	{
+		return $this->next;
+	}
+	
+	public function setNext(IAction $action)
+	{
+		$this->next = $action;
 	}
 }
 

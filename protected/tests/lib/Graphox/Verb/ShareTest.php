@@ -2,10 +2,6 @@
 
 namespace Graphox\Verb;
 
-/**
- * @covers Graphox\Verb\Share
- * @covers Graphox\Timeline\Verb
- */
 class ShareTest extends \PHPUnit_Framework_TestCase
 {
 
