@@ -1,12 +1,19 @@
 <?php
 
+/**
+ * The entity on a timeline that points to a verb.
+ * @package Graphox\Timeline
+ * @author killme
+ */
+
 namespace Graphox\Timeline;
 
 use HireVoice\Neo4j\Annotation as OGM;
 use \Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * The entity that contains the general information and links to thea ctual verb
+ * The entity on a timeline that points to a verb.
+ * @package Graphox\Timeline
  * @OGM\Entity
  */
 class Action implements IAction
@@ -16,45 +23,63 @@ class Action implements IAction
 	 * @var int the id of the action
 	 */
 	protected $id;
-	
+
 	/**
 	 * @OGM\ManyToOne
-	 * @var Verb The actual action that is executed 
+	 * @var Verb The actual action that is executed
 	 */
 	protected $verb;
-	
+
 	/**
 	 * @OGM\ManyToOne
 	 * @var Action the previous executed action
 	 */
 	protected $next;
-	
-	public function getId()
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId()
 	{
 		return $this->id;
 	}
-	
-	public function setId($id)
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setId($id)
 	{
 		$this->id = (int)$id;
 	}
-	
-	public function setVerb(Verb $verb)
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setVerb(Verb $verb)
 	{
 		$this->verb = $verb;
 	}
-	
-	public function getVerb()
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getVerb()
 	{
 		return $this->verb;
 	}
-	
-	public function getNext()
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getNext()
 	{
 		return $this->next;
 	}
-	
-	public function setNext(IAction $action)
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setNext(IAction $action)
 	{
 		$this->next = $action;
 	}

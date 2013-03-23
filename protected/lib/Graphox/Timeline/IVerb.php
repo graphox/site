@@ -1,20 +1,32 @@
 <?php
 
+/**
+ * An user executed action.
+ * @package Graphox\Timeline
+ * @author killme
+ */
+
 namespace Graphox\Timeline;
 
+/**
+ * An user executed action.
+ * @package Graphox\Timeline
+ */
 interface IVerb
 {
 
 	/**
-	 * @return \DateTime the created date
-	 */
+     * Returns the created date.
+     * @return \DateTime
+     */
 	public function getCreatedDate();
 
 	/**
-	 * Sets de date of the verb
-	 */
-	public function setCreatedDate(\DateTime $date);
-	
+	 * Sets de date of the verb.
+     * @param \DateTime $date
+     */
+    public function setCreatedDate(\DateTime $date);
+
 	/**
 	 * Sets whether the verb is published
 	 * @param bool $published whether the verb has been published

@@ -1,13 +1,23 @@
 <?php
 
+/**
+ * Interface of classes that share user formatted content.
+ * @package Graphox\Content
+ * @author killme
+ */
+
 namespace Graphox\Content;
 
+/**
+ * User formatted content.
+ */
 interface IHaveContent
 {
 
 	/**
-	 * @return string returns $this->content
-	 */
+     * Returns the formatted content.
+     * @return string
+     */
 	public function getContent();
 
 	/**
@@ -17,8 +27,9 @@ interface IHaveContent
 	public function setContent($content);
 
 	/**
-	 * @return string the source.
-	 */
+     * Returns the raw source.
+     * @return string
+     */
 	public function getSource();
 
 	/**

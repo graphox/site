@@ -1,8 +1,15 @@
 <?php
 
+/**
+ * Wrapper arround yii's CHtmlPurifier.
+ * @package Graphox\Content
+ * @author killme
+ */
+
 namespace Graphox\Content;
 
 /**
+ * HtmlPurifier content encoder
  * @todo pass \CHtmlpurifier instance / config array in constructor
  */
 class HtmlPurifier implements IContentEncoder
@@ -27,8 +34,8 @@ class HtmlPurifier implements IContentEncoder
 
 	/**
 	 * {@inheritdoc}
-	 */
-	public function encodeContent(IHaveContent $content)
+     */
+    public function encodeContent(IHaveContent $content)
 	{
 		$content->setContent(
 				$this->encodeString(

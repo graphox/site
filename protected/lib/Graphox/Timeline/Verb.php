@@ -1,37 +1,71 @@
 <?php
 
+/**
+ * An user executed action that is referenced from a timeline by an Action.
+ * @package Graphox\Timeline
+ * @author killme
+ */
+
 namespace Graphox\Timeline;
 
 use HireVoice\Neo4j\Annotation as OGM;
 use \Doctrine\Common\Collections\ArrayCollection;
 
 /**
+ * An user executed action that is referenced from a timeline by an Action.
+ * @package Graphox\Timeline
  * @OGM\Entity
  */
 abstract class Verb implements IVerb, \Graphox\Content\IHaveContent
 {
+    /**
+     * The id of the verb.
+     * @OGM\Auto
+     * @var int
+     */
+    protected $id;
 
-	/**
-	 * @OGM\Property(format="date")
-	 * @var DateTime the date the action was performed
-	 */
+    /**
+     * The date the action was performed.
+     * @OGM\Property(format="date")
+     * @var DateTime
+     */
 	protected $createdDate;
 
 	/**
-	 * @OGM\Property(format="boolean")
-	 * @OGM\Index
-	 * @var bool whether the verb is published
-	 */
+     * Whether the verb is published.
+     * @OGM\Property(format="boolean")
+     * @OGM\Index
+     * @var bool
+     */
 	protected $isPublished;
 
 	/**
-	 * @OGM\Property(format="boolean")
-	 * @OGM\Index
-	 * @var bool whether the verp is "deleted"
-	 */
+     * Whether the verp is "deleted"
+     * @OGM\Property(format="boolean")
+     * @OGM\Index
+     * @var bool
+     */
 	protected $isDeleted;
 
+
 	/**
+     * {@inheritdoc}
+     */
+    public function setId($id)
+    {
+        $this->id = (int) $id;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
 	 * {@inheritdoc}
 	 */
 	public function getCreatedDate()

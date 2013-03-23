@@ -1,77 +1,87 @@
 <?php
 
+/**
+ * @package Graphox\Neo4j
+ * @author killme
+ * @todo use pimple
+ * @ignore
+ */
+
 namespace Graphox\Neo4j;
 
 use \Yii;
 
+/**
+ * @ignore
+ */
 class EntityManager extends \CApplicationComponent
 {
 	private $config;
 
 	/**
-	 * 
+	 *
 	 * @staticvar \HireVoice\Neo4j\EntityManager $manager
 	 * @return \HireVoice\Neo4j\EntityManager entity manager
 	 */
 	private function getManager()
 	{
 		static $manager;
-		
+
 		if(!isset($manager))
 		{
 			$manager = new \HireVoice\Neo4j\EntityManager($this->config);
 			$this->config = false;
 		}
-		
+
 		return $manager;
 	}
-	
+
 	public function setTransport($name)
 	{
 		$this->config['transport'] = $name;
 	}
-	
+
 	public function setHost($name)
 	{
 		$this->config['host'] = $name;
 	}
-	
+
 	public function setPort($port)
 	{
 		$this->config['port'] = $port;
 	}
-	
+
 	public function setProxyDir($dir)
 	{
 		$this->config['proxy_dir'] = Yii::getPathOfAlias($dir);
 	}
-	
+
 	public function setDebug($debug)
 	{
 		$this->config['debug'] = $debug;
 	}
-	
+
 	public function setUsername($user)
 	{
 		$this->config['username'] = $user;
 	}
-	
+
 	public function setPassword($pass)
 	{
 		$this->config['password'] = $pass;
 	}
-	
+
 	public function addAnnotationRegistry($namespace, $directory)
 	{
 		\Doctrine\Common\Annotations\AnnotationRegistry::registerAutoloadNamespace(
 			$namespace,
-			$directory	
+			$directory
 		);
 	}
-	
+
 	public function __construct()
 	{
-		
+
 		$this->addAnnotationRegistry('HireVoice\Neo4j\Annotation', Yii::getPathOfAlias('application.vendor.hirevoice.neo4jphp-ogm.lib'));
 	}
 
@@ -152,7 +162,7 @@ class EntityManager extends \CApplicationComponent
 
     /**
      * Provide a Gremlin query builder.
-     * 
+     *
      * @param string $query Initial query fragment.
      * @return Query\Gremlin
      */
@@ -222,7 +232,7 @@ class EntityManager extends \CApplicationComponent
     {
         return $this->getManager()->createIndex($className);
     }
-	
+
     /**
      * Alter how dates are generated. Primarily used for test cases.
      */

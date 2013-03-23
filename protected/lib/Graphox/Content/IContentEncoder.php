@@ -1,9 +1,15 @@
 <?php
 
+/**
+ * Content encoder to format user's unsafe input into nice html.
+ * @package Graphox\Content
+ * @author killme
+ */
+
 namespace Graphox\Content;
 
 /**
- * These classes should be used to proccess user data into content that is safe to display.
+ * Content encoder to format user's unsafe input into nice html.
  */
 interface IContentEncoder
 {

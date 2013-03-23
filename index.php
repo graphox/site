@@ -1,5 +1,6 @@
 <?php
-
+ error_reporting(E_ALL);
+ ini_set("display_errors", 1);
 // change the following paths if necessary
 $config=dirname(__FILE__).'/protected/config/main.php';
 
@@ -13,4 +14,4 @@ define('YII_ENABLE_EXCEPTION_HANDLER', true);
 
 require_once ('protected/bootstrap.php');
 
-Yii::createWebApplication($config)->run();
+Yii::createApplication('\Graphox\Yii\WebApplication', $config)->run();

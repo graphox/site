@@ -1,26 +1,48 @@
 <?php
 
+/**
+ * Share verb.
+ * @author killme
+ * @package Graphox\Verb\Share
+ */
+
 namespace Graphox\Verb;
 
 use \Graphox\Timeline\Verb,
-	\Graphox\Content\IHaveContent;
+	\Graphox\Content\IHaveContent,
+    \Graphox\Timeline\IHaveExecutor;
+use HireVoice\Neo4j\Annotation as OGM;
 
-class Share extends Verb implements IHaveContent
+/**
+ * Share entity for short user messages.
+ * Implements both IHaveContent and IHaveExecutor
+ * @OGM\Entity
+ */
+class Share extends Verb implements IHaveContent, IHaveExecutor
 {
 
 	/**
-	 * @property string $content The encoded version of the user generated source.
-	 * @OGM\property
-	 */
+     * The encoded version of the user generated source.
+     * @property string $content
+     * @OGM\property
+     */
 	protected $content;
 
 	/**
-	 * @property string $source The unencoded source.
-	 * @OGM\property
-	 */
+     * The unencoded source.
+     * @property string $source
+     * @OGM\property
+     */
 	protected $source;
 
-	/**
+    /**
+     * The user that has shared this.
+     * @property \Graphox\Modules\User\User $executor
+     * @OGM\ManyToOne
+     */
+    protected $executor;
+
+    /**
 	 * {@inheritdoc}
 	 */
 	public function getContent()
@@ -51,6 +73,22 @@ class Share extends Verb implements IHaveContent
 	{
 		$this->source = (string) $source;
 	}
+
+    	/**
+     * {@inheritdoc}
+     */
+    public function setExecutor(\Graphox\Modules\User\User $user)
+    {
+        $this->executor = $user;
+    }
+
+    	/**
+     * {@inheritdoc}
+     */
+    public function getExecutor()
+    {
+        return $this->executor;
+    }
 
 }
 
