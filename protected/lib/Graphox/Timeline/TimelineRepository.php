@@ -45,6 +45,32 @@ class TimelineRepository extends BaseRepository
     }
 
     /**
+     * Returns the user's public timeline.
+     * @param \Graphox\Modules\User\User $user
+     * @return \Graphox\Timeline\Timeline
+     * @todo timeline factory?
+     */
+    public function findPublicTimeline(\Graphox\Modules\User\User $user)
+    {
+        $timeline = $user->getPublicTimeline();
+
+        //Lazy loading timeline
+        if ($timeline === null)
+        {
+            $timeline = new Timeline;
+            $timeline->setIsPublic(true);
+            $timeline->setIsPrimary(false);
+            $user->addTimeline($timeline);
+            Yii::app()->neo4j->persist($user);
+            Yii::app()->neo4j->flush();
+        }
+
+
+
+        return $timeline;
+    }
+
+    /**
      * Returns the updates from the timeline.
      * @usedBy TimelineIterator
      * @see TimelineIterator
@@ -69,7 +95,7 @@ class TimelineRepository extends BaseRepository
     public function findFollowingTimelines(\Graphox\Modules\User\User $user)
     {
         return array(
-);
+                );
     }
 
 }

@@ -14,6 +14,7 @@ namespace Graphox\Timeline;
  */
 class RenderManager
 {
+
     /**
      * The renderManager used to render views.
      * @var \Graphox\Render\RenderManager
@@ -105,13 +106,34 @@ class RenderManager
         $verb = $action->getVerb();
         $render = $this->getRender(get_class($verb));
 
+        $title = $render->renderTitle($verb);
 
+        if ($verb instanceof IHaveExecutor)
+        {
+            $user = $verb->getExecutor();
+
+            if ($user instanceof \Graphox\Modules\User\User)
+            {
+                if (is_string($title))
+                {
+                    $title = str_replace('{{user}}', $user->getUsername(),
+                            $title);
+                }
+                else
+                {
+                    $title = \Yii::t('timeline', '{user} just posted:',
+                                    array(
+                                '{user}' => $user->getUsername()));
+                }
+            }
+        }
 
         return $this->getRenderManager()->render(
                         new \Graphox\Render\View('timeline/action',
                         array(
-                    'title' => $render->renderTitle($verb),
-                    'body' => $render->renderBody($verb)
+                    'title' => $title,
+                    'body' => $render->renderBody($verb),
+                    'user' => isset($user) ? $user : null
                         ))
         );
     }

@@ -13,6 +13,7 @@
         },
 		"classmap": [
 			"protected/extensions/bootstrap",
+			"protected/extensions/bootstrap/widgets",
 			"protected/extensions/yii-debug-toolbar",
 			"protected/vendor/yiisoft/yii/framework"
 		]

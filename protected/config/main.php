@@ -253,6 +253,30 @@ return array(
             }
 
             return $instance;
+        },
+        'content.htmlPurifier.class' => 'Graphox\Content\HtmlPurifier',
+        'content.htmlPurifier' => function($c)
+        {
+            static $instance;
+
+            if (!isset($instance))
+            {
+                $instance = new $c['content.htmlPurifier.class'];
+            }
+
+            return $instance;
+        },
+        'content.markdownParser.class' => 'Graphox\Content\MarkdownParser',
+        'content.markdownParser' => function($c)
+        {
+            static $instance;
+
+            if (!isset($instance))
+            {
+                $instance = new $c['content.markdownParser.class']($c['content.htmlPurifier']);
+            }
+
+            return $instance;
         }
     ),
     // application-level parameters that can be accessed
